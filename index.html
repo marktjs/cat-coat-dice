@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cat Coat Dice — Feline Genetics Generator</title>
+  <title>Cat Coat Dice — Complete Feline Coat Genetics Simulator</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -16,9 +16,6 @@
       --border: #e2e8f0;
       --badge-bg: #eef2ff;
       --badge-text: #4338ca;
-      --accent-pink: #f472b6;
-      --accent-amber: #f59e0b;
-      --accent-emerald: #10b981;
     }
 
     * {
@@ -36,7 +33,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 980px;
       margin: 0 auto;
     }
 
@@ -46,7 +43,7 @@
     }
 
     header h1 {
-      font-size: 2.3rem;
+      font-size: 2.35rem;
       font-weight: 800;
       color: var(--text);
       margin-bottom: 0.4rem;
@@ -55,7 +52,9 @@
 
     header p {
       color: var(--muted);
-      font-size: 1.05rem;
+      font-size: 1.04rem;
+      max-width: 680px;
+      margin: 0 auto;
     }
 
     .controls {
@@ -70,7 +69,7 @@
       background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
       color: white;
       border: none;
-      padding: 0.85rem 1.85rem;
+      padding: 0.85rem 1.9rem;
       font-size: 1.05rem;
       font-weight: 700;
       border-radius: 14px;
@@ -126,8 +125,8 @@
     }
 
     .cat-preview svg {
-      width: 230px;
-      height: 230px;
+      width: 235px;
+      height: 235px;
       filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.1));
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -195,7 +194,7 @@
 
     .phenotype-info p {
       color: #475569;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       margin-bottom: 1rem;
     }
 
@@ -207,7 +206,7 @@
       margin-top: 0.75rem;
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 580px) {
       .prob-cards {
         grid-template-columns: 1fr;
       }
@@ -222,7 +221,7 @@
     }
 
     .prob-box-label {
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--muted);
@@ -238,15 +237,31 @@
     }
 
     .prob-box-sub {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       color: var(--muted);
       display: block;
+      word-break: break-word;
+    }
+
+    /* Genetic Callout Banner explaining Sex-Linked Black vs Autosomal Black */
+    .genetics-note {
+      margin-top: 1.25rem;
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: #334155;
+    }
+
+    .genetics-note strong {
+      color: var(--text);
     }
 
     /* Interactive Gene Switcher right under the picture */
     .gene-switcher-panel {
-      margin-top: 1.6rem;
-      padding-top: 1.4rem;
+      margin-top: 1.4rem;
+      padding-top: 1.35rem;
       border-top: 1px dashed var(--border);
     }
 
@@ -260,8 +275,8 @@
     }
 
     .switcher-title {
-      font-size: 0.92rem;
-      font-weight: 700;
+      font-size: 0.96rem;
+      font-weight: 800;
       color: var(--text);
       display: flex;
       align-items: center;
@@ -275,7 +290,7 @@
 
     .switcher-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
       gap: 0.75rem;
     }
 
@@ -295,14 +310,19 @@
       align-items: center;
       font-size: 0.8rem;
       font-weight: 700;
-      color: #334155;
+      color: #1e293b;
+      gap: 0.4rem;
     }
 
     .locus-prob-tag {
-      font-size: 0.73rem;
-      font-weight: 600;
-      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 0.1rem 0.45rem;
+      border-radius: 6px;
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
     .allele-btn-group {
@@ -316,9 +336,9 @@
       background: #ffffff;
       color: #334155;
       border: 1px solid #cbd5e1;
-      padding: 0.32rem 0.5rem;
-      font-size: 0.8rem;
-      font-weight: 600;
+      padding: 0.32rem 0.48rem;
+      font-size: 0.78rem;
+      font-weight: 700;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -330,7 +350,7 @@
     .allele-btn span.btn-hint {
       display: block;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       font-weight: 500;
       color: var(--muted);
     }
@@ -373,8 +393,8 @@
 
     .genes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0.95rem;
       margin-bottom: 2rem;
     }
 
@@ -382,7 +402,7 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 1.2rem;
+      padding: 1.15rem;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -394,20 +414,22 @@
     .gene-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 0.45rem;
       gap: 0.5rem;
     }
 
     .gene-title {
       font-weight: 700;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
+      color: var(--text);
     }
 
     .gene-badges {
       display: flex;
       align-items: center;
       gap: 0.35rem;
+      flex-shrink: 0;
     }
 
     .gene-code {
@@ -417,11 +439,11 @@
       padding: 0.15rem 0.5rem;
       border-radius: 6px;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
     }
 
     .gene-prob {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       color: #475569;
       background: #f1f5f9;
@@ -431,7 +453,7 @@
     }
 
     .gene-desc {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--muted);
     }
 
@@ -444,18 +466,44 @@
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.03);
     }
 
+    .directory-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .search-input {
+      padding: 0.45rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.86rem;
+      width: 240px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+    }
+
     .prob-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 0.6rem;
-      margin-top: 0.9rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.55rem;
+      max-height: 440px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
     }
 
     .prob-item {
       display: flex;
-       flex-direction: column;
+      flex-direction: column;
       gap: 0.25rem;
-      padding: 0.6rem 0.75rem;
+      padding: 0.55rem 0.75rem;
       border-radius: 10px;
       border: 1px solid var(--border);
       background: #f8fafc;
@@ -481,7 +529,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--text);
     }
@@ -490,7 +538,7 @@
       font-variant-numeric: tabular-nums;
       color: var(--primary);
       font-weight: 800;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       white-space: nowrap;
     }
 
@@ -520,7 +568,7 @@
   <div class="container">
     <header>
       <h1>🎲 Cat Coat Dice</h1>
-      <p>Roll the genetic dice or switch genes below the cat to explore feline coat chromosomes &amp; probabilities.</p>
+      <p>Roll the genetic dice or switch any of the 10 feline coat color &amp; pattern genes below the picture to explore X-linked and autosomal inheritance.</p>
     </header>
 
     <div class="controls">
@@ -531,7 +579,7 @@
       <div class="hero-top">
         <div class="cat-preview" id="catPreviewBox">
           <div id="catSvgContainer"></div>
-          <span class="preview-hint">✨ Live genetic phenotype preview</span>
+          <span class="preview-hint">✨ Live 10-locus genetic phenotype</span>
         </div>
 
         <div class="phenotype-info">
@@ -539,8 +587,8 @@
             <span class="sex-badge" id="sexLabel">Female (XX)</span>
             <span class="rarity-badge rarity-common" id="rarityBadge">Common Coat</span>
           </div>
-          <h2 id="coatName">Dilute Caliby</h2>
-          <p id="coatSummary">A heterozygous female showing X-inactivation patches, recessive pigment dilution, tabby banding, and white spotting.</p>
+          <h2 id="coatName">Black Mackerel Tabby &amp; White</h2>
+          <p id="coatSummary">Description of the cat's phenotype and genetic mechanisms.</p>
 
           <div class="prob-cards">
             <div class="prob-box">
@@ -554,58 +602,70 @@
               <span class="prob-box-sub" id="coatSexOddsValue">1 in 1 rolls</span>
             </div>
             <div class="prob-box">
-              <span class="prob-box-label">Exact Genotype</span>
+              <span class="prob-box-label">Exact Genotype (10 Loci)</span>
               <span class="prob-box-value" id="genotypeProbValue">0.00%</span>
-              <span class="prob-box-sub" id="genotypeCodeSub">O/o B/B D/d</span>
+              <span class="prob-box-sub" id="genotypeCodeSub">X^o/X^o · B/B · D/D</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Interactive Gene Switcher directly under the picture -->
+      <div class="genetics-note">
+        <strong>💡 Why is "Black" split across X-linked and Autosomal genes?</strong>
+        In cats, the <strong>X chromosome (O locus, <em>ARHGAP36</em>)</strong> carries the switch between <strong>Sex-Linked Orange (<code>X^O</code>)</strong> and <strong>Sex-Linked Black/Dark Eumelanin (<code>X^o</code>)</strong>. Whenever a cell has an active <code>X^o</code> allele, the autosomal <strong>Black / Brown gene (B locus, <em>TYRP1</em>)</strong> determines whether that dark eumelanin is <strong>Black (<code>B</code>)</strong>, <strong>Chocolate (<code>b</code>)</strong>, or <strong>Cinnamon (<code>b¹</code>)</strong>!
+      </div>
+
+      <!-- Interactive 10-Locus Gene Switcher directly under the picture -->
       <div class="gene-switcher-panel">
         <div class="switcher-header">
-          <div class="switcher-title">🧬 Switch Genes Under Picture</div>
-          <div class="switcher-subtitle">Click any allele pair to customize the cat &amp; recalculate probabilities</div>
+          <div class="switcher-title">🧬 Switch All 10 Coat Color &amp; Pattern Genes</div>
+          <div class="switcher-subtitle">Click any allele combination below to customize the cat &amp; recalculate probabilities</div>
         </div>
         <div class="switcher-grid" id="geneSwitcherGrid"></div>
       </div>
     </div>
 
     <div class="section-heading">
-      <span>🔬 Chromosome &amp; Locus Breakdown</span>
-      <span class="sub">Individual locus probabilities in the dice pool</span>
+      <span>🔬 Complete 10-Gene Feline Coat Breakdown</span>
+      <span class="sub">How each chromosome &amp; locus shapes this cat's coat</span>
     </div>
     <div class="genes-grid" id="genesGrid"></div>
 
     <div class="prob-directory-card">
-      <div class="section-heading" style="margin-bottom: 0.25rem;">
-        <span>📊 All Cat Coat Probabilities</span>
-        <span class="sub">Click any coat below to jump to a matching genotype</span>
+      <div class="section-heading" style="margin-bottom: 0.15rem;">
+        <span>📊 All Cat Coat Probabilities (<span id="coatCountLabel">0</span> Phenotypes)</span>
+        <span class="sub">Click any coat below to load its genotype onto the cat</span>
+      </div>
+      <div class="directory-controls">
+        <input type="text" id="coatSearchInput" class="search-input" placeholder="🔍 Filter coats (e.g. Siamese, Calico, Smoke)..." />
+        <span class="switcher-subtitle" id="probSumCheck">Total probability space: 100.00%</span>
       </div>
       <div class="prob-list" id="coatProbDirectory"></div>
     </div>
 
     <footer>
-      Built with Mendelian &amp; X-linked feline coat genetics.
+      Built with Mendelian &amp; X-linked feline coat genetics (10 Loci: Sex, X-Linked O/o, B/TYRP1, D/MLPH, A/ASIP, Tabby Mc/Ta/Sp, C/TYR Colorpoint, I/Silver, Ws/KIT Spotting, W/Dominant White).
     </footer>
   </div>
 
   <script>
     const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-    // State representation of the current cat's alleles
+    // Complete 10-locus feline coat genetics state
     let currentState = {
-      chromosomes: "XX",       // "XX" | "XY" | "XXY"
-      orangeGenotype: "O/o",   // For XX/XXY: "o/o" | "O/o" | "O/O"; For XY: "o/Y" | "O/Y"
-      baseGenotype: "B/B",     // "B/B" | "B/b" | "B/b1" | "b/b" | "b/b1" | "b1/b1"
-      dilutionGenotype: "D/D", // "D/D" | "D/d" | "d/d"
-      agoutiGenotype: "A/a",   // "A/A" | "A/a" | "a/a"
-      whiteGenotype: "Ws/w",   // "w/w" | "Ws/w" | "Ws/Ws"
-      domWhiteGenotype: "w/w"  // "w/w" | "W/w"
+      chromosomes: "XX",        // "XX" | "XY" | "XXY"
+      orangeGenotype: "O/o",    // XX/XXY: "o/o" (X^o/X^o Black/Dark), "O/o" (X^O/X^o Tortie), "O/O" (X^O/X^O Orange); XY: "o/Y", "O/Y"
+      baseGenotype: "B/B",      // "B/B" | "B/b" | "B/b1" (Black) | "b/b" | "b/b1" (Chocolate) | "b1/b1" (Cinnamon)
+      dilutionGenotype: "D/D",  // "D/D" | "D/d" (Dense) | "d/d" (Dilute: Blue, Lilac, Fawn, Cream)
+      agoutiGenotype: "A/a",    // "A/A" | "A/a" (Agouti Tabby) | "a/a" (Solid / Non-agouti)
+      tabbyPattern: "Mc/Mc",    // "Mc/Mc" | "Mc/mc" (Mackerel) | "mc/mc" (Classic/Blotched) | "Sp/mc" (Spotted) | "Ta/mc" (Ticked)
+      colorpointGenotype: "C/C",// "C/C" | "C/cs" (Full Color) | "cb/cb" (Burmese Sepia) | "cb/cs" (Tonkinese Mink) | "cs/cs" (Siamese Pointed) | "c/c" (Albino)
+      silverGenotype: "i/i",    // "i/i" (Normal pigment base) | "I/i" (Silver Tabby / Smoke undercoat)
+      whiteGenotype: "Ws/w",    // "w/w" (No spots) | "Ws/w" (Low white / Tuxedo) | "Ws/Ws" (High white / Piebald)
+      domWhiteGenotype: "w/w"   // "w/w" (Normal color allowed) | "W/w" (Dominant Epistatic White)
     };
 
-    // Exact mathematical probabilities for each locus option in rollCat()
+    // Exact mathematical probabilities for each locus in the dice model
     const LOCUS_PROBS = {
       chromosomes: {
         "XX": 0.49,
@@ -639,60 +699,74 @@
         "A/a": 2 / 4,
         "a/a": 1 / 4
       },
+      tabbyPattern: {
+        "Mc/Mc": 0.22,
+        "Mc/mc": 0.28,
+        "mc/mc": 0.25,
+        "Sp/mc": 0.15,
+        "Ta/mc": 0.10
+      },
+      colorpoint: {
+        "C/C": 0.52,
+        "C/cs": 0.26,
+        "cs/cs": 0.10,
+        "cb/cb": 0.06,
+        "cb/cs": 0.05,
+        "c/c": 0.01
+      },
+      silver: {
+        "i/i": 0.88,
+        "I/i": 0.12
+      },
       white: {
         "w/w": 4 / 9,
         "Ws/w": 4 / 9,
         "Ws/Ws": 1 / 9
       },
       domWhite: {
-        "w/w": 0.94,
-        "W/w": 0.06
+        "w/w": 0.95,
+        "W/w": 0.05
       }
     };
 
-    function normalizePair(a, b, order) {
-      return order.indexOf(a) <= order.indexOf(b) ? `${a}/${b}` : `${b}/${a}`;
+    function sampleFromDist(distMap) {
+      const r = Math.random();
+      let acc = 0;
+      const entries = Object.entries(distMap);
+      for (const [k, p] of entries) {
+        acc += p;
+        if (r <= acc) return k;
+      }
+      return entries[entries.length - 1][0];
+    }
+
+    function formatXGenotype(orangeGenotype, chromosomes) {
+      if (chromosomes === "XY") {
+        return orangeGenotype === "O/Y" ? "X^O / Y" : "X^o / Y";
+      }
+      const suffix = chromosomes === "XXY" ? " / Y" : "";
+      if (orangeGenotype === "O/O") return `X^O / X^O${suffix}`;
+      if (orangeGenotype === "O/o") return `X^O / X^o${suffix}`;
+      return `X^o / X^o${suffix}`;
     }
 
     function rollCatState() {
-      const sexRoll = Math.random();
-      let chromosomes = "XX";
-      if (sexRoll < 0.49) chromosomes = "XX";
-      else if (sexRoll < 0.992) chromosomes = "XY";
-      else chromosomes = "XXY";
-
-      let orangeGenotype = "o/o";
-      if (chromosomes === "XX" || chromosomes === "XXY") {
-        const o1 = pick(["O", "o"]);
-        const o2 = pick(["O", "o"]);
-        orangeGenotype = normalizePair(o1, o2, ["O", "o"]);
-      } else {
-        const o1 = pick(["O", "o"]);
-        orangeGenotype = `${o1}/Y`;
-      }
-
-      const basePool = ["B", "B", "B", "b", "b", "b1"];
-      const baseGenotype = normalizePair(pick(basePool), pick(basePool), ["B", "b", "b1"]);
-
-      const dPool = ["D", "D", "d"];
-      const dilutionGenotype = normalizePair(pick(dPool), pick(dPool), ["D", "d"]);
-
-      const aPool = ["A", "a"];
-      const agoutiGenotype = normalizePair(pick(aPool), pick(aPool), ["A", "a"]);
-
-      const wPool = ["Ws", "w", "w"];
-      const whiteGenotype = normalizePair(pick(wPool), pick(wPool), ["Ws", "w"]);
-
-      const domWhiteGenotype = Math.random() < 0.06 ? "W/w" : "w/w";
+      const chromosomes = sampleFromDist(LOCUS_PROBS.chromosomes);
+      const orangeGenotype = chromosomes === "XY"
+        ? sampleFromDist(LOCUS_PROBS.orange_XY)
+        : sampleFromDist(LOCUS_PROBS.orange_XX);
 
       return {
         chromosomes,
         orangeGenotype,
-        baseGenotype,
-        dilutionGenotype,
-        agoutiGenotype,
-        whiteGenotype,
-        domWhiteGenotype
+        baseGenotype: sampleFromDist(LOCUS_PROBS.base),
+        dilutionGenotype: sampleFromDist(LOCUS_PROBS.dilution),
+        agoutiGenotype: sampleFromDist(LOCUS_PROBS.agouti),
+        tabbyPattern: sampleFromDist(LOCUS_PROBS.tabbyPattern),
+        colorpointGenotype: sampleFromDist(LOCUS_PROBS.colorpoint),
+        silverGenotype: sampleFromDist(LOCUS_PROBS.silver),
+        whiteGenotype: sampleFromDist(LOCUS_PROBS.white),
+        domWhiteGenotype: sampleFromDist(LOCUS_PROBS.domWhite)
       };
     }
 
@@ -703,6 +777,9 @@
         baseGenotype,
         dilutionGenotype,
         agoutiGenotype,
+        tabbyPattern,
+        colorpointGenotype,
+        silverGenotype,
         whiteGenotype,
         domWhiteGenotype
       } = state;
@@ -719,14 +796,23 @@
       if (baseAlleles.includes("B")) baseColor = "Black";
       else if (baseAlleles.includes("b")) baseColor = "Chocolate";
 
-      const dilutionAlleles = dilutionGenotype.split("/");
       const isDilute = dilutionGenotype === "d/d";
-
-      const agoutiAlleles = agoutiGenotype.split("/");
-      const geneticallyTabby = agoutiAlleles.includes("A");
+      const geneticallyTabby = agoutiGenotype.includes("A");
       const visiblyTabby = geneticallyTabby || isFullOrange;
 
-      const whiteAlleles = whiteGenotype.split("/");
+      let tabbyStyle = "Mackerel";
+      if (tabbyPattern === "mc/mc") tabbyStyle = "Classic";
+      else if (tabbyPattern === "Sp/mc") tabbyStyle = "Spotted";
+      else if (tabbyPattern === "Ta/mc") tabbyStyle = "Ticked";
+
+      let colorpointMode = "Full"; // "Full" | "Pointed" | "Mink" | "Sepia" | "Albino"
+      if (colorpointGenotype === "cs/cs") colorpointMode = "Pointed";
+      else if (colorpointGenotype === "cb/cs") colorpointMode = "Mink";
+      else if (colorpointGenotype === "cb/cb") colorpointMode = "Sepia";
+      else if (colorpointGenotype === "c/c") colorpointMode = "Albino";
+
+      const isSilver = silverGenotype === "I/i";
+
       let whiteLevel = "None";
       if (whiteGenotype === "Ws/Ws") whiteLevel = "High";
       else if (whiteGenotype === "Ws/w") whiteLevel = "Low";
@@ -739,19 +825,23 @@
         chromosomes,
         orangeAlleles,
         orangeGenotype,
+        xDisplay: formatXGenotype(orangeGenotype, chromosomes),
         isTortie,
         isFullOrange,
         baseAlleles,
         baseGenotype,
         baseColor,
-        dilutionAlleles,
         dilutionGenotype,
         isDilute,
-        agoutiAlleles,
         agoutiGenotype,
         geneticallyTabby,
         visiblyTabby,
-        whiteAlleles,
+        tabbyPattern,
+        tabbyStyle,
+        colorpointGenotype,
+        colorpointMode,
+        silverGenotype,
+        isSilver,
         whiteGenotype,
         whiteLevel,
         domWhite,
@@ -763,38 +853,91 @@
       if (cat.domWhite === "W") {
         return {
           title: "Dominant White",
-          summary: "The dominant W allele prevents pigment cells from reaching the skin during embryonic development, masking all other coat colors underneath."
+          summary: "The dominant W allele (KIT gene) halts melanocyte migration to the skin during embryonic development, producing a pure snow-white coat that masks all underlying color and pattern genes."
+        };
+      }
+
+      if (cat.colorpointMode === "Albino") {
+        return {
+          title: "True Albino (Recessive White)",
+          summary: "Homozygous recessive c/c at the Tyrosinase (TYR) locus completely prevents melanin synthesis, producing an unpigmented white coat and pale pink-blue eyes."
         };
       }
 
       const diluteNameMap = {
-        Black: "Grey (Blue)",
+        Black: "Blue (Grey)",
         Chocolate: "Lilac",
         Cinnamon: "Fawn"
       };
 
-      const eumelaninName = cat.isDilute ? diluteNameMap[cat.baseColor] : cat.baseColor;
-      const pheomelaninName = cat.isDilute ? "Cream" : "Orange";
+      const pointEumelaninMap = {
+        Black: cat.isDilute ? "Blue" : "Seal",
+        Chocolate: cat.isDilute ? "Lilac" : "Chocolate",
+        Cinnamon: cat.isDilute ? "Fawn" : "Cinnamon"
+      };
 
+      const eumelaninName = cat.isDilute ? diluteNameMap[cat.baseColor] : cat.baseColor;
+      const pheomelaninName = cat.isDilute ? "Cream" : "Orange (Red)";
+      const pointPheoName = cat.isDilute ? "Cream" : "Flame (Red)";
+
+      // Colorpoint (Siamese / Mink / Sepia) naming
+      if (cat.colorpointMode !== "Full") {
+        const modeLabel = cat.colorpointMode === "Pointed"
+          ? "Point (Siamese)"
+          : (cat.colorpointMode === "Mink" ? "Mink (Tonkinese)" : "Sepia (Burmese)");
+
+        let ptParts = [];
+        if (cat.isSilver) ptParts.push("Silver");
+
+        if (cat.isTortie) {
+          ptParts.push(pointEumelaninMap[cat.baseColor]);
+          ptParts.push(cat.geneticallyTabby ? "Torbie" : "Tortie");
+          ptParts.push(modeLabel);
+        } else if (cat.isFullOrange) {
+          ptParts.push(pointPheoName);
+          if (cat.geneticallyTabby) ptParts.push("Lynx");
+          ptParts.push(modeLabel);
+        } else {
+          ptParts.push(pointEumelaninMap[cat.baseColor]);
+          if (cat.visiblyTabby) ptParts.push("Lynx");
+          ptParts.push(modeLabel);
+        }
+
+        if (cat.whiteLevel !== "None") ptParts.push("& White (Snowshoe)");
+
+        const title = ptParts.filter(Boolean).join(" ");
+        const summary = `Temperature-sensitive tyrosinase (${cat.colorpointGenotype}) restricts pigment to the cooler extremities (face mask, ears, paws, and tail) while keeping the warmer torso pale.`;
+        return { title, summary };
+      }
+
+      // Full-color (C/-) naming
       let titleParts = [];
 
       if (cat.isTortie) {
+        if (cat.isDilute) titleParts.push("Dilute");
+        if (cat.baseColor !== "Black") titleParts.push(eumelaninName);
+        if (cat.isSilver) titleParts.push(cat.visiblyTabby ? "Silver" : "Smoke");
         if (cat.whiteLevel !== "None") {
-          titleParts.push(cat.isDilute ? "Dilute" : "");
-          if (cat.baseColor !== "Black") titleParts.push(eumelaninName);
-          titleParts.push(cat.visiblyTabby ? "Caliby (Calico Tabby)" : "Calico");
+          titleParts.push(cat.visiblyTabby ? `Caliby (${cat.tabbyStyle} Calico Tabby)` : "Calico");
         } else {
-          titleParts.push(cat.isDilute ? "Dilute" : "");
-          if (cat.baseColor !== "Black") titleParts.push(eumelaninName);
-          titleParts.push(cat.visiblyTabby ? "Torbie (Tortie Tabby)" : "Tortoiseshell");
+          titleParts.push(cat.visiblyTabby ? `Torbie (${cat.tabbyStyle} Tortie Tabby)` : "Tortoiseshell");
         }
       } else if (cat.isFullOrange) {
-        titleParts.push(pheomelaninName);
-        titleParts.push("Tabby");
+        if (cat.isSilver) {
+          titleParts.push(cat.isDilute ? "Cream Cameo (Silver)" : "Cameo (Red Silver)");
+        } else {
+          titleParts.push(cat.isDilute ? "Cream" : "Orange");
+        }
+        titleParts.push(`${cat.tabbyStyle} Tabby`);
         if (cat.whiteLevel !== "None") titleParts.push("& White");
       } else {
         titleParts.push(eumelaninName);
-        if (cat.visiblyTabby) titleParts.push("Tabby");
+        if (cat.visiblyTabby) {
+          if (cat.isSilver) titleParts.push("Silver");
+          titleParts.push(`${cat.tabbyStyle} Tabby`);
+        } else {
+          if (cat.isSilver) titleParts.push("Smoke");
+        }
         if (cat.whiteLevel !== "None") titleParts.push("& White");
       }
 
@@ -802,11 +945,11 @@
       let summary = "";
 
       if (cat.isTortie) {
-        summary = `Because this cat has two X chromosomes (${cat.orangeGenotype}), random X-inactivation creates a mosaic of ${eumelaninName.toLowerCase()} and ${pheomelaninName.toLowerCase()} fur${cat.whiteLevel !== "None" ? " with white spotting" : ""}.`;
+        summary = `Heterozygous X chromosomes (${cat.xDisplay}) undergo random X-inactivation (Lyonization), creating a mosaic of X-linked orange (${pheomelaninName.toLowerCase()}) and X-linked dark (${eumelaninName.toLowerCase()} from TYRP1 ${cat.baseGenotype}) fur.`;
       } else if (cat.isFullOrange) {
-        summary = `Carrying only the orange allele (${cat.orangeGenotype}) converts dark pigment into ${pheomelaninName.toLowerCase()} and always reveals tabby striping${cat.whiteLevel !== "None" ? " paired with white patches" : ""}.`;
+        summary = `With only the X-linked orange allele (${cat.xDisplay}), pheomelanin replaces dark eumelanin completely and displays ${cat.tabbyStyle.toLowerCase()} tabby markings${cat.isSilver ? " over a silver-white inhibited undercoat" : ""}.`;
       } else {
-        summary = `Without the orange allele (${cat.orangeGenotype}), this cat expresses ${eumelaninName.toLowerCase()} eumelanin pigment${cat.visiblyTabby ? " with agouti tabby banding" : " in a solid coat"}${cat.whiteLevel !== "None" ? " and white markings" : ""}.`;
+        summary = `Carrying the X-linked non-orange/black allele (${cat.xDisplay}) allows the autosomal TYRP1 gene (${cat.baseGenotype}) to express ${eumelaninName.toLowerCase()} eumelanin${cat.visiblyTabby ? ` in a ${cat.tabbyStyle.toLowerCase()} tabby pattern` : (cat.isSilver ? " with a shimmering silver smoke undercoat" : " in a solid coat")}.`;
       }
 
       return { title, summary };
@@ -817,60 +960,109 @@
       const pOrange = state.chromosomes === "XY"
         ? LOCUS_PROBS.orange_XY[state.orangeGenotype]
         : LOCUS_PROBS.orange_XX[state.orangeGenotype];
-      const pBase = LOCUS_PROBS.base[state.baseGenotype];
-      const pDil = LOCUS_PROBS.dilution[state.dilutionGenotype];
-      const pAgouti = LOCUS_PROBS.agouti[state.agoutiGenotype];
-      const pWhite = LOCUS_PROBS.white[state.whiteGenotype];
-      const pDomW = LOCUS_PROBS.domWhite[state.domWhiteGenotype];
-      return pSex * pOrange * pBase * pDil * pAgouti * pWhite * pDomW;
+      return (
+        pSex *
+        pOrange *
+        LOCUS_PROBS.base[state.baseGenotype] *
+        LOCUS_PROBS.dilution[state.dilutionGenotype] *
+        LOCUS_PROBS.agouti[state.agoutiGenotype] *
+        LOCUS_PROBS.tabbyPattern[state.tabbyPattern] *
+        LOCUS_PROBS.colorpoint[state.colorpointGenotype] *
+        LOCUS_PROBS.silver[state.silverGenotype] *
+        LOCUS_PROBS.white[state.whiteGenotype] *
+        LOCUS_PROBS.domWhite[state.domWhiteGenotype]
+      );
     }
 
-    // Precompute exact probability table across all 2,592 possible dice outcomes
+    // Fast exact probability precomputation across phenotypic classes of all 10 loci
     const COAT_PROB_MAP = {};
     const COAT_SEX_PROB_MAP = {};
     const COAT_SAMPLE_STATE = {};
+    let TOTAL_PROB_SUM = 0;
 
     (function precomputeAllProbabilities() {
-      const sexes = ["XX", "XY", "XXY"];
-      const bases = Object.keys(LOCUS_PROBS.base);
-      const dils = Object.keys(LOCUS_PROBS.dilution);
-      const agoutis = Object.keys(LOCUS_PROBS.agouti);
-      const whites = Object.keys(LOCUS_PROBS.white);
-      const domWhites = Object.keys(LOCUS_PROBS.domWhite);
+      // Group identical phenotypic allele classes to compute exact probabilities rapidly
+      const sexGroups = [
+        { chromosomes: "XX", p: 0.49, oranges: [{ g: "o/o", p: 0.25 }, { g: "O/o", p: 0.50 }, { g: "O/O", p: 0.25 }] },
+        { chromosomes: "XY", p: 0.502, oranges: [{ g: "o/Y", p: 0.50 }, { g: "O/Y", p: 0.50 }] },
+        { chromosomes: "XXY", p: 0.008, oranges: [{ g: "o/o", p: 0.25 }, { g: "O/o", p: 0.50 }, { g: "O/O", p: 0.25 }] }
+      ];
+      const baseGroups = [
+        { g: "B/B", p: 27 / 36 },
+        { g: "b/b", p: 8 / 36 },
+        { g: "b1/b1", p: 1 / 36 }
+      ];
+      const dilGroups = [
+        { g: "D/D", p: 8 / 9 },
+        { g: "d/d", p: 1 / 9 }
+      ];
+      const agoutiGroups = [
+        { g: "A/a", p: 3 / 4 },
+        { g: "a/a", p: 1 / 4 }
+      ];
+      const tabbyGroups = [
+        { g: "Mc/mc", p: 0.50 },
+        { g: "mc/mc", p: 0.25 },
+        { g: "Sp/mc", p: 0.15 },
+        { g: "Ta/mc", p: 0.10 }
+      ];
+      const cpGroups = [
+        { g: "C/C", p: 0.78 },
+        { g: "cs/cs", p: 0.10 },
+        { g: "cb/cb", p: 0.06 },
+        { g: "cb/cs", p: 0.05 },
+        { g: "c/c", p: 0.01 }
+      ];
+      const silverGroups = [
+        { g: "i/i", p: 0.88 },
+        { g: "I/i", p: 0.12 }
+      ];
+      const whiteGroups = [
+        { g: "w/w", p: 4 / 9 },
+        { g: "Ws/w", p: 4 / 9 },
+        { g: "Ws/Ws", p: 1 / 9 }
+      ];
+      const domWGroups = [
+        { g: "w/w", p: 0.95 },
+        { g: "W/w", p: 0.05 }
+      ];
 
-      for (const chromosomes of sexes) {
-        const oranges = chromosomes === "XY"
-          ? Object.keys(LOCUS_PROBS.orange_XY)
-          : Object.keys(LOCUS_PROBS.orange_XX);
+      for (const sx of sexGroups) {
+        for (const og of sx.oranges) {
+          for (const bg of baseGroups) {
+            for (const dg of dilGroups) {
+              for (const ag of agoutiGroups) {
+                for (const tg of tabbyGroups) {
+                  for (const cg of cpGroups) {
+                    for (const sg of silverGroups) {
+                      for (const wg of whiteGroups) {
+                        for (const dw of domWGroups) {
+                          const p = sx.p * og.p * bg.p * dg.p * ag.p * tg.p * cg.p * sg.p * wg.p * dw.p;
+                          const st = {
+                            chromosomes: sx.chromosomes,
+                            orangeGenotype: og.g,
+                            baseGenotype: bg.g,
+                            dilutionGenotype: dg.g,
+                            agoutiGenotype: ag.g,
+                            tabbyPattern: tg.g,
+                            colorpointGenotype: cg.g,
+                            silverGenotype: sg.g,
+                            whiteGenotype: wg.g,
+                            domWhiteGenotype: dw.g
+                          };
+                          const cat = buildCatFromState(st);
+                          const title = describeCat(cat).title;
+                          const sexKey = `${title}__${sx.chromosomes}`;
 
-        for (const orangeGenotype of oranges) {
-          for (const baseGenotype of bases) {
-            for (const dilutionGenotype of dils) {
-              for (const agoutiGenotype of agoutis) {
-                for (const whiteGenotype of whites) {
-                  for (const domWhiteGenotype of domWhites) {
-                    const st = {
-                      chromosomes,
-                      orangeGenotype,
-                      baseGenotype,
-                      dilutionGenotype,
-                      agoutiGenotype,
-                      whiteGenotype,
-                      domWhiteGenotype
-                    };
-                    const p = getStateProbability(st);
-                    const cat = buildCatFromState(st);
-                    const title = describeCat(cat).title;
-                    const sexKey = `${title}__${chromosomes}`;
+                          COAT_PROB_MAP[title] = (COAT_PROB_MAP[title] || 0) + p;
+                          COAT_SEX_PROB_MAP[sexKey] = (COAT_SEX_PROB_MAP[sexKey] || 0) + p;
+                          TOTAL_PROB_SUM += p;
 
-                    COAT_PROB_MAP[title] = (COAT_PROB_MAP[title] || 0) + p;
-                    COAT_SEX_PROB_MAP[sexKey] = (COAT_SEX_PROB_MAP[sexKey] || 0) + p;
-
-                    if (
-                      !COAT_SAMPLE_STATE[title] ||
-                      p > getStateProbability(COAT_SAMPLE_STATE[title])
-                    ) {
-                      COAT_SAMPLE_STATE[title] = st;
+                          if (!COAT_SAMPLE_STATE[title] || p > COAT_SAMPLE_STATE[title]._prob) {
+                            COAT_SAMPLE_STATE[title] = { ...st, _prob: p };
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -884,8 +1076,9 @@
     function formatPercent(p) {
       const pct = p * 100;
       if (pct >= 1) return pct.toFixed(2) + "%";
-      if (pct >= 0.05) return pct.toFixed(3) + "%";
-      return pct.toFixed(4) + "%";
+      if (pct >= 0.01) return pct.toFixed(3) + "%";
+      if (pct >= 0.0005) return pct.toFixed(4) + "%";
+      return pct.toExponential(2) + "%";
     }
 
     function formatOdds(p) {
@@ -895,10 +1088,10 @@
     }
 
     function getRarityTier(p) {
-      if (p >= 0.08) return { label: "Common Coat", cls: "rarity-common" };
-      if (p >= 0.025) return { label: "Uncommon Coat", cls: "rarity-uncommon" };
-      if (p >= 0.006) return { label: "Rare Coat", cls: "rarity-rare" };
-      if (p >= 0.001) return { label: "Very Rare Coat", cls: "rarity-epic" };
+      if (p >= 0.04) return { label: "Common Coat", cls: "rarity-common" };
+      if (p >= 0.01) return { label: "Uncommon Coat", cls: "rarity-uncommon" };
+      if (p >= 0.002) return { label: "Rare Coat", cls: "rarity-rare" };
+      if (p >= 0.0003) return { label: "Very Rare Coat", cls: "rarity-epic" };
       return { label: "✨ Mythic / Ultra Rare", cls: "rarity-legendary" };
     }
 
@@ -910,28 +1103,145 @@
       };
       const orangeHex = cat.isDilute ? "#fde68a" : "#f97316";
 
+      const pointColor = cat.isFullOrange ? orangeHex : darkMap[cat.baseColor];
+      const stripeColor = cat.isFullOrange
+        ? (cat.isDilute ? "#d97706" : "#9a3412")
+        : (cat.isDilute ? "#334155" : "#090d16");
+
+      // If Silver/Smoke (I/-) on a tabby, the ground color is pale silvery-white while stripes stay dark
+      let bodyBase = pointColor;
+      if (cat.isSilver && cat.visiblyTabby) {
+        bodyBase = cat.isFullOrange ? "#fff7ed" : "#e2e8f0";
+      }
+
+      // If Colorpoint (Siamese / Mink / Sepia), torso is pale while points (ears, mask, paws, tail) keep pointColor
+      if (cat.colorpointMode === "Pointed") {
+        bodyBase = "#fef9ef";
+      } else if (cat.colorpointMode === "Mink") {
+        bodyBase = "#f3e5d0";
+      } else if (cat.colorpointMode === "Sepia") {
+        bodyBase = cat.isDilute ? "#d6c7b8" : "#a68a71";
+      }
+
       return {
-        primary: cat.isFullOrange ? orangeHex : darkMap[cat.baseColor],
+        bodyBase,
+        pointColor,
         secondary: orangeHex,
-        stripe: cat.isFullOrange
-          ? (cat.isDilute ? "#d97706" : "#9a3412")
-          : (cat.isDilute ? "#334155" : "#090d16"),
-        orangeStripe: cat.isDilute ? "#d97706" : "#9a3412"
+        stripe: stripeColor
       };
+    }
+
+    function renderTabbyOverlay(cat, strokeColor) {
+      const style = cat.tabbyStyle;
+
+      // Forehead 'M', cheek pencil lines, and tail rings are shared by all tabby patterns
+      const headAndTail = `
+        <!-- Classic Tabby 'M' on forehead -->
+        <path d="M 102 58 L 109 44 L 120 55 L 131 44 L 138 58" />
+        <!-- Cheek stripes -->
+        <path d="M 56 94 Q 68 92 76 97" />
+        <path d="M 58 105 Q 70 104 78 108" />
+        <path d="M 184 94 Q 172 92 164 97" />
+        <path d="M 182 105 Q 170 104 162 108" />
+      `;
+
+      let bodyPattern = "";
+      if (style === "Mackerel") {
+        bodyPattern = `
+          <path d="M 56 146 Q 78 142 92 152" />
+          <path d="M 54 164 Q 76 160 90 170" />
+          <path d="M 56 182 Q 76 179 88 188" />
+          <path d="M 58 196 Q 76 194 86 200" />
+          <path d="M 184 146 Q 162 142 148 152" />
+          <path d="M 186 164 Q 164 160 150 170" />
+          <path d="M 184 182 Q 164 179 152 188" />
+          <path d="M 182 196 Q 164 194 154 200" />
+        `;
+      } else if (style === "Classic") {
+        // Bold blotched bullseye whorls on sides
+        bodyPattern = `
+          <path d="M 60 145 C 88 140, 96 175, 68 186 C 56 190, 56 162, 76 164" stroke-width="5.2" />
+          <path d="M 180 145 C 152 140, 144 175, 172 186 C 184 190, 184 162, 164 164" stroke-width="5.2" />
+          <path d="M 105 140 Q 120 152 135 140" stroke-width="4.8" />
+        `;
+      } else if (style === "Spotted") {
+        // Distinct oval rosette spots across the body
+        bodyPattern = `
+          <g fill="${strokeColor}" stroke="none">
+            <ellipse cx="74" cy="148" rx="6.5" ry="4.5" transform="rotate(-12 74 148)" />
+            <ellipse cx="92" cy="158" rx="6" ry="4.2" />
+            <ellipse cx="70" cy="168" rx="7" ry="4.5" transform="rotate(8 70 168)" />
+            <ellipse cx="88" cy="179" rx="6.5" ry="4.2" />
+            <ellipse cx="72" cy="190" rx="6" ry="4" />
+            <ellipse cx="166" cy="148" rx="6.5" ry="4.5" transform="rotate(12 166 148)" />
+            <ellipse cx="148" cy="158" rx="6" ry="4.2" />
+            <ellipse cx="170" cy="168" rx="7" ry="4.5" transform="rotate(-8 170 168)" />
+            <ellipse cx="152" cy="179" rx="6.5" ry="4.2" />
+            <ellipse cx="168" cy="190" rx="6" ry="4" />
+            <circle cx="120" cy="150" r="4.5" />
+            <circle cx="120" cy="172" r="4.5" />
+          </g>
+        `;
+      } else if (style === "Ticked") {
+        // Fine Abyssinian agouti flecking on torso
+        bodyPattern = `
+          <g stroke-width="2.4" stroke-dasharray="2 7">
+            <path d="M 68 148 Q 120 144 172 148" />
+            <path d="M 64 160 Q 120 156 176 160" />
+            <path d="M 62 172 Q 120 168 178 172" />
+            <path d="M 64 184 Q 120 180 176 184" />
+            <path d="M 68 196 Q 120 192 172 196" />
+          </g>
+        `;
+      }
+
+      const bodyOpacity = cat.colorpointMode === "Pointed"
+        ? "0.18"
+        : (cat.colorpointMode === "Mink" ? "0.35" : "1");
+
+      return `
+        <g stroke="${strokeColor}" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.72">
+          ${headAndTail}
+          <g opacity="${bodyOpacity}">
+            ${bodyPattern}
+          </g>
+        </g>
+      `;
     }
 
     function renderCatSVG(cat) {
       const palette = getPalette(cat);
       const isDomW = cat.domWhite === "W";
-      const baseFill = isDomW ? "#ffffff" : palette.primary;
-      const showStripes = !isDomW && cat.visiblyTabby;
-      const showTortiePatches = !isDomW && cat.isTortie;
-      const showWhiteLow = !isDomW && cat.whiteLevel === "Low";
-      const showWhiteHigh = !isDomW && cat.whiteLevel === "High";
+      const isAlbino = !isDomW && cat.colorpointMode === "Albino";
+      const isWhiteAll = isDomW || isAlbino;
 
-      // Eye color: matching golden-green on standard coats, odd-eyed on High White (Ws/Ws), sky-blue on Dominant White (W)
-      const leftEyeIris = isDomW ? "#38bdf8" : (showWhiteHigh ? "#38bdf8" : "#10b981");
-      const rightEyeIris = isDomW ? "#38bdf8" : (showWhiteHigh ? "#f59e0b" : "#10b981");
+      const isColorpoint = !isWhiteAll && (cat.colorpointMode === "Pointed" || cat.colorpointMode === "Mink" || cat.colorpointMode === "Sepia");
+      const baseFill = isWhiteAll ? "#ffffff" : palette.bodyBase;
+      const pointFill = isWhiteAll ? "#ffffff" : palette.pointColor;
+
+      const showStripes = !isWhiteAll && cat.visiblyTabby;
+      const showTortiePatches = !isWhiteAll && cat.isTortie;
+      const showWhiteLow = !isWhiteAll && cat.whiteLevel === "Low";
+      const showWhiteHigh = !isWhiteAll && cat.whiteLevel === "High";
+      const showSmokeGlow = !isWhiteAll && cat.isSilver && !cat.visiblyTabby;
+
+      // Eye color genetics
+      let leftEyeIris = "#10b981";
+      let rightEyeIris = "#10b981";
+      if (isAlbino) {
+        leftEyeIris = "#f472b6";
+        rightEyeIris = "#f472b6";
+      } else if (isDomW || cat.colorpointMode === "Pointed") {
+        leftEyeIris = "#38bdf8";
+        rightEyeIris = "#38bdf8";
+      } else if (cat.colorpointMode === "Mink") {
+        leftEyeIris = "#06b6d4";
+        rightEyeIris = "#06b6d4";
+      } else if (showWhiteHigh) {
+        leftEyeIris = "#38bdf8";
+        rightEyeIris = "#f59e0b";
+      }
+
       const earInnerColor = "#fda4af";
       const tailPath = "M 155 196 C 210 196, 228 144, 204 116 C 193 104, 177 114, 181 130 C 184 144, 176 164, 155 168 Z";
 
@@ -941,26 +1251,27 @@
             <clipPath id="cuteCatTailClip">
               <path d="${tailPath}" />
             </clipPath>
-            <!-- Clip path for the cute sitting cat body + head + ears (excluding tail so body white spots don't bleed onto tail) -->
             <clipPath id="cuteCatBodyClip">
-              <!-- Plump Sitting Body -->
               <path d="M 66 132 C 52 152, 54 205, 80 212 L 160 212 C 186 205, 188 152, 174 132 Z" />
-              <!-- Left & Right Ears -->
               <path d="M 52 86 L 44 26 Q 44 18 52 22 L 96 52 Z" />
               <path d="M 188 86 L 196 26 Q 196 18 188 22 L 144 52 Z" />
-              <!-- Cute Chubby Head with Cheek Fluff -->
               <ellipse cx="120" cy="92" rx="64" ry="52" />
               <ellipse cx="64" cy="102" rx="16" ry="12" />
               <ellipse cx="176" cy="102" rx="16" ry="12" />
             </clipPath>
+            <radialGradient id="smokeUndercoat" cx="50%" cy="55%" r="50%">
+              <stop offset="0%" stop-color="#f8fafc" stop-opacity="0.72" />
+              <stop offset="65%" stop-color="#e2e8f0" stop-opacity="0.32" />
+              <stop offset="100%" stop-color="#e2e8f0" stop-opacity="0" />
+            </radialGradient>
           </defs>
 
           <!-- Soft Ground Shadow -->
           <ellipse cx="124" cy="217" rx="74" ry="11" fill="rgba(15, 23, 42, 0.08)" />
 
-          <!-- Fluffy Tail (rendered behind the body) -->
+          <!-- Fluffy Tail (always a cooler extremity so it shows pointFill!) -->
           <g clip-path="url(#cuteCatTailClip)">
-            <rect x="140" y="95" width="95" height="110" fill="${baseFill}" />
+            <rect x="140" y="95" width="95" height="110" fill="${pointFill}" />
             ${showTortiePatches ? `
               <circle cx="202" cy="128" r="24" fill="${palette.secondary}" />
             ` : ""}
@@ -979,51 +1290,47 @@
             <!-- Base Coat Color -->
             <rect x="0" y="0" width="240" height="240" fill="${baseFill}" />
 
-            <!-- Tortoiseshell / Calico X-Inactivation Mosaic Patches -->
-            ${showTortiePatches ? `
+            <!-- Smoke Shimmering Silver Undercoat (I/- on non-agouti solid coats) -->
+            ${showSmokeGlow ? `
+              <ellipse cx="120" cy="168" rx="54" ry="42" fill="url(#smokeUndercoat)" />
+              <ellipse cx="120" cy="92" rx="50" ry="38" fill="url(#smokeUndercoat)" />
+            ` : ""}
+
+            <!-- Colorpoint Extremities (Siamese / Mink / Sepia: Dark Ears & Central Face Mask) -->
+            ${isColorpoint ? `
+              <polygon points="40,90 42,16 105,54" fill="${pointFill}" />
+              <polygon points="200,90 198,16 135,54" fill="${pointFill}" />
+              <ellipse cx="120" cy="97" rx="44" ry="30" fill="${pointFill}" />
+              ${showTortiePatches ? `
+                <circle cx="96" cy="88" r="22" fill="${palette.secondary}" />
+                <circle cx="176" cy="44" r="22" fill="${palette.secondary}" />
+              ` : ""}
+            ` : ""}
+
+            <!-- Standard Full-Coat Tortoiseshell / Calico X-Inactivation Mosaic Patches -->
+            ${(showTortiePatches && !isColorpoint) ? `
               <circle cx="72" cy="64" r="38" fill="${palette.secondary}" />
               <circle cx="164" cy="152" r="40" fill="${palette.secondary}" />
               <circle cx="78" cy="182" r="28" fill="${palette.secondary}" />
               <ellipse cx="152" cy="48" rx="24" ry="20" fill="${palette.secondary}" />
             ` : ""}
 
-            <!-- Tabby Markings: Forehead 'M', Cheek Swirls & Body Stripes -->
-            ${showStripes ? `
-              <g stroke="${palette.stripe}" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.68">
-                <!-- Classic Tabby 'M' on forehead -->
-                <path d="M 102 58 L 109 44 L 120 55 L 131 44 L 138 58" />
-                <!-- Cheek stripes -->
-                <path d="M 56 94 Q 68 92 76 97" />
-                <path d="M 58 105 Q 70 104 78 108" />
-                <path d="M 184 94 Q 172 92 164 97" />
-                <path d="M 182 105 Q 170 104 162 108" />
-                <!-- Body tiger stripes -->
-                <path d="M 56 148 Q 78 144 90 154" />
-                <path d="M 54 168 Q 76 164 88 174" />
-                <path d="M 58 188 Q 78 185 88 192" />
-                <path d="M 184 148 Q 162 144 150 154" />
-                <path d="M 186 168 Q 164 164 152 174" />
-                <path d="M 182 188 Q 162 185 152 192" />
-              </g>
-            ` : ""}
+            <!-- Tabby Markings (Mackerel, Classic, Spotted, or Ticked) -->
+            ${showStripes ? renderTabbyOverlay(cat, palette.stripe) : ""}
 
-            <!-- Low White Spotting (Ws/w): Cute Tuxedo Bib, Muzzle & White Mitten Paws -->
+            <!-- Low White Spotting (Ws/w): Cute Tuxedo Bib & Muzzle -->
             ${showWhiteLow ? `
-              <!-- White Muzzle & Chin -->
               <ellipse cx="120" cy="115" rx="28" ry="19" fill="#ffffff" />
               <polygon points="120,88 102,115 138,115" fill="#ffffff" />
-              <!-- Fluffy White Chest Bib -->
               <ellipse cx="120" cy="166" rx="34" ry="38" fill="#ffffff" />
             ` : ""}
 
-            <!-- High White Spotting (Ws/Ws): Piebald / Van Pattern (mostly white body & face blaze) -->
+            <!-- High White Spotting (Ws/Ws): Piebald / Van Pattern -->
             ${showWhiteHigh ? `
-              <!-- Large white body & lower face -->
               <ellipse cx="120" cy="170" rx="64" ry="54" fill="#ffffff" />
               <ellipse cx="120" cy="115" rx="50" ry="30" fill="#ffffff" />
               <polygon points="120,66 88,118 152,118" fill="#ffffff" />
-              <!-- Keep cute colored back patch -->
-              <circle cx="158" cy="160" r="22" fill="${showTortiePatches ? palette.secondary : baseFill}" />
+              <circle cx="158" cy="160" r="22" fill="${showTortiePatches ? palette.secondary : pointFill}" />
             ` : ""}
 
             <!-- Cute Inner Ear Pink Triangles -->
@@ -1033,14 +1340,11 @@
 
           <!-- Crisp Illustrated Outlines -->
           <g stroke="#1e293b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
-            <!-- Body side & bottom outlines -->
             <path d="M 69 132 C 54 152, 55 200, 75 210 L 165 210 C 185 200, 186 152, 171 132" />
-            <!-- Chest fluff tuft -->
             <path d="M 112 146 Q 120 153 128 146" stroke-width="2.4" opacity="0.55" />
-            <!-- Cute Front Legs & Paws -->
-            <path d="M 73 210 C 73 198, 113 198, 113 210 C 113 219, 73 219, 73 210 Z" fill="${(isDomW || showWhiteLow || showWhiteHigh) ? "#ffffff" : baseFill}" />
-            <path d="M 127 210 C 127 198, 167 198, 167 210 C 167 219, 127 219, 127 210 Z" fill="${(isDomW || showWhiteLow || showWhiteHigh) ? "#ffffff" : baseFill}" />
-            <!-- Paw toe creases -->
+            <!-- Cute Front Paws (colored with pointFill on pointed cats unless white-spotted!) -->
+            <path d="M 73 210 C 73 198, 113 198, 113 210 C 113 219, 73 219, 73 210 Z" fill="${(isWhiteAll || showWhiteLow || showWhiteHigh) ? "#ffffff" : pointFill}" />
+            <path d="M 127 210 C 127 198, 167 198, 167 210 C 167 219, 127 219, 127 210 Z" fill="${(isWhiteAll || showWhiteLow || showWhiteHigh) ? "#ffffff" : pointFill}" />
             <line x1="87" y1="208" x2="87" y2="215" stroke-width="2.2" />
             <line x1="99" y1="208" x2="99" y2="215" stroke-width="2.2" />
             <line x1="141" y1="208" x2="141" y2="215" stroke-width="2.2" />
@@ -1058,17 +1362,15 @@
 
           <!-- Big Sparkly Kawaii Eyes -->
           <g>
-            <!-- Left Eye -->
             <ellipse cx="91" cy="90" rx="12.5" ry="13.5" fill="#0f172a" />
             <ellipse cx="91" cy="91" rx="10" ry="11" fill="${leftEyeIris}" />
-            <ellipse cx="91" cy="91" rx="6.2" ry="8.5" fill="#0f172a" />
+            <ellipse cx="91" cy="91" rx="6.2" ry="8.5" fill="${isAlbino ? "#be185d" : "#0f172a"}" />
             <circle cx="86.5" cy="85.5" r="3.8" fill="#ffffff" />
             <circle cx="95.5" cy="95" r="1.8" fill="#ffffff" />
 
-            <!-- Right Eye -->
             <ellipse cx="149" cy="90" rx="12.5" ry="13.5" fill="#0f172a" />
             <ellipse cx="149" cy="91" rx="10" ry="11" fill="${rightEyeIris}" />
-            <ellipse cx="149" cy="91" rx="6.2" ry="8.5" fill="#0f172a" />
+            <ellipse cx="149" cy="91" rx="6.2" ry="8.5" fill="${isAlbino ? "#be185d" : "#0f172a"}" />
             <circle cx="144.5" cy="85.5" r="3.8" fill="#ffffff" />
             <circle cx="153.5" cy="95" r="1.8" fill="#ffffff" />
           </g>
@@ -1097,79 +1399,113 @@
       const lociConfig = [
         {
           key: "chromosomes",
-          label: "Sex Chromosomes",
+          label: "1. Sex Chromosomes",
           prob: LOCUS_PROBS.chromosomes[st.chromosomes],
           options: [
-            { val: "XX", hint: "Female (49%)" },
-            { val: "XY", hint: "Male (50.2%)" },
-            { val: "XXY", hint: "XXY Male (0.8%)" }
+            { val: "XX", disp: "XX", hint: "Female (49%)" },
+            { val: "XY", disp: "XY", hint: "Male (50.2%)" },
+            { val: "XXY", disp: "XXY", hint: "Klinefelter (0.8%)" }
           ]
         },
         {
           key: "orangeGenotype",
-          label: "Sex-Linked Orange (X)",
+          label: "2. Sex-Linked Orange vs. Black (X Chr)",
           prob: isXY ? LOCUS_PROBS.orange_XY[st.orangeGenotype] : LOCUS_PROBS.orange_XX[st.orangeGenotype],
           options: isXY
             ? [
-                { val: "o/Y", hint: "Non-orange" },
-                { val: "O/Y", hint: "Orange" }
+                { val: "o/Y", disp: "X^o/Y (o/Y)", hint: "Sex-Linked Black/Dark" },
+                { val: "O/Y", disp: "X^O/Y (O/Y)", hint: "Sex-Linked Orange" }
               ]
             : [
-                { val: "o/o", hint: "Non-orange" },
-                { val: "O/o", hint: "Tortie mosaic" },
-                { val: "O/O", hint: "Full Orange" }
+                { val: "o/o", disp: "X^o/X^o (o/o)", hint: "Sex-Linked Black/Dark" },
+                { val: "O/o", disp: "X^O/X^o (O/o)", hint: "Tortie (Orange+Black)" },
+                { val: "O/O", disp: "X^O/X^O (O/O)", hint: "Sex-Linked Orange" }
               ]
         },
         {
           key: "baseGenotype",
-          label: "Eumelanin Base (TYRP1)",
+          label: "3. Black / Chocolate / Cinnamon (B Gene)",
           prob: LOCUS_PROBS.base[st.baseGenotype],
           options: [
-            { val: "B/B", hint: "Black" },
-            { val: "B/b", hint: "Black (b)" },
-            { val: "B/b1", hint: "Black (b1)" },
-            { val: "b/b", hint: "Chocolate" },
-            { val: "b/b1", hint: "Choc (b1)" },
-            { val: "b1/b1", hint: "Cinnamon" }
+            { val: "B/B", disp: "B/B", hint: "Black" },
+            { val: "B/b", disp: "B/b", hint: "Black (b)" },
+            { val: "B/b1", disp: "B/b1", hint: "Black (b1)" },
+            { val: "b/b", disp: "b/b", hint: "Chocolate" },
+            { val: "b/b1", disp: "b/b1", hint: "Choc (b1)" },
+            { val: "b1/b1", disp: "b1/b1", hint: "Cinnamon" }
           ]
         },
         {
           key: "dilutionGenotype",
-          label: "Pigment Dilution (MLPH)",
+          label: "4. Pigment Dilution (D Gene, MLPH)",
           prob: LOCUS_PROBS.dilution[st.dilutionGenotype],
           options: [
-            { val: "D/D", hint: "Dense" },
-            { val: "D/d", hint: "Dense (carrier)" },
-            { val: "d/d", hint: "Dilute" }
+            { val: "D/D", disp: "D/D", hint: "Dense color" },
+            { val: "D/d", disp: "D/d", hint: "Dense (carrier)" },
+            { val: "d/d", disp: "d/d", hint: "Dilute (Blue/Cream)" }
           ]
         },
         {
           key: "agoutiGenotype",
-          label: "Agouti / Tabby (ASIP)",
+          label: "5. Agouti vs. Solid (A Gene, ASIP)",
           prob: LOCUS_PROBS.agouti[st.agoutiGenotype],
           options: [
-            { val: "A/A", hint: "Tabby" },
-            { val: "A/a", hint: "Tabby (carrier)" },
-            { val: "a/a", hint: "Solid" }
+            { val: "A/A", disp: "A/A", hint: "Agouti Tabby" },
+            { val: "A/a", disp: "A/a", hint: "Tabby (carrier)" },
+            { val: "a/a", disp: "a/a", hint: "Solid (Non-agouti)" }
+          ]
+        },
+        {
+          key: "tabbyPattern",
+          label: "6. Tabby Pattern (Mc / Sp / Ta Loci)",
+          prob: LOCUS_PROBS.tabbyPattern[st.tabbyPattern],
+          options: [
+            { val: "Mc/Mc", disp: "Mc/Mc", hint: "Mackerel" },
+            { val: "Mc/mc", disp: "Mc/mc", hint: "Mackerel (mc)" },
+            { val: "mc/mc", disp: "mc/mc", hint: "Classic Swirl" },
+            { val: "Sp/mc", disp: "Sp/-", hint: "Spotted" },
+            { val: "Ta/mc", disp: "Ta/-", hint: "Ticked" }
+          ]
+        },
+        {
+          key: "colorpointGenotype",
+          label: "7. Colorpoint / Albinism (C Gene, TYR)",
+          prob: LOCUS_PROBS.colorpoint[st.colorpointGenotype],
+          options: [
+            { val: "C/C", disp: "C/C", hint: "Full Color" },
+            { val: "C/cs", disp: "C/cs", hint: "Full (carrier)" },
+            { val: "cs/cs", disp: "cs/cs", hint: "Siamese Point" },
+            { val: "cb/cs", disp: "cb/cs", hint: "Tonkinese Mink" },
+            { val: "cb/cb", disp: "cb/cb", hint: "Burmese Sepia" },
+            { val: "c/c", disp: "c/c", hint: "True Albino" }
+          ]
+        },
+        {
+          key: "silverGenotype",
+          label: "8. Silver / Smoke Inhibitor (I Gene)",
+          prob: LOCUS_PROBS.silver[st.silverGenotype],
+          options: [
+            { val: "i/i", disp: "i/i", hint: "Normal base" },
+            { val: "I/i", disp: "I/-", hint: "Silver / Smoke" }
           ]
         },
         {
           key: "whiteGenotype",
-          label: "White Spotting (KIT)",
+          label: "9. White Spotting (Ws / S Gene, KIT)",
           prob: LOCUS_PROBS.white[st.whiteGenotype],
           options: [
-            { val: "w/w", hint: "No spots" },
-            { val: "Ws/w", hint: "Low white" },
-            { val: "Ws/Ws", hint: "High white" }
+            { val: "w/w", disp: "w/w", hint: "No spots" },
+            { val: "Ws/w", disp: "Ws/w", hint: "Low white (Bib)" },
+            { val: "Ws/Ws", disp: "Ws/Ws", hint: "High white (Van)" }
           ]
         },
         {
           key: "domWhiteGenotype",
-          label: "Dominant White (W)",
+          label: "10. Dominant White (W Gene, KIT)",
           prob: LOCUS_PROBS.domWhite[st.domWhiteGenotype],
           options: [
-            { val: "w/w", hint: "Normal (94%)" },
-            { val: "W/w", hint: "All White (6%)" }
+            { val: "w/w", disp: "w/w", hint: "Normal (95%)" },
+            { val: "W/w", disp: "W/w", hint: "All White (5%)" }
           ]
         }
       ];
@@ -1188,7 +1524,7 @@
                 data-locus="${locus.key}"
                 data-val="${opt.val}"
               >
-                ${opt.val}
+                ${opt.disp}
                 <span class="btn-hint">${opt.hint}</span>
               </button>
             `).join("")}
@@ -1204,54 +1540,88 @@
 
       const cards = [
         {
-          title: "Sex-Linked Orange",
-          code: cat.orangeGenotype,
+          title: "1. Sex Chromosomes",
+          code: cat.chromosomes,
+          prob: formatPercent(LOCUS_PROBS.chromosomes[st.chromosomes]),
+          desc: cat.chromosomes === "XX"
+            ? "Two X chromosomes (Female). Enables X-inactivation mosaicism (Tortoiseshell/Calico) if heterozygous X^O/X^o."
+            : cat.chromosomes === "XY"
+            ? "One X and one Y chromosome (Male). With only one X chromosome, standard males can be either X^O (Orange) or X^o (Black/Dark), never Tortie."
+            : "Rare Klinefelter Male (XXY, 0.8%). Having two X chromosomes allows a male cat to be a Tortoiseshell or Calico!"
+        },
+        {
+          title: "2. X-Linked Orange vs. Black (ARHGAP36)",
+          code: cat.xDisplay,
           prob: formatPercent(pOrange),
           desc: cat.isTortie
-            ? "Heterozygous (O/o) on two X chromosomes. Random X-inactivation (Lyonization) turns off one X per cell, creating patchy orange and dark fur."
-            : cat.orangeAlleles.includes("O")
-            ? "Carries only the dominant O allele, converting all dark eumelanin into orange/cream pheomelanin."
-            : "Carries no O alleles, allowing dark eumelanin pigment to express across the coat."
+            ? "Heterozygous (X^O / X^o): one X carries Orange (X^O) and the other carries the Sex-Linked Black/Dark allele (X^o). Random X-inactivation creates an orange + dark mosaic."
+            : cat.isFullOrange
+            ? "Carries only the dominant Sex-Linked Orange allele (X^O), which blocks dark eumelanin synthesis and replaces it with orange/cream pheomelanin."
+            : "Carries the Sex-Linked Black/Dark allele (X^o) with no Orange allele, allowing dark eumelanin from the autosomal B gene to fill the coat."
         },
         {
-          title: "Eumelanin Base",
+          title: "3. Black / Chocolate / Cinnamon (TYRP1)",
           code: cat.baseGenotype,
           prob: formatPercent(LOCUS_PROBS.base[st.baseGenotype]),
-          desc: `Controls dark pigment density on the TYRP1 gene (B > b > b1). This genotype produces ${cat.baseColor.toLowerCase()} pigment granules.`
+          desc: `Autosomal eumelanin structure gene (B > b > b1). When the X chromosome carries X^o, this genotype synthesizes ${cat.baseColor.toLowerCase()} eumelanin pigment.`
         },
         {
-          title: "Pigment Dilution",
+          title: "4. Pigment Dilution (MLPH)",
           code: cat.dilutionGenotype,
           prob: formatPercent(LOCUS_PROBS.dilution[st.dilutionGenotype]),
           desc: cat.isDilute
-            ? "Homozygous recessive (d/d) on the MLPH gene clumps pigment granules unevenly, softening black to blue-grey and orange to cream."
-            : "Dominant D allele distributes pigment evenly along the hair shaft for rich, full-strength color."
+            ? "Homozygous recessive (d/d) clumps melanosomes unevenly, diluting Black to Blue-Grey, Chocolate to Lilac, Cinnamon to Fawn, and Orange to Cream."
+            : "Dominant D allele distributes pigment granules evenly along the hair shaft for dense, full-strength color."
         },
         {
-          title: "Agouti & Tabby",
+          title: "5. Agouti vs. Solid (ASIP)",
           code: cat.agoutiGenotype,
           prob: formatPercent(LOCUS_PROBS.agouti[st.agoutiGenotype]),
           desc: cat.visiblyTabby
             ? (cat.geneticallyTabby
-                ? "Dominant A allele creates banded agouti hairs that reveal underlying tabby stripe patterns."
-                : "Genetically non-agouti (a/a), but orange pheomelanin overrides solid suppression and shows tabby stripes anyway.")
-            : "Homozygous recessive (a/a) floods each hair with solid eumelanin pigment, hiding the tabby pattern."
+                ? "Dominant A allele pulses agouti signaling, banding individual hairs and revealing the underlying tabby pattern."
+                : "Genetically non-agouti solid (a/a), but X-linked orange (X^O) is epistatic to non-agouti and reveals tabby markings anyway.")
+            : "Homozygous recessive (a/a) keeps MC1R continuously active, flooding hairs with solid dark eumelanin and hiding tabby stripes."
         },
         {
-          title: "White Spotting (KIT)",
+          title: "6. Tabby Pattern (LVRN / DKK4)",
+          code: cat.tabbyPattern,
+          prob: formatPercent(LOCUS_PROBS.tabbyPattern[st.tabbyPattern]),
+          desc: `Determines the spatial geometry of tabby markings (${cat.tabbyStyle}): Mackerel (vertical tiger stripes), Classic (bold swirls), Spotted (broken ovals), or Ticked (agouti flecking).`
+        },
+        {
+          title: "7. Colorpoint / Albinism (TYR)",
+          code: cat.colorpointGenotype,
+          prob: formatPercent(LOCUS_PROBS.colorpoint[st.colorpointGenotype]),
+          desc: cat.colorpointMode === "Full"
+            ? "Dominant C allele produces fully active tyrosinase across the entire body for uniform coat pigmentation."
+            : cat.colorpointMode === "Albino"
+            ? "Recessive c/c completely abolishes tyrosinase activity, resulting in a pigment-free albino coat."
+            : `Temperature-sensitive tyrosinase (${cat.colorpointMode}) is inactivated by body heat on the torso and only produces pigment on the cooler face, ears, paws, and tail.`
+        },
+        {
+          title: "8. Silver / Smoke Inhibitor (I Locus)",
+          code: cat.silverGenotype,
+          prob: formatPercent(LOCUS_PROBS.silver[st.silverGenotype]),
+          desc: cat.isSilver
+            ? "Dominant Melanin Inhibitor (I/-) suppresses pigment at the base of each hair shaft, creating a bright silver-white undercoat (Silver Tabby, Cameo, or Smoke)."
+            : "Recessive i/i allows normal warm pigment production all the way down to the root of each hair."
+        },
+        {
+          title: "9. White Spotting / Piebald (KIT)",
           code: cat.whiteGenotype,
           prob: formatPercent(LOCUS_PROBS.white[st.whiteGenotype]),
           desc: cat.whiteLevel === "None"
-            ? "No white-spotting alleles (w/w). Pigment cells migrate completely across the entire body."
-            : `Dominant Ws allele (${cat.whiteLevel.toLowerCase()} expression) slows melanocyte migration during embryonic growth, leaving white bib, paws, or piebald patches.`
+            ? "No white-spotting alleles (w/w). Melanocytes migrate completely across the embryo."
+            : `Dominant Ws allele (${cat.whiteLevel.toLowerCase()} expression) slows melanocyte migration, leaving unpigmented white mittens/bib (Ws/w) or piebald high-white patches (Ws/Ws).`
         },
         {
-          title: "Dominant White",
+          title: "10. Dominant White (KIT Epistatic W)",
           code: cat.domWhiteGenotype,
           prob: formatPercent(LOCUS_PROBS.domWhite[st.domWhiteGenotype]),
           desc: cat.domWhite === "W"
-            ? "Dominant W allele completely blocks melanocyte migration to the coat, creating a pure white cat regardless of other genes."
-            : "Recessive w/w allows normal pigment expression from all other coat genes."
+            ? "Dominant W allele completely prevents melanocyte survival in the skin, producing an all-white coat and frequent sky-blue eyes."
+            : "Recessive w/w allows all other coat color and pattern genes to express normally."
         }
       ];
 
@@ -1269,11 +1639,19 @@
       `).join("");
     }
 
-    function renderCoatDirectory(currentCoatTitle) {
-      const sortedCoats = Object.entries(COAT_PROB_MAP).sort((a, b) => b[1] - a[1]);
-      const maxProb = sortedCoats[0][1];
+    function renderCoatDirectory(currentCoatTitle, filterQuery = "") {
+      const q = filterQuery.trim().toLowerCase();
+      const allSorted = Object.entries(COAT_PROB_MAP).sort((a, b) => b[1] - a[1]);
+      const maxProb = allSorted[0][1];
 
-      return sortedCoats.map(([title, prob]) => {
+      document.getElementById("coatCountLabel").textContent = allSorted.length;
+      document.getElementById("probSumCheck").textContent = `Total probability across all ${allSorted.length} phenotypes: ${(TOTAL_PROB_SUM * 100).toFixed(2)}%`;
+
+      const filtered = q
+        ? allSorted.filter(([title]) => title.toLowerCase().includes(q))
+        : allSorted;
+
+      return filtered.map(([title, prob]) => {
         const isCurrent = title === currentCoatTitle;
         const barWidth = Math.max(3, Math.round((prob / maxProb) * 100));
         return `
@@ -1316,17 +1694,22 @@
 
       document.getElementById("genotypeProbValue").textContent = formatPercent(genotypeProb);
       document.getElementById("genotypeCodeSub").textContent = [
-        cat.orangeGenotype,
+        cat.xDisplay.replace(/\s+/g, ""),
         cat.baseGenotype,
         cat.dilutionGenotype,
         cat.agoutiGenotype,
+        cat.tabbyPattern,
+        cat.colorpointGenotype,
+        cat.silverGenotype,
         cat.whiteGenotype,
         cat.domWhiteGenotype
       ].join(" · ");
 
       document.getElementById("geneSwitcherGrid").innerHTML = renderGeneSwitcher(cat);
       document.getElementById("genesGrid").innerHTML = renderGeneCards(cat);
-      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(info.title);
+
+      const filterText = document.getElementById("coatSearchInput").value || "";
+      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(info.title, filterText);
 
       if (animatePop) {
         const box = document.getElementById("catPreviewBox");
@@ -1348,7 +1731,6 @@
       if (locus === "chromosomes") {
         const prevChrom = currentState.chromosomes;
         currentState.chromosomes = val;
-        // Convert orange genotype cleanly when toggling between XY and XX/XXY
         if (val === "XY" && prevChrom !== "XY") {
           currentState.orangeGenotype = currentState.orangeGenotype.includes("O") ? "O/Y" : "o/Y";
         } else if (val !== "XY" && prevChrom === "XY") {
@@ -1368,9 +1750,16 @@
       const title = item.dataset.coatTitle;
       const sample = COAT_SAMPLE_STATE[title];
       if (sample) {
-        currentState = { ...sample };
+        const { _prob, ...cleanState } = sample;
+        currentState = { ...cleanState };
         updateUI(true);
       }
+    });
+
+    document.getElementById("coatSearchInput").addEventListener("input", (e) => {
+      const cat = buildCatFromState(currentState);
+      const info = describeCat(cat);
+      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(info.title, e.target.value);
     });
 
     document.getElementById("rollBtn").addEventListener("click", () => {
