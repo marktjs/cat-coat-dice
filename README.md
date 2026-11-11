@@ -42,6 +42,11 @@ Rather than estimating odds by Monte Carlo simulation, the page computes the **e
      $$P(\text{Genotype}) = P(\text{Sex}) \times P(\text{X}^{O/o} \mid \text{Sex}) \times P(B) \times P(D) \times P(A) \times P(Mc) \times P(C) \times P(I) \times P(Ws) \times P(W)$$
 - **Interactive Coat Probability Directory:** At the bottom of the page, every distinct coat phenotype is ranked from most common to rarest with visual probability bars and a live search filter. Clicking any coat in the directory loads its representative genotype onto the cat.
 
+### D. Cellphone & Mobile Browser Optimizations
+- **Sticky Live Mini-Cat Header (`#stickyCatBar`):** Uses an `IntersectionObserver` on the primary cat preview card so that when a mobile user scrolls down into the 10-locus gene switcher or the probability directory, a blurred glassmorphic top bar pins to the screen with a live `44×44` mini SVG cat, the coat name, sex, probability badge, and a quick `🎲 Roll` button. Players see the cat update on every tap without scrolling back to the top.
+- **Zero Horizontal Overflow (`390×844` Audited):** All CSS Grid containers use `minmax(0, 1fr)` / `minmax(min(100%, ...), 1fr)` with wrapping genotype pills, ensuring `scrollWidth === innerWidth` across small phone viewports.
+- **Touch Ergonomics & iOS Safari Safeguards:** Allele buttons enforce a `42px` minimum touch target height in balanced 2- and 3-column grids with `touch-action: manipulation` (eliminating 300ms tap delay) and `font-size: 16px` on the filter input (preventing involuntary iOS Safari zoom-on-focus).
+
 ---
 
 ## 2. The Feline Coat Genetics Behind the Simulator
@@ -102,3 +107,4 @@ No build tools or servers are required. Open `cat-coat-dice.html` directly in an
 ```bash
 open random_feline_coat/cat-coat-dice.html
 ```
+
