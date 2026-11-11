@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Cat Coat Dice — Complete Feline Coat Genetics Simulator</title>
   <style>
     :root {
@@ -22,37 +22,157 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.55;
       padding: 2rem 1rem 3.5rem;
+    }
+
+    button, input {
+      touch-action: manipulation;
+      font-family: inherit;
     }
 
     .container {
       max-width: 980px;
       margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Sticky Live Mini-Cat Bar (appears when scrolling past main cat preview) */
+    .sticky-cat-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+      transform: translateY(-110%);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0.45rem 0.85rem;
+    }
+
+    .sticky-cat-bar.visible {
+      transform: translateY(0);
+    }
+
+    .sticky-bar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+    }
+
+    .sticky-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .sticky-cat-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .sticky-cat-thumb svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .sticky-meta {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .sticky-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.25;
+    }
+
+    .sticky-sub {
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .sticky-prob-pill {
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 0.05rem 0.4rem;
+      border-radius: 5px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sticky-roll-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+    }
+
+    .sticky-roll-btn:active {
+      transform: scale(0.97);
     }
 
     header {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.35rem;
     }
 
     header h1 {
-      font-size: 2.35rem;
+      font-size: 2.3rem;
       font-weight: 800;
       color: var(--text);
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
       letter-spacing: -0.02em;
     }
 
     header p {
       color: var(--muted);
-      font-size: 1.04rem;
+      font-size: 1.02rem;
       max-width: 680px;
       margin: 0 auto;
     }
@@ -61,7 +181,7 @@
       display: flex;
       justify-content: center;
       gap: 0.75rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
     }
 
@@ -76,6 +196,7 @@
       cursor: pointer;
       transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
       box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
+      user-select: none;
     }
 
     button.primary-btn:hover {
@@ -92,23 +213,16 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 2rem;
+      padding: 1.85rem;
       box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
       margin-bottom: 1.75rem;
     }
 
     .hero-top {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 2rem;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 1.75rem;
       align-items: center;
-    }
-
-    @media (max-width: 720px) {
-      .hero-top {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
     }
 
     .cat-preview {
@@ -119,14 +233,16 @@
       background: radial-gradient(circle at 50% 35%, #ffffff 0%, #f1f5f9 75%, #e2e8f0 100%);
       border: 1px solid #e2e8f0;
       border-radius: 22px;
-      padding: 1.25rem 1rem 0.9rem;
+      padding: 1.15rem 0.85rem 0.8rem;
       position: relative;
       overflow: hidden;
+      min-width: 0;
     }
 
     .cat-preview svg {
-      width: 235px;
-      height: 235px;
+      width: 225px;
+      height: 225px;
+      max-width: 100%;
       filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.1));
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -136,24 +252,22 @@
     }
 
     .preview-hint {
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       color: var(--muted);
-      margin-top: 0.35rem;
+      margin-top: 0.3rem;
       font-weight: 500;
+    }
+
+    .phenotype-info {
+      min-width: 0;
     }
 
     .badges-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.45rem;
       align-items: center;
-      margin-bottom: 0.65rem;
-    }
-
-    @media (max-width: 720px) {
-      .badges-row {
-        justify-content: center;
-      }
+      margin-bottom: 0.55rem;
     }
 
     .sex-badge {
@@ -163,8 +277,8 @@
       background: var(--badge-bg);
       color: var(--badge-text);
       font-weight: 700;
-      font-size: 0.84rem;
-      padding: 0.28rem 0.8rem;
+      font-size: 0.82rem;
+      padding: 0.26rem 0.75rem;
       border-radius: 999px;
     }
 
@@ -173,8 +287,8 @@
       align-items: center;
       gap: 0.35rem;
       font-weight: 700;
-      font-size: 0.82rem;
-      padding: 0.28rem 0.8rem;
+      font-size: 0.8rem;
+      padding: 0.26rem 0.75rem;
       border-radius: 999px;
     }
 
@@ -185,72 +299,89 @@
     .rarity-legendary { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
 
     .phenotype-info h2 {
-      font-size: 1.85rem;
+      font-size: 1.75rem;
       font-weight: 800;
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.4rem;
       color: var(--text);
       letter-spacing: -0.01em;
+      line-height: 1.22;
+      overflow-wrap: break-word;
     }
 
     .phenotype-info p {
       color: #475569;
-      font-size: 0.96rem;
-      margin-bottom: 1rem;
+      font-size: 0.94rem;
+      margin-bottom: 0.9rem;
+      overflow-wrap: break-word;
     }
 
     /* Probability Strip inside Main Card */
     .prob-cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.65rem;
-      margin-top: 0.75rem;
-    }
-
-    @media (max-width: 580px) {
-      .prob-cards {
-        grid-template-columns: 1fr;
-      }
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
     }
 
     .prob-box {
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 0.65rem 0.85rem;
+      padding: 0.6rem 0.75rem;
       text-align: left;
+      min-width: 0;
     }
 
     .prob-box-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
       color: var(--muted);
       font-weight: 700;
       display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .prob-box-value {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       color: var(--text);
       font-variant-numeric: tabular-nums;
+      display: block;
+      margin: 0.1rem 0;
     }
 
     .prob-box-sub {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: var(--muted);
       display: block;
-      word-break: break-word;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .genotype-summary-bar {
+      margin-top: 0.55rem;
+      background: #f1f5f9;
+      border-radius: 9px;
+      padding: 0.4rem 0.7rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #334155;
+      white-space: normal;
+      overflow-wrap: break-word;
     }
 
     /* Genetic Callout Banner explaining Sex-Linked Black vs Autosomal Black */
     .genetics-note {
-      margin-top: 1.25rem;
+      margin-top: 1.15rem;
       background: #f8fafc;
       border-left: 4px solid var(--primary);
       border-radius: 10px;
-      padding: 0.75rem 1rem;
-      font-size: 0.85rem;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.83rem;
       color: #334155;
     }
 
@@ -260,8 +391,8 @@
 
     /* Interactive Gene Switcher right under the picture */
     .gene-switcher-panel {
-      margin-top: 1.4rem;
-      padding-top: 1.35rem;
+      margin-top: 1.25rem;
+      padding-top: 1.2rem;
       border-top: 1px dashed var(--border);
     }
 
@@ -269,90 +400,98 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.8rem;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.35rem;
     }
 
     .switcher-title {
-      font-size: 0.96rem;
+      font-size: 0.95rem;
       font-weight: 800;
       color: var(--text);
       display: flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.4rem;
     }
 
     .switcher-subtitle {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--muted);
     }
 
     .switcher-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
-      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 275px), 1fr));
+      gap: 0.7rem;
     }
 
     .locus-control {
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 0.65rem 0.8rem;
+      padding: 0.65rem 0.75rem;
       display: flex;
       flex-direction: column;
       gap: 0.45rem;
+      min-width: 0;
     }
 
     .locus-label-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       font-weight: 700;
       color: #1e293b;
       gap: 0.4rem;
     }
 
     .locus-prob-tag {
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       font-weight: 700;
       color: var(--primary);
       background: var(--primary-soft);
-      padding: 0.1rem 0.45rem;
+      padding: 0.1rem 0.42rem;
       border-radius: 6px;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .allele-btn-group {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
       gap: 0.35rem;
     }
 
     .allele-btn {
-      flex: 1 1 auto;
       background: #ffffff;
       color: #334155;
       border: 1px solid #cbd5e1;
-      padding: 0.32rem 0.48rem;
-      font-size: 0.78rem;
+      padding: 0.38rem 0.4rem;
+      min-height: 42px;
+      font-size: 0.76rem;
       font-weight: 700;
-      border-radius: 8px;
+      border-radius: 9px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       text-align: center;
-      line-height: 1.25;
+      line-height: 1.2;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .allele-btn span.btn-hint {
       display: block;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 0.67rem;
+      font-size: 0.65rem;
       font-weight: 500;
       color: var(--muted);
+      margin-top: 0.1rem;
     }
 
     .allele-btn:hover {
@@ -365,7 +504,7 @@
       background: var(--primary);
       color: #ffffff;
       border-color: var(--primary);
-      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.24);
     }
 
     .allele-btn.active span.btn-hint {
@@ -374,61 +513,56 @@
 
     /* Section Headings */
     .section-heading {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: var(--text);
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.85rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.35rem;
     }
 
     .section-heading span.sub {
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 500;
       color: var(--muted);
     }
 
     .genes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 0.95rem;
-      margin-bottom: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 275px), 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.85rem;
     }
 
     .gene-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 1.15rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .gene-card:hover {
-      border-color: #cbd5e1;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      padding: 1.05rem;
+      min-width: 0;
     }
 
     .gene-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 0.45rem;
-      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+      gap: 0.45rem;
     }
 
     .gene-title {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text);
     }
 
     .gene-badges {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       flex-shrink: 0;
     }
 
@@ -436,24 +570,24 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       background: var(--badge-bg);
       color: var(--badge-text);
-      padding: 0.15rem 0.5rem;
+      padding: 0.14rem 0.45rem;
       border-radius: 6px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
     }
 
     .gene-prob {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: #475569;
       background: #f1f5f9;
-      padding: 0.15rem 0.45rem;
+      padding: 0.14rem 0.4rem;
       border-radius: 6px;
       font-variant-numeric: tabular-nums;
     }
 
     .gene-desc {
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       color: var(--muted);
     }
 
@@ -462,7 +596,7 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 1.5rem;
+      padding: 1.35rem;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.03);
     }
 
@@ -470,18 +604,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
-      margin-top: 0.5rem;
-      margin-bottom: 0.85rem;
+      margin-top: 0.45rem;
+      margin-bottom: 0.8rem;
     }
 
     .search-input {
-      padding: 0.45rem 0.8rem;
+      padding: 0.5rem 0.8rem;
       border: 1px solid var(--border);
       border-radius: 10px;
-      font-size: 0.86rem;
-      width: 240px;
+      font-size: 16px; /* Prevents iOS Safari auto-zoom on focus */
+      width: 260px;
+      max-width: 100%;
       outline: none;
     }
 
@@ -492,30 +627,31 @@
 
     .prob-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 0.55rem;
-      max-height: 440px;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+      gap: 0.5rem;
+      max-height: 420px;
       overflow-y: auto;
-      padding-right: 0.25rem;
+      padding-right: 0.2rem;
+      -webkit-overflow-scrolling: touch;
     }
 
     .prob-item {
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
-      padding: 0.55rem 0.75rem;
+      padding: 0.55rem 0.7rem;
       border-radius: 10px;
       border: 1px solid var(--border);
       background: #f8fafc;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.12s ease;
       text-align: left;
+      min-width: 0;
     }
 
     .prob-item:hover {
       border-color: var(--primary);
       background: #f5f7ff;
-      transform: translateY(-1px);
     }
 
     .prob-item.current {
@@ -529,7 +665,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       font-weight: 700;
       color: var(--text);
     }
@@ -538,7 +674,7 @@
       font-variant-numeric: tabular-nums;
       color: var(--primary);
       font-weight: 800;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       white-space: nowrap;
     }
 
@@ -558,13 +694,174 @@
 
     footer {
       text-align: center;
-      margin-top: 2.5rem;
+      margin-top: 2.2rem;
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      padding: 0 0.5rem;
+    }
+
+    /* Mobile & Cellphone Browser Optimizations */
+    @media (max-width: 720px) {
+      body {
+        padding: 0.9rem 0.65rem 2.75rem;
+      }
+
+      header {
+        margin-bottom: 0.85rem;
+      }
+
+      header h1 {
+        font-size: 1.65rem;
+        margin-bottom: 0.2rem;
+      }
+
+      header p {
+        font-size: 0.86rem;
+        line-height: 1.4;
+      }
+
+      .controls {
+        margin-bottom: 0.95rem;
+      }
+
+      button.primary-btn {
+        width: 100%;
+        max-width: 340px;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.98rem;
+        border-radius: 12px;
+      }
+
+      .main-card {
+        padding: 1rem 0.85rem;
+        border-radius: 18px;
+        margin-bottom: 1.25rem;
+      }
+
+      .hero-top {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.9rem;
+        text-align: center;
+      }
+
+      .cat-preview {
+        padding: 0.75rem 0.5rem 0.55rem;
+        border-radius: 16px;
+        max-width: 220px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .cat-preview svg {
+        width: 156px;
+        height: 156px;
+      }
+
+      .badges-row {
+        justify-content: center;
+        margin-bottom: 0.35rem;
+      }
+
+      .phenotype-info h2 {
+        font-size: 1.35rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .phenotype-info p {
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.45;
+      }
+
+      .prob-cards {
+        gap: 0.4rem;
+      }
+
+      .prob-box {
+        padding: 0.48rem 0.45rem;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .prob-box-label {
+        font-size: 0.62rem;
+      }
+
+      .prob-box-value {
+        font-size: 0.95rem;
+      }
+
+      .prob-box-sub {
+        font-size: 0.65rem;
+      }
+
+      .genotype-summary-bar {
+        font-size: 0.71rem;
+        text-align: center;
+        padding: 0.35rem 0.5rem;
+      }
+
+      .genetics-note {
+        margin-top: 0.85rem;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.78rem;
+        line-height: 1.45;
+      }
+
+      .gene-switcher-panel {
+        margin-top: 0.95rem;
+        padding-top: 0.95rem;
+      }
+
+      .switcher-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.55rem;
+      }
+
+      .locus-control {
+        padding: 0.55rem 0.65rem;
+        border-radius: 12px;
+      }
+
+      .genes-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.65rem;
+      }
+
+      .prob-directory-card {
+        padding: 1rem 0.85rem;
+        border-radius: 16px;
+      }
+
+      .search-input {
+        width: 100%;
+      }
+
+      .prob-list {
+        grid-template-columns: minmax(0, 1fr);
+        max-height: 360px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Sticky Mini-Cat Header Bar for Cellphone & Scroll Navigation -->
+  <div class="sticky-cat-bar" id="stickyCatBar" aria-hidden="true">
+    <div class="sticky-bar-inner">
+      <div class="sticky-left">
+        <div class="sticky-cat-thumb" id="stickyCatSvg"></div>
+        <div class="sticky-meta">
+          <div class="sticky-title" id="stickyCoatName">Cat Coat</div>
+          <div class="sticky-sub">
+            <span id="stickySexText">Female (XX)</span>
+            <span class="sticky-prob-pill" id="stickyProbText">0.00%</span>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="sticky-roll-btn" id="stickyRollBtn">🎲 Roll</button>
+    </div>
+  </div>
+
   <div class="container">
     <header>
       <h1>🎲 Cat Coat Dice</h1>
@@ -592,21 +889,22 @@
 
           <div class="prob-cards">
             <div class="prob-box">
-              <span class="prob-box-label">Coat Probability</span>
+              <span class="prob-box-label">Coat Prob</span>
               <span class="prob-box-value" id="coatProbValue">0.00%</span>
-              <span class="prob-box-sub" id="coatOddsValue">1 in 1 rolls</span>
+              <span class="prob-box-sub" id="coatOddsValue">~1 in 1</span>
             </div>
             <div class="prob-box">
               <span class="prob-box-label">Coat + Sex</span>
               <span class="prob-box-value" id="coatSexProbValue">0.00%</span>
-              <span class="prob-box-sub" id="coatSexOddsValue">1 in 1 rolls</span>
+              <span class="prob-box-sub" id="coatSexOddsValue">~1 in 1</span>
             </div>
             <div class="prob-box">
-              <span class="prob-box-label">Exact Genotype (10 Loci)</span>
+              <span class="prob-box-label">10-Locus Geno</span>
               <span class="prob-box-value" id="genotypeProbValue">0.00%</span>
-              <span class="prob-box-sub" id="genotypeCodeSub">X^o/X^o · B/B · D/D</span>
+              <span class="prob-box-sub" id="genotypeOddsValue">Exact match</span>
             </div>
           </div>
+          <div class="genotype-summary-bar" id="genotypeCodeSub">X^o/X^o · B/B · D/D</div>
         </div>
       </div>
 
@@ -619,7 +917,7 @@
       <div class="gene-switcher-panel">
         <div class="switcher-header">
           <div class="switcher-title">🧬 Switch All 10 Coat Color &amp; Pattern Genes</div>
-          <div class="switcher-subtitle">Click any allele combination below to customize the cat &amp; recalculate probabilities</div>
+          <div class="switcher-subtitle">Tap any allele below to customize the cat &amp; recalculate probabilities</div>
         </div>
         <div class="switcher-grid" id="geneSwitcherGrid"></div>
       </div>
@@ -634,7 +932,7 @@
     <div class="prob-directory-card">
       <div class="section-heading" style="margin-bottom: 0.15rem;">
         <span>📊 All Cat Coat Probabilities (<span id="coatCountLabel">0</span> Phenotypes)</span>
-        <span class="sub">Click any coat below to load its genotype onto the cat</span>
+        <span class="sub">Tap any coat below to load its genotype onto the cat</span>
       </div>
       <div class="directory-controls">
         <input type="text" id="coatSearchInput" class="search-input" placeholder="🔍 Filter coats (e.g. Siamese, Calico, Smoke)..." />
@@ -649,20 +947,18 @@
   </div>
 
   <script>
-    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
     // Complete 10-locus feline coat genetics state
     let currentState = {
-      chromosomes: "XX",        // "XX" | "XY" | "XXY"
-      orangeGenotype: "O/o",    // XX/XXY: "o/o" (X^o/X^o Black/Dark), "O/o" (X^O/X^o Tortie), "O/O" (X^O/X^O Orange); XY: "o/Y", "O/Y"
-      baseGenotype: "B/B",      // "B/B" | "B/b" | "B/b1" (Black) | "b/b" | "b/b1" (Chocolate) | "b1/b1" (Cinnamon)
-      dilutionGenotype: "D/D",  // "D/D" | "D/d" (Dense) | "d/d" (Dilute: Blue, Lilac, Fawn, Cream)
-      agoutiGenotype: "A/a",    // "A/A" | "A/a" (Agouti Tabby) | "a/a" (Solid / Non-agouti)
-      tabbyPattern: "Mc/Mc",    // "Mc/Mc" | "Mc/mc" (Mackerel) | "mc/mc" (Classic/Blotched) | "Sp/mc" (Spotted) | "Ta/mc" (Ticked)
-      colorpointGenotype: "C/C",// "C/C" | "C/cs" (Full Color) | "cb/cb" (Burmese Sepia) | "cb/cs" (Tonkinese Mink) | "cs/cs" (Siamese Pointed) | "c/c" (Albino)
-      silverGenotype: "i/i",    // "i/i" (Normal pigment base) | "I/i" (Silver Tabby / Smoke undercoat)
-      whiteGenotype: "Ws/w",    // "w/w" (No spots) | "Ws/w" (Low white / Tuxedo) | "Ws/Ws" (High white / Piebald)
-      domWhiteGenotype: "w/w"   // "w/w" (Normal color allowed) | "W/w" (Dominant Epistatic White)
+      chromosomes: "XX",
+      orangeGenotype: "O/o",
+      baseGenotype: "B/B",
+      dilutionGenotype: "D/D",
+      agoutiGenotype: "A/a",
+      tabbyPattern: "Mc/Mc",
+      colorpointGenotype: "C/C",
+      silverGenotype: "i/i",
+      whiteGenotype: "Ws/w",
+      domWhiteGenotype: "w/w"
     };
 
     // Exact mathematical probabilities for each locus in the dice model
@@ -805,7 +1101,7 @@
       else if (tabbyPattern === "Sp/mc") tabbyStyle = "Spotted";
       else if (tabbyPattern === "Ta/mc") tabbyStyle = "Ticked";
 
-      let colorpointMode = "Full"; // "Full" | "Pointed" | "Mink" | "Sepia" | "Albino"
+      let colorpointMode = "Full";
       if (colorpointGenotype === "cs/cs") colorpointMode = "Pointed";
       else if (colorpointGenotype === "cb/cs") colorpointMode = "Mink";
       else if (colorpointGenotype === "cb/cb") colorpointMode = "Sepia";
@@ -880,7 +1176,6 @@
       const pheomelaninName = cat.isDilute ? "Cream" : "Orange (Red)";
       const pointPheoName = cat.isDilute ? "Cream" : "Flame (Red)";
 
-      // Colorpoint (Siamese / Mink / Sepia) naming
       if (cat.colorpointMode !== "Full") {
         const modeLabel = cat.colorpointMode === "Pointed"
           ? "Point (Siamese)"
@@ -910,7 +1205,6 @@
         return { title, summary };
       }
 
-      // Full-color (C/-) naming
       let titleParts = [];
 
       if (cat.isTortie) {
@@ -981,7 +1275,6 @@
     let TOTAL_PROB_SUM = 0;
 
     (function precomputeAllProbabilities() {
-      // Group identical phenotypic allele classes to compute exact probabilities rapidly
       const sexGroups = [
         { chromosomes: "XX", p: 0.49, oranges: [{ g: "o/o", p: 0.25 }, { g: "O/o", p: 0.50 }, { g: "O/O", p: 0.25 }] },
         { chromosomes: "XY", p: 0.502, oranges: [{ g: "o/Y", p: 0.50 }, { g: "O/Y", p: 0.50 }] },
@@ -1084,7 +1377,7 @@
     function formatOdds(p) {
       if (p <= 0) return "—";
       const oneIn = Math.round(1 / p);
-      return oneIn <= 1 ? "Very frequent" : `~1 in ${oneIn.toLocaleString()} rolls`;
+      return oneIn <= 1 ? "Frequent" : `~1 in ${oneIn.toLocaleString()}`;
     }
 
     function getRarityTier(p) {
@@ -1108,13 +1401,11 @@
         ? (cat.isDilute ? "#d97706" : "#9a3412")
         : (cat.isDilute ? "#334155" : "#090d16");
 
-      // If Silver/Smoke (I/-) on a tabby, the ground color is pale silvery-white while stripes stay dark
       let bodyBase = pointColor;
       if (cat.isSilver && cat.visiblyTabby) {
         bodyBase = cat.isFullOrange ? "#fff7ed" : "#e2e8f0";
       }
 
-      // If Colorpoint (Siamese / Mink / Sepia), torso is pale while points (ears, mask, paws, tail) keep pointColor
       if (cat.colorpointMode === "Pointed") {
         bodyBase = "#fef9ef";
       } else if (cat.colorpointMode === "Mink") {
@@ -1134,11 +1425,8 @@
     function renderTabbyOverlay(cat, strokeColor) {
       const style = cat.tabbyStyle;
 
-      // Forehead 'M', cheek pencil lines, and tail rings are shared by all tabby patterns
       const headAndTail = `
-        <!-- Classic Tabby 'M' on forehead -->
         <path d="M 102 58 L 109 44 L 120 55 L 131 44 L 138 58" />
-        <!-- Cheek stripes -->
         <path d="M 56 94 Q 68 92 76 97" />
         <path d="M 58 105 Q 70 104 78 108" />
         <path d="M 184 94 Q 172 92 164 97" />
@@ -1158,14 +1446,12 @@
           <path d="M 182 196 Q 164 194 154 200" />
         `;
       } else if (style === "Classic") {
-        // Bold blotched bullseye whorls on sides
         bodyPattern = `
           <path d="M 60 145 C 88 140, 96 175, 68 186 C 56 190, 56 162, 76 164" stroke-width="5.2" />
           <path d="M 180 145 C 152 140, 144 175, 172 186 C 184 190, 184 162, 164 164" stroke-width="5.2" />
           <path d="M 105 140 Q 120 152 135 140" stroke-width="4.8" />
         `;
       } else if (style === "Spotted") {
-        // Distinct oval rosette spots across the body
         bodyPattern = `
           <g fill="${strokeColor}" stroke="none">
             <ellipse cx="74" cy="148" rx="6.5" ry="4.5" transform="rotate(-12 74 148)" />
@@ -1183,7 +1469,6 @@
           </g>
         `;
       } else if (style === "Ticked") {
-        // Fine Abyssinian agouti flecking on torso
         bodyPattern = `
           <g stroke-width="2.4" stroke-dasharray="2 7">
             <path d="M 68 148 Q 120 144 172 148" />
@@ -1209,7 +1494,7 @@
       `;
     }
 
-    function renderCatSVG(cat) {
+    function renderCatSVG(cat, uid = "main") {
       const palette = getPalette(cat);
       const isDomW = cat.domWhite === "W";
       const isAlbino = !isDomW && cat.colorpointMode === "Albino";
@@ -1225,7 +1510,6 @@
       const showWhiteHigh = !isWhiteAll && cat.whiteLevel === "High";
       const showSmokeGlow = !isWhiteAll && cat.isSilver && !cat.visiblyTabby;
 
-      // Eye color genetics
       let leftEyeIris = "#10b981";
       let rightEyeIris = "#10b981";
       if (isAlbino) {
@@ -1244,14 +1528,17 @@
 
       const earInnerColor = "#fda4af";
       const tailPath = "M 155 196 C 210 196, 228 144, 204 116 C 193 104, 177 114, 181 130 C 184 144, 176 164, 155 168 Z";
+      const tailClipId = `cuteCatTailClip_${uid}`;
+      const bodyClipId = `cuteCatBodyClip_${uid}`;
+      const smokeGradId = `smokeUndercoat_${uid}`;
 
       return `
         <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cute illustrated cat">
           <defs>
-            <clipPath id="cuteCatTailClip">
+            <clipPath id="${tailClipId}">
               <path d="${tailPath}" />
             </clipPath>
-            <clipPath id="cuteCatBodyClip">
+            <clipPath id="${bodyClipId}">
               <path d="M 66 132 C 52 152, 54 205, 80 212 L 160 212 C 186 205, 188 152, 174 132 Z" />
               <path d="M 52 86 L 44 26 Q 44 18 52 22 L 96 52 Z" />
               <path d="M 188 86 L 196 26 Q 196 18 188 22 L 144 52 Z" />
@@ -1259,18 +1546,16 @@
               <ellipse cx="64" cy="102" rx="16" ry="12" />
               <ellipse cx="176" cy="102" rx="16" ry="12" />
             </clipPath>
-            <radialGradient id="smokeUndercoat" cx="50%" cy="55%" r="50%">
+            <radialGradient id="${smokeGradId}" cx="50%" cy="55%" r="50%">
               <stop offset="0%" stop-color="#f8fafc" stop-opacity="0.72" />
               <stop offset="65%" stop-color="#e2e8f0" stop-opacity="0.32" />
               <stop offset="100%" stop-color="#e2e8f0" stop-opacity="0" />
             </radialGradient>
           </defs>
 
-          <!-- Soft Ground Shadow -->
           <ellipse cx="124" cy="217" rx="74" ry="11" fill="rgba(15, 23, 42, 0.08)" />
 
-          <!-- Fluffy Tail (always a cooler extremity so it shows pointFill!) -->
-          <g clip-path="url(#cuteCatTailClip)">
+          <g clip-path="url(#${tailClipId})">
             <rect x="140" y="95" width="95" height="110" fill="${pointFill}" />
             ${showTortiePatches ? `
               <circle cx="202" cy="128" r="24" fill="${palette.secondary}" />
@@ -1285,18 +1570,14 @@
           </g>
           <path d="${tailPath}" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" />
 
-          <!-- Coat Fill & Genetic Patterns Clipped to Cat Body & Head -->
-          <g clip-path="url(#cuteCatBodyClip)">
-            <!-- Base Coat Color -->
+          <g clip-path="url(#${bodyClipId})">
             <rect x="0" y="0" width="240" height="240" fill="${baseFill}" />
 
-            <!-- Smoke Shimmering Silver Undercoat (I/- on non-agouti solid coats) -->
             ${showSmokeGlow ? `
-              <ellipse cx="120" cy="168" rx="54" ry="42" fill="url(#smokeUndercoat)" />
-              <ellipse cx="120" cy="92" rx="50" ry="38" fill="url(#smokeUndercoat)" />
+              <ellipse cx="120" cy="168" rx="54" ry="42" fill="url(#${smokeGradId})" />
+              <ellipse cx="120" cy="92" rx="50" ry="38" fill="url(#${smokeGradId})" />
             ` : ""}
 
-            <!-- Colorpoint Extremities (Siamese / Mink / Sepia: Dark Ears & Central Face Mask) -->
             ${isColorpoint ? `
               <polygon points="40,90 42,16 105,54" fill="${pointFill}" />
               <polygon points="200,90 198,16 135,54" fill="${pointFill}" />
@@ -1307,7 +1588,6 @@
               ` : ""}
             ` : ""}
 
-            <!-- Standard Full-Coat Tortoiseshell / Calico X-Inactivation Mosaic Patches -->
             ${(showTortiePatches && !isColorpoint) ? `
               <circle cx="72" cy="64" r="38" fill="${palette.secondary}" />
               <circle cx="164" cy="152" r="40" fill="${palette.secondary}" />
@@ -1315,17 +1595,14 @@
               <ellipse cx="152" cy="48" rx="24" ry="20" fill="${palette.secondary}" />
             ` : ""}
 
-            <!-- Tabby Markings (Mackerel, Classic, Spotted, or Ticked) -->
             ${showStripes ? renderTabbyOverlay(cat, palette.stripe) : ""}
 
-            <!-- Low White Spotting (Ws/w): Cute Tuxedo Bib & Muzzle -->
             ${showWhiteLow ? `
               <ellipse cx="120" cy="115" rx="28" ry="19" fill="#ffffff" />
               <polygon points="120,88 102,115 138,115" fill="#ffffff" />
               <ellipse cx="120" cy="166" rx="34" ry="38" fill="#ffffff" />
             ` : ""}
 
-            <!-- High White Spotting (Ws/Ws): Piebald / Van Pattern -->
             ${showWhiteHigh ? `
               <ellipse cx="120" cy="170" rx="64" ry="54" fill="#ffffff" />
               <ellipse cx="120" cy="115" rx="50" ry="30" fill="#ffffff" />
@@ -1333,34 +1610,28 @@
               <circle cx="158" cy="160" r="22" fill="${showTortiePatches ? palette.secondary : pointFill}" />
             ` : ""}
 
-            <!-- Cute Inner Ear Pink Triangles -->
             <polygon points="57,74 51,34 84,54" fill="${earInnerColor}" opacity="0.85" />
             <polygon points="183,74 189,34 156,54" fill="${earInnerColor}" opacity="0.85" />
           </g>
 
-          <!-- Crisp Illustrated Outlines -->
           <g stroke="#1e293b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
             <path d="M 69 132 C 54 152, 55 200, 75 210 L 165 210 C 185 200, 186 152, 171 132" />
             <path d="M 112 146 Q 120 153 128 146" stroke-width="2.4" opacity="0.55" />
-            <!-- Cute Front Paws (colored with pointFill on pointed cats unless white-spotted!) -->
             <path d="M 73 210 C 73 198, 113 198, 113 210 C 113 219, 73 219, 73 210 Z" fill="${(isWhiteAll || showWhiteLow || showWhiteHigh) ? "#ffffff" : pointFill}" />
             <path d="M 127 210 C 127 198, 167 198, 167 210 C 167 219, 127 219, 127 210 Z" fill="${(isWhiteAll || showWhiteLow || showWhiteHigh) ? "#ffffff" : pointFill}" />
             <line x1="87" y1="208" x2="87" y2="215" stroke-width="2.2" />
             <line x1="99" y1="208" x2="99" y2="215" stroke-width="2.2" />
             <line x1="141" y1="208" x2="141" y2="215" stroke-width="2.2" />
             <line x1="153" y1="208" x2="153" y2="215" stroke-width="2.2" />
-            <!-- Ears & Head Outline -->
             <path d="M 56 76 L 44 26 Q 44 18 52 22 L 94 50" />
             <path d="M 184 76 L 196 26 Q 196 18 188 22 L 146 50" />
             <path d="M 94 50 Q 120 42 146 50" />
             <path d="M 56 76 C 46 92, 46 112, 66 126 C 84 140, 156 140, 174 126 C 194 112, 194 92, 184 76" />
           </g>
 
-          <!-- Rosy Kawaii Blush Cheeks -->
           <ellipse cx="74" cy="106" rx="10" ry="5.5" fill="#fb7185" opacity="0.42" />
           <ellipse cx="166" cy="106" rx="10" ry="5.5" fill="#fb7185" opacity="0.42" />
 
-          <!-- Big Sparkly Kawaii Eyes -->
           <g>
             <ellipse cx="91" cy="90" rx="12.5" ry="13.5" fill="#0f172a" />
             <ellipse cx="91" cy="91" rx="10" ry="11" fill="${leftEyeIris}" />
@@ -1375,11 +1646,9 @@
             <circle cx="153.5" cy="95" r="1.8" fill="#ffffff" />
           </g>
 
-          <!-- Cute Pink Nose & ':3' Cat Smile -->
           <path d="M 114 101 Q 120 98 126 101 L 120 108 Z" fill="#f472b6" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" />
           <path d="M 108 112 Q 114 119 120 111 Q 126 119 132 112" stroke="#1e293b" stroke-width="2.6" fill="none" stroke-linecap="round" />
 
-          <!-- Delicate Whiskers -->
           <g stroke="#475569" stroke-width="2" stroke-linecap="round">
             <line x1="62" y1="98" x2="36" y2="93" />
             <line x1="62" y1="106" x2="34" y2="106" />
@@ -1413,13 +1682,13 @@
           prob: isXY ? LOCUS_PROBS.orange_XY[st.orangeGenotype] : LOCUS_PROBS.orange_XX[st.orangeGenotype],
           options: isXY
             ? [
-                { val: "o/Y", disp: "X^o/Y (o/Y)", hint: "Sex-Linked Black/Dark" },
-                { val: "O/Y", disp: "X^O/Y (O/Y)", hint: "Sex-Linked Orange" }
+                { val: "o/Y", disp: "X^o/Y", hint: "Sex-Linked Black" },
+                { val: "O/Y", disp: "X^O/Y", hint: "Sex-Linked Orange" }
               ]
             : [
-                { val: "o/o", disp: "X^o/X^o (o/o)", hint: "Sex-Linked Black/Dark" },
-                { val: "O/o", disp: "X^O/X^o (O/o)", hint: "Tortie (Orange+Black)" },
-                { val: "O/O", disp: "X^O/X^O (O/O)", hint: "Sex-Linked Orange" }
+                { val: "o/o", disp: "X^o/X^o", hint: "Sex-Linked Black" },
+                { val: "O/o", disp: "X^O/X^o", hint: "Tortie (O+Black)" },
+                { val: "O/O", disp: "X^O/X^O", hint: "Sex-Linked Orange" }
               ]
         },
         {
@@ -1684,7 +1953,13 @@
 
       document.getElementById("coatName").textContent = info.title;
       document.getElementById("coatSummary").textContent = info.summary;
-      document.getElementById("catSvgContainer").innerHTML = renderCatSVG(cat);
+      document.getElementById("catSvgContainer").innerHTML = renderCatSVG(cat, "main");
+
+      // Update Sticky Mini-Cat Bar as well
+      document.getElementById("stickyCatSvg").innerHTML = renderCatSVG(cat, "sticky");
+      document.getElementById("stickyCoatName").textContent = info.title;
+      document.getElementById("stickySexText").textContent = `${cat.sex} (${cat.chromosomes})`;
+      document.getElementById("stickyProbText").textContent = formatPercent(coatProb);
 
       document.getElementById("coatProbValue").textContent = formatPercent(coatProb);
       document.getElementById("coatOddsValue").textContent = formatOdds(coatProb);
@@ -1693,6 +1968,8 @@
       document.getElementById("coatSexOddsValue").textContent = formatOdds(coatSexProb);
 
       document.getElementById("genotypeProbValue").textContent = formatPercent(genotypeProb);
+      document.getElementById("genotypeOddsValue").textContent = formatOdds(genotypeProb);
+
       document.getElementById("genotypeCodeSub").textContent = [
         cat.xDisplay.replace(/\s+/g, ""),
         cat.baseGenotype,
@@ -1718,6 +1995,23 @@
         box.classList.add("pop");
         setTimeout(() => box.classList.remove("pop"), 260);
       }
+    }
+
+    // Show Sticky Mini-Cat Bar when main cat preview scrolls out of view
+    const stickyBar = document.getElementById("stickyCatBar");
+    const previewBox = document.getElementById("catPreviewBox");
+    if ("IntersectionObserver" in window && previewBox && stickyBar) {
+      const obs = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          stickyBar.classList.add("visible");
+          stickyBar.setAttribute("aria-hidden", "false");
+        } else {
+          stickyBar.classList.remove("visible");
+          stickyBar.setAttribute("aria-hidden", "true");
+        }
+      }, { threshold: 0.15 });
+      obs.observe(previewBox);
     }
 
     // Event delegation for switching genes under the picture
@@ -1762,10 +2056,13 @@
       document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(info.title, e.target.value);
     });
 
-    document.getElementById("rollBtn").addEventListener("click", () => {
+    function triggerRoll() {
       currentState = rollCatState();
       updateUI(true);
-    });
+    }
+
+    document.getElementById("rollBtn").addEventListener("click", triggerRoll);
+    document.getElementById("stickyRollBtn").addEventListener("click", triggerRoll);
 
     // Initial roll
     currentState = rollCatState();
