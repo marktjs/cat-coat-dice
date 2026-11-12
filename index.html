@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Cat Coat Dice — Complete Feline Coat Genetics Simulator</title>
+  <meta name="version" content="1.0" />
+  <title>Cat Coat Dice (v1.0) — Complete Feline Coat Genetics Simulator</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -178,6 +179,25 @@
       color: var(--text);
       margin-bottom: 0.35rem;
       letter-spacing: -0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid #c7d2fe;
+      vertical-align: middle;
     }
 
     header p {
@@ -984,7 +1004,7 @@
 
   <div class="container">
     <header>
-      <h1>🎲 Cat Coat Dice</h1>
+      <h1>🎲 Cat Coat Dice <span class="version-badge" title="Current release version">v1.0</span></h1>
       <p>Explore all <strong>734,832</strong> realistic 10-locus feline diploid genotype combinations, odd-eyed <em>KIT</em> heterochromia, and exact Mendelian &amp; X-linked probabilities.</p>
     </header>
 
@@ -1076,7 +1096,7 @@
     </div>
 
     <footer>
-      Built with realistic Mendelian &amp; X-linked feline genetics across all 734,832 diploid combinations (10 Loci: Sex, X-Linked ARHGAP36, TYRP1 B/b/bl, MLPH D/d, ASIP A/a, Tabby Mc/Sp/Ta, TYR C/cb/cs/c, Inhibitor I/i, KIT Ws/w &amp; W/w/W).
+      <strong>Cat Coat Dice v1.0</strong> · Built with realistic Mendelian &amp; X-linked feline genetics across all 734,832 diploid combinations (10 Loci: Sex, X-Linked ARHGAP36, TYRP1 B/b/bl, MLPH D/d, ASIP A/a, Tabby Mc/Sp/Ta, TYR C/cb/cs/c, Inhibitor I/i, KIT Ws/w &amp; W/w/W).
     </footer>
   </div>
 
