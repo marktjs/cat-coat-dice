@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="version" content="1.0" />
-  <title>Cat Coat Dice (v1.0) — Complete Feline Coat Genetics Simulator</title>
+  <meta name="version" content="1.1" />
+  <title>Cat Coat Dice (v1.1) — Realistic Feline Coat Genetics Simulator</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -40,7 +40,7 @@
       padding: 2rem 1rem 3.5rem;
     }
 
-    button, input {
+    button, input, select {
       touch-action: manipulation;
       font-family: inherit;
     }
@@ -59,12 +59,12 @@
       right: 0;
       z-index: 100;
       background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
       transform: translateY(-110%);
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
       padding: 0.45rem 0.85rem;
     }
 
@@ -84,7 +84,7 @@
     .sticky-left {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.6rem;
       min-width: 0;
       flex: 1;
     }
@@ -202,8 +202,8 @@
 
     header p {
       color: var(--muted);
-      font-size: 1.02rem;
-      max-width: 720px;
+      font-size: 1.01rem;
+      max-width: 760px;
       margin: 0 auto;
     }
 
@@ -336,6 +336,7 @@
       color: var(--muted);
       margin-top: 0.3rem;
       font-weight: 600;
+      text-align: center;
     }
 
     .phenotype-info {
@@ -478,6 +479,50 @@
       color: #334155;
       white-space: normal;
       overflow-wrap: break-word;
+    }
+
+    /* Polygenic & Stochastic Penetrance Modifier Bar */
+    .modifiers-bar {
+      margin-top: 0.65rem;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 0.55rem 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.55rem;
+      font-size: 0.78rem;
+    }
+
+    .modifier-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .modifier-label {
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .modifier-select, .modifier-toggle-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+    }
+
+    .modifier-toggle-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
     }
 
     /* Genetic Callout Banners */
@@ -710,12 +755,13 @@
     }
 
     /* Coat Probability Directory */
-    .prob-directory-card {
+    .prob-directory-card, .info-panel-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 1.35rem;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.03);
+      margin-bottom: 1.5rem;
     }
 
     .directory-controls {
@@ -819,9 +865,35 @@
       border-radius: 999px;
     }
 
+    .changelog-list {
+      font-size: 0.84rem;
+      color: #334155;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+      margin-top: 0.5rem;
+    }
+
+    .extra-genes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 0.6rem;
+      margin-top: 0.65rem;
+    }
+
+    .extra-gene-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.8rem;
+      color: #334155;
+    }
+
     footer {
       text-align: center;
-      margin-top: 2.2rem;
+      margin-top: 1.8rem;
       color: var(--muted);
       font-size: 0.8rem;
       padding: 0 0.5rem;
@@ -935,6 +1007,11 @@
         padding: 0.38rem 0.5rem;
       }
 
+      .modifiers-bar {
+        justify-content: center;
+        text-align: center;
+      }
+
       .genetics-notes-stack {
         grid-template-columns: minmax(0, 1fr);
         gap: 0.55rem;
@@ -967,7 +1044,7 @@
         gap: 0.65rem;
       }
 
-      .prob-directory-card {
+      .prob-directory-card, .info-panel-card {
         padding: 1rem 0.85rem;
         border-radius: 16px;
       }
@@ -1004,16 +1081,16 @@
 
   <div class="container">
     <header>
-      <h1>🎲 Cat Coat Dice <span class="version-badge" title="Current release version">v1.0</span></h1>
-      <p>Explore all <strong>734,832</strong> realistic 10-locus feline diploid genotype combinations, odd-eyed <em>KIT</em> heterochromia, and exact Mendelian &amp; X-linked probabilities.</p>
+      <h1>🎲 Cat Coat Dice <span class="version-badge" title="Current release version">v1.1</span></h1>
+      <p>Explore all <strong>629,856</strong> molecularly validated 10-locus feline diploid genotypes (merged tri-allelic <em>KIT</em> <code>W/Ws/w+</code>, split <em>Taqpep</em> &amp; <em>DKK4</em> tabby loci, and Hardy–Weinberg teaching-pool probabilities).</p>
     </header>
 
     <div class="controls">
       <button class="primary-btn" id="rollBtn">🎲 Roll Genetics Dice</button>
       <div class="combo-jump-box">
         <label for="comboJumpInput">Genotype #</label>
-        <input type="number" id="comboJumpInput" class="combo-jump-input" min="1" max="734832" value="1" />
-        <span>/ 734,832</span>
+        <input type="number" id="comboJumpInput" class="combo-jump-input" min="1" max="629856" value="1" />
+        <span>/ 629,856</span>
         <button type="button" class="combo-jump-btn" id="comboJumpBtn">Go</button>
       </div>
     </div>
@@ -1022,14 +1099,14 @@
       <div class="hero-top">
         <div class="cat-preview" id="catPreviewBox">
           <div id="catSvgContainer"></div>
-          <span class="preview-hint" id="eyeHintText">👁️ Eyes: Emerald Green</span>
+          <span class="preview-hint" id="eyeHintText">👁️ Gold / Green Eyes (Polygenic)</span>
         </div>
 
         <div class="phenotype-info">
           <div class="badges-row">
-            <span class="combo-id-badge" id="comboBadge">Genotype #1 / 734,832</span>
+            <span class="combo-id-badge" id="comboBadge">Genotype #1 / 629,856</span>
             <span class="sex-badge" id="sexLabel">Female (XX)</span>
-            <span class="eye-badge" id="eyeBadge">Emerald Eyes</span>
+            <span class="eye-badge" id="eyeBadge">Gold / Green Eyes</span>
             <span class="rarity-badge rarity-common" id="rarityBadge">Common Coat</span>
           </div>
           <h2 id="coatName">Black Mackerel Tabby &amp; White</h2>
@@ -1049,37 +1126,57 @@
             <div class="prob-box">
               <span class="prob-box-label">Exact Genotype</span>
               <span class="prob-box-value" id="genotypeProbValue">0.00%</span>
-              <span class="prob-box-sub" id="matchingCombosSub">1 of 734,832</span>
+              <span class="prob-box-sub" id="matchingCombosSub">1 of 629,856</span>
             </div>
           </div>
           <div class="genotype-summary-bar" id="genotypeCodeSub">Genotype #1: X^o/X^o · B/B · D/D</div>
+
+          <!-- Polygenic & Incomplete Penetrance Modifiers -->
+          <div class="modifiers-bar">
+            <div class="modifier-group">
+              <span class="modifier-label" title="Spotted tabby arises from polygenic modifiers breaking Taqpep mackerel stripes into spots">🐆 Spotted Modifier (on Mackerel):</span>
+              <button type="button" class="modifier-toggle-btn" id="spottedModBtn">Off (Mendelian)</button>
+            </div>
+            <div class="modifier-group">
+              <label for="eyeOverrideSelect" class="modifier-label">👁️ Eye Penetrance / Polygenic Iris:</label>
+              <select id="eyeOverrideSelect" class="modifier-select">
+                <option value="auto">Genotype Default</option>
+                <option value="stochastic">🎲 Stochastic Penetrance Roll</option>
+                <option value="blue">Sky-Blue Eyes</option>
+                <option value="odd">Odd-Eyed (1 Blue, 1 Gold)</option>
+                <option value="gold">Golden-Yellow Eyes</option>
+                <option value="green">Emerald-Green Eyes</option>
+                <option value="copper">Copper-Amber Eyes</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="genetics-notes-stack">
         <div class="genetics-note">
-          <strong>💡 X-Linked Black (<code>X^o</code>) vs. Autosomal Black (<code>B</code>):</strong>
-          The <strong>X chromosome (<em>ARHGAP36</em>)</strong> switches between <strong>Sex-Linked Orange (<code>X^O</code>)</strong> and <strong>Sex-Linked Black/Dark (<code>X^o</code>)</strong>. When <code>X^o</code> is active, the autosomal <strong><em>TYRP1</em> gene</strong> sets the eumelanin shade: <strong>Black (<code>B</code>) &gt; Chocolate (<code>b</code>) &gt; Cinnamon (<code>bl</code>)</strong>.
+          <strong>💡 X-Linked Non-Orange (<code>X^o</code>) vs. Autosomal Black (<code>B</code>):</strong>
+          The <strong>X chromosome (<em>ARHGAP36</em>)</strong> carries either the wild-type <strong>non-orange allele (<code>X^o</code>)</strong> or the ~5 kb deletion <strong>Orange allele (<code>X^O</code>)</strong> (Kaelin et al. 2025; Sasaki et al. 2025). When <code>X^o</code> is active, the autosomal <strong><em>TYRP1</em> gene (Chr D4)</strong> sets the eumelanin shade: <strong>Black (<code>B</code>) &gt; Chocolate (<code>b</code>) &gt; Cinnamon (<code>bl</code>)</strong>.
         </div>
         <div class="genetics-note kit-note">
-          <strong>👁️ Why Odd Eyes (1 Blue, 1 Yellow) &amp; <code>W/W</code> on <em>KIT</em>?</strong>
-          In cats (unlike horses), homozygous <strong><code>W/W</code> is viable</strong>! Both <strong>White Spotting (<code>Ws</code>)</strong> and <strong>Dominant White (<code>W</code>)</strong> are retroviral insertions in the <strong><em>KIT</em> gene</strong> that slow melanoblast migration to the skin and irises. <strong><code>Ws/Ws</code></strong> and heterozygous <strong><code>W/w</code></strong> frequently block pigment in only one iris—causing <strong>Odd Eyes (1 Blue via Tyndall scattering, 1 Yellow/Amber)</strong>—while homozygous <strong><code>W/W</code></strong> has the highest penetrance for <strong>two vivid sky-blue eyes</strong> (and inner-ear deafness).
+          <strong>👁️ Tri-Allelic <em>KIT</em> (<code>W &gt; Ws &gt; w+</code>), FERV1 &amp; Incomplete Penetrance:</strong>
+          David et al. (2014, <em>G3</em>) showed that <strong>White Spotting (<code>Ws</code>)</strong> is a <strong>full-length 7,125 bp FERV1 retroviral insertion</strong> in <em>KIT</em> intron 1 (Chr B1), whereas <strong>Dominant White (<code>W</code>)</strong> is a <strong>~620 bp FERV1 solo LTR</strong> at the same regulatory site. Unlike many mouse <em>Kit</em> (<code>W</code>) and equine <em>KIT</em> alleles (homozygous lethal/sterile), feline <strong><code>W/W</code> is viable</strong>. All <code>W</code> carriers (<code>W/w+</code>, <code>W/Ws</code>, <code>W/W</code>) and <code>Ws/Ws</code> exhibit <strong>incomplete penetrance</strong> for blue or odd eyes and inner-ear sensorineural deafness, with penetrance highest in <code>W/W</code>.
         </div>
       </div>
 
       <!-- Interactive 10-Locus Gene Switcher directly under the picture -->
       <div class="gene-switcher-panel">
         <div class="switcher-header">
-          <div class="switcher-title">🧬 Switch All 10 Realistic Feline Loci (734,832 Combinations)</div>
-          <div class="switcher-subtitle">Tap any diploid genotype below to customize the cat &amp; update its Combination #</div>
+          <div class="switcher-title">🧬 Switch All 10 Confirmed Feline Loci (629,856 Combinations)</div>
+          <div class="switcher-subtitle">Hardy–Weinberg teaching-pool probabilities · Tap any diploid genotype to customize</div>
         </div>
         <div class="switcher-grid" id="geneSwitcherGrid"></div>
       </div>
     </div>
 
     <div class="section-heading">
-      <span>🔬 Complete 10-Gene Feline Coat Breakdown</span>
-      <span class="sub">Realistic diploid alleles, dominance hierarchies &amp; locus probabilities</span>
+      <span>🔬 Complete 10-Locus Feline Genetics Breakdown</span>
+      <span class="sub">Molecular genes, chromosome locations, HWE probabilities &amp; dominance</span>
     </div>
     <div class="genes-grid" id="genesGrid"></div>
 
@@ -1089,63 +1186,97 @@
         <span class="sub">Tap any coat below to load its canonical Genotype #</span>
       </div>
       <div class="directory-controls">
-        <input type="text" id="coatSearchInput" class="search-input" placeholder="🔍 Filter coats (e.g. Odd-Eyed, Siamese, Calico)..." />
-        <span class="switcher-subtitle" id="probSumCheck">734,832 / 734,832 genotypes (100.00%)</span>
+        <input type="text" id="coatSearchInput" class="search-input" placeholder="🔍 Filter coats (e.g. Odd-Eyed, Blue-Cream, Ticked)..." />
+        <span class="switcher-subtitle" id="probSumCheck">629,856 / 629,856 genotypes (100.00%)</span>
       </div>
       <div class="prob-list" id="coatProbDirectory"></div>
     </div>
 
+    <div class="info-panel-card">
+      <div class="section-heading" style="margin-bottom: 0.25rem;">
+        <span>🧬 Additional Breed-Specific Feline Color Genes</span>
+        <span class="sub">Known coat loci outside the 10-locus core dice pool</span>
+      </div>
+      <div class="extra-genes-grid">
+        <div class="extra-gene-item"><strong><em>MC1R</em> (Extension):</strong> Recessive <code>e</code> (Amber, Norwegian Forest) and <code>e^r</code> (Russet, Burmese) cause dark eumelanin to fade to amber/red with age.</div>
+        <div class="extra-gene-item"><strong><em>CORIN</em> (Wide-Band / Sunshine):</strong> Recessive variants widen the agouti pheomelanin band, producing Golden Chinchilla and Siberian "Sunshine" coats (distinct from <code>I/I</code> Silver).</div>
+        <div class="extra-gene-item"><strong><em>TYR</em> Blue-Eyed Albino (<code>c^a</code>) &amp; Mocha (<code>c^m</code>):</strong> Additional <em>TYR</em> alleles producing blue-eyed white albinism (<code>c^a/c^a</code>, Imes et al. 2006) and Burmese Mocha.</div>
+        <div class="extra-gene-item"><strong><em>KIT</em> Gloving (<code>w^g</code>) &amp; Salmiak:</strong> Missense <em>KIT</em> variants cause Birman white paws (<code>w^g</code>); a downstream deletion produces the Finnish Salmiak pattern.</div>
+        <div class="extra-gene-item"><strong><em>ASIP</em> Charcoal (<code>A^Pb</code>):</strong> Introgressed Asian leopard cat allele producing the Bengal Charcoal mask and cape when paired with non-agouti <code>a</code>.</div>
+      </div>
+    </div>
+
+    <div class="info-panel-card">
+      <div class="section-heading" style="margin-bottom: 0.25rem;">
+        <span>📋 Version Log (Changelog)</span>
+        <span class="sub">Genetics &amp; simulator release history</span>
+      </div>
+      <ul class="changelog-list">
+        <li><strong>Version 1.1 (Current):</strong> Merged <em>KIT</em> White Spotting and Dominant White into a single tri-allelic locus (<code>w+/w+</code>, <code>Ws/w+</code>, <code>Ws/Ws</code>, <code>W/w+</code>, <code>W/Ws</code>, <code>W/W</code>); split Tabby into <em>Taqpep</em> (Chr A1: <code>Mc/Mc</code>, <code>Mc/mc</code>, <code>mc/mc</code>) and epistatic <em>DKK4</em> Ticked (Chr B1: <code>Ti+/Ti+</code>, <code>TiA/Ti+</code>, <code>TiA/TiA</code>) with an interactive Spotted modifier; corrected FERV1 insertion sizes (<code>Ws</code> = 7,125 bp full-length element, <code>W</code> = ~620 bp solo LTR; David et al. 2014, <em>G3</em>) and mouse/horse <em>KIT</em> comparisons; derived all autosomal genotype probabilities from exact Hardy–Weinberg allele frequencies; lowered Klinefelter <code>XXY</code> to a realistic 0.04%; added Burmese Sepia (<code>cb/cb</code>) golden-yellow eyes, pink-eyed albino (<code>c/c</code>) labeling, incomplete-penetrance eye controls, and standard dilute tortie nomenclature across all <strong>629,856</strong> diploid combinations.</li>
+        <li><strong>Version 1.0:</strong> Initial stable release with bijective genotype combination numbering, layered kawaii SVG cat renderer, sticky mobile mini-cat bar, and interactive 10-locus switcher.</li>
+      </ul>
+    </div>
+
     <footer>
-      <strong>Cat Coat Dice v1.0</strong> · Built with realistic Mendelian &amp; X-linked feline genetics across all 734,832 diploid combinations (10 Loci: Sex, X-Linked ARHGAP36, TYRP1 B/b/bl, MLPH D/d, ASIP A/a, Tabby Mc/Sp/Ta, TYR C/cb/cs/c, Inhibitor I/i, KIT Ws/w &amp; W/w/W).
+      <strong>Cat Coat Dice v1.1</strong> · Built with molecularly validated Mendelian &amp; X-linked feline genetics across all 629,856 diploid combinations (Sex, <em>ARHGAP36</em>, <em>TYRP1</em>, <em>MLPH</em>, <em>ASIP</em>, <em>Taqpep</em>, <em>DKK4</em>, <em>TYR</em>, Inhibitor <em>I</em>, and tri-allelic <em>KIT</em>).
     </footer>
   </div>
 
   <script>
-    // Ordered list of all realistic diploid states at each locus for bijective Combination #1..#734,832 indexing
+    // Ordered list of all realistic diploid states at each locus for bijective Combination #1..#629,856 indexing
+    // XXY Klinefelter set to realistic 0.04% (0.0004, ~1 in 2,500 births); X^o = 0.50, X^O = 0.50
     const SEX_ORANGE_STATES = [
-      { chromosomes: "XX", orangeGenotype: "o/o", pSex: 0.49, pOrange: 0.25 },
-      { chromosomes: "XX", orangeGenotype: "O/o", pSex: 0.49, pOrange: 0.50 },
-      { chromosomes: "XX", orangeGenotype: "O/O", pSex: 0.49, pOrange: 0.25 },
-      { chromosomes: "XY", orangeGenotype: "o/Y", pSex: 0.502, pOrange: 0.50 },
-      { chromosomes: "XY", orangeGenotype: "O/Y", pSex: 0.502, pOrange: 0.50 },
-      { chromosomes: "XXY", orangeGenotype: "o/o", pSex: 0.008, pOrange: 0.25 },
-      { chromosomes: "XXY", orangeGenotype: "O/o", pSex: 0.008, pOrange: 0.50 },
-      { chromosomes: "XXY", orangeGenotype: "O/O", pSex: 0.008, pOrange: 0.25 }
+      { chromosomes: "XX", orangeGenotype: "o/o", pSex: 0.4998, pOrange: 0.25 },
+      { chromosomes: "XX", orangeGenotype: "O/o", pSex: 0.4998, pOrange: 0.50 },
+      { chromosomes: "XX", orangeGenotype: "O/O", pSex: 0.4998, pOrange: 0.25 },
+      { chromosomes: "XY", orangeGenotype: "o/Y", pSex: 0.4998, pOrange: 0.50 },
+      { chromosomes: "XY", orangeGenotype: "O/Y", pSex: 0.4998, pOrange: 0.50 },
+      { chromosomes: "XXY", orangeGenotype: "o/o", pSex: 0.0004, pOrange: 0.25 },
+      { chromosomes: "XXY", orangeGenotype: "O/o", pSex: 0.0004, pOrange: 0.50 },
+      { chromosomes: "XXY", orangeGenotype: "O/O", pSex: 0.0004, pOrange: 0.25 }
     ];
 
     const LOCUS_OPTIONS = {
       baseGenotype: ["B/B", "B/b", "B/bl", "b/b", "b/bl", "bl/bl"],
       dilutionGenotype: ["D/D", "D/d", "d/d"],
       agoutiGenotype: ["A/A", "A/a", "a/a"],
-      tabbyPattern: ["Mc/Mc", "Mc/mc", "mc/mc", "Sp/Sp", "Sp/mc", "Ta/Ta", "Ta/mc"],
+      tabbyGenotype: ["Mc/Mc", "Mc/mc", "mc/mc"],
+      tickedGenotype: ["Ti+/Ti+", "TiA/Ti+", "TiA/TiA"],
       colorpointGenotype: ["C/C", "C/cb", "C/cs", "C/c", "cb/cb", "cb/cs", "cs/cs", "cs/c", "c/c"],
       silverGenotype: ["i/i", "I/i", "I/I"],
-      whiteGenotype: ["w/w", "Ws/w", "Ws/Ws"],
-      domWhiteGenotype: ["w/w", "W/w", "W/W"]
+      kitGenotype: ["w+/w+", "Ws/w+", "Ws/Ws", "W/w+", "W/Ws", "W/W"]
     };
 
     const LOCUS_KEYS_ORDERED = [
       "baseGenotype",
       "dilutionGenotype",
       "agoutiGenotype",
-      "tabbyPattern",
+      "tabbyGenotype",
+      "tickedGenotype",
       "colorpointGenotype",
       "silverGenotype",
-      "whiteGenotype",
-      "domWhiteGenotype"
+      "kitGenotype"
     ];
 
-    // Total combinations = 8 * 6 * 3 * 3 * 7 * 9 * 3 * 3 * 3 = 734,832
+    // Total combinations = 8 * 6 * 3 * 3 * 3 * 3 * 9 * 3 * 6 = 629,856
     const TOTAL_GENOTYPE_COMBINATIONS = SEX_ORANGE_STATES.length * LOCUS_KEYS_ORDERED.reduce(
       (acc, k) => acc * LOCUS_OPTIONS[k].length, 1
     );
 
-    // Realistic Hardy-Weinberg diploid genotype probabilities in the dice model
+    // Hardy-Weinberg Equilibrium (HWE) diploid genotype probabilities derived from explicit teaching-pool allele frequencies:
+    // - TYRP1 (Chr D4): f(B)=3/6, f(b)=2/6, f(bl)=1/6
+    // - MLPH (Chr C1): f(D)=2/3, f(d)=1/3
+    // - ASIP (Chr A3): f(A)=0.50, f(a)=0.50
+    // - Taqpep (Chr A1): f(Mc)=0.60, f(mc)=0.40
+    // - DKK4 (Chr B1): f(Ti+)=0.90, f(TiA)=0.10
+    // - TYR (Chr D1): f(C)=0.70, f(cs)=0.16, f(cb)=0.10, f(c)=0.04 (cb/cb groups cb/cb + cb/c)
+    // - Inhibitor (I): f(i)=0.90, f(I)=0.10
+    // - KIT (Chr B1): f(w+)=0.65, f(Ws)=0.30, f(W)=0.05
     const LOCUS_PROBS = {
       chromosomes: {
-        "XX": 0.49,
-        "XY": 0.502,
-        "XXY": 0.008
+        "XX": 0.4998,
+        "XY": 0.4998,
+        "XXY": 0.0004
       },
       orange_XX: {
         "o/o": 0.25,
@@ -1170,44 +1301,43 @@
         "d/d": 1 / 9
       },
       agoutiGenotype: {
-        "A/A": 1 / 4,
-        "A/a": 2 / 4,
-        "a/a": 1 / 4
+        "A/A": 0.25,
+        "A/a": 0.50,
+        "a/a": 0.25
       },
-      tabbyPattern: {
-        "Mc/Mc": 0.20,
-        "Mc/mc": 0.28,
-        "mc/mc": 0.24,
-        "Sp/Sp": 0.05,
-        "Sp/mc": 0.11,
-        "Ta/Ta": 0.04,
-        "Ta/mc": 0.08
+      tabbyGenotype: {
+        "Mc/Mc": 0.36,
+        "Mc/mc": 0.48,
+        "mc/mc": 0.16
+      },
+      tickedGenotype: {
+        "Ti+/Ti+": 0.81,
+        "TiA/Ti+": 0.18,
+        "TiA/TiA": 0.01
       },
       colorpointGenotype: {
-        "C/C": 0.49,
-        "C/cb": 0.10,
-        "C/cs": 0.16,
-        "C/c": 0.03,
-        "cb/cb": 0.05,
-        "cb/cs": 0.05,
-        "cs/cs": 0.09,
-        "cs/c": 0.02,
-        "c/c": 0.01
+        "C/C": 0.4900,
+        "C/cb": 0.1400,
+        "C/cs": 0.2240,
+        "C/c": 0.0560,
+        "cb/cb": 0.0180,
+        "cb/cs": 0.0320,
+        "cs/cs": 0.0256,
+        "cs/c": 0.0128,
+        "c/c": 0.0016
       },
       silverGenotype: {
-        "i/i": 0.86,
-        "I/i": 0.11,
-        "I/I": 0.03
+        "i/i": 0.81,
+        "I/i": 0.18,
+        "I/I": 0.01
       },
-      whiteGenotype: {
-        "w/w": 4 / 9,
-        "Ws/w": 4 / 9,
-        "Ws/Ws": 1 / 9
-      },
-      domWhiteGenotype: {
-        "w/w": 0.94,
-        "W/w": 0.05,
-        "W/W": 0.01
+      kitGenotype: {
+        "w+/w+": 0.4225,
+        "Ws/w+": 0.3900,
+        "Ws/Ws": 0.0900,
+        "W/w+": 0.0650,
+        "W/Ws": 0.0300,
+        "W/W": 0.0025
       }
     };
 
@@ -1217,14 +1347,40 @@
       baseGenotype: "B/B",
       dilutionGenotype: "D/D",
       agoutiGenotype: "A/a",
-      tabbyPattern: "Mc/Mc",
+      tabbyGenotype: "Mc/Mc",
+      tickedGenotype: "Ti+/Ti+",
       colorpointGenotype: "C/C",
       silverGenotype: "i/i",
-      whiteGenotype: "Ws/w",
-      domWhiteGenotype: "w/w"
+      kitGenotype: "Ws/w+"
     };
 
-    // Convert any 10-locus state to a unique 1-based Combination Number (#1 .. #734,832)
+    // Secondary phenotype modifiers (do not alter the 10-locus Mendelian genotype #1..#629,856)
+    let spottedModifier = false;
+    let eyeOverrideMode = "auto";
+    let stochasticEyeSample = null; // "blue" | "odd" | "gold" | "green"
+
+    function rollStochasticEyeForState(state) {
+      const kit = state.kitGenotype;
+      const cp = state.colorpointGenotype;
+      if (cp === "c/c") return "albino";
+      if (kit.startsWith("W/")) {
+        const r = Math.random();
+        if (kit === "W/W" || kit === "W/Ws" || cp === "cs/cs" || cp === "cs/c") {
+          return r < 0.72 ? "blue" : (r < 0.90 ? "odd" : "gold");
+        }
+        return r < 0.40 ? "blue" : (r < 0.65 ? "odd" : "gold");
+      }
+      if (cp === "cs/cs" || cp === "cs/c") return "blue";
+      if (cp === "cb/cs") return "aqua";
+      if (cp === "cb/cb") return "gold";
+      if (kit === "Ws/Ws") {
+        const r = Math.random();
+        return r < 0.15 ? "odd" : (r < 0.22 ? "blue" : "green");
+      }
+      return Math.random() < 0.5 ? "green" : "gold";
+    }
+
+    // Convert any 10-locus state to a unique 1-based Combination Number (#1 .. #629,856)
     function encodeGenotypeNumber(state) {
       let sexOrangeIdx = SEX_ORANGE_STATES.findIndex(
         s => s.chromosomes === state.chromosomes && s.orangeGenotype === state.orangeGenotype
@@ -1240,7 +1396,7 @@
       return idx + 1;
     }
 
-    // Decode a 1-based Combination Number (#1 .. #734,832) back into its exact 10-locus state
+    // Decode a 1-based Combination Number (#1 .. #629,856) back into its exact 10-locus state
     function decodeGenotypeNumber(num) {
       let n = Math.max(1, Math.min(TOTAL_GENOTYPE_COMBINATIONS, Math.floor(num))) - 1;
       const decoded = {};
@@ -1272,10 +1428,14 @@
       if (chromosomes === "XY") {
         return orangeGenotype === "O/Y" ? "X^O/Y" : "X^o/Y";
       }
-      const suffix = chromosomes === "XXY" ? "/Y" : "";
-      if (orangeGenotype === "O/O") return `X^O/X^O${suffix}`;
-      if (orangeGenotype === "O/o") return `X^O/X^o${suffix}`;
-      return `X^o/X^o${suffix}`;
+      if (chromosomes === "XXY") {
+        if (orangeGenotype === "O/O") return "X^O X^O Y";
+        if (orangeGenotype === "O/o") return "X^O X^o Y";
+        return "X^o X^o Y";
+      }
+      if (orangeGenotype === "O/O") return "X^O/X^O";
+      if (orangeGenotype === "O/o") return "X^O/X^o";
+      return "X^o/X^o";
     }
 
     function rollCatState() {
@@ -1290,26 +1450,26 @@
         baseGenotype: sampleFromDist(LOCUS_PROBS.baseGenotype),
         dilutionGenotype: sampleFromDist(LOCUS_PROBS.dilutionGenotype),
         agoutiGenotype: sampleFromDist(LOCUS_PROBS.agoutiGenotype),
-        tabbyPattern: sampleFromDist(LOCUS_PROBS.tabbyPattern),
+        tabbyGenotype: sampleFromDist(LOCUS_PROBS.tabbyGenotype),
+        tickedGenotype: sampleFromDist(LOCUS_PROBS.tickedGenotype),
         colorpointGenotype: sampleFromDist(LOCUS_PROBS.colorpointGenotype),
         silverGenotype: sampleFromDist(LOCUS_PROBS.silverGenotype),
-        whiteGenotype: sampleFromDist(LOCUS_PROBS.whiteGenotype),
-        domWhiteGenotype: sampleFromDist(LOCUS_PROBS.domWhiteGenotype)
+        kitGenotype: sampleFromDist(LOCUS_PROBS.kitGenotype)
       };
     }
 
-    function buildCatFromState(state) {
+    function buildCatFromState(state, opts = { applyModifiers: false }) {
       const {
         chromosomes,
         orangeGenotype,
         baseGenotype,
         dilutionGenotype,
         agoutiGenotype,
-        tabbyPattern,
+        tabbyGenotype,
+        tickedGenotype,
         colorpointGenotype,
         silverGenotype,
-        whiteGenotype,
-        domWhiteGenotype
+        kitGenotype
       } = state;
 
       const sex = chromosomes === "XX" ? "Female" : (chromosomes === "XY" ? "Male" : "Male (Klinefelter)");
@@ -1328,10 +1488,15 @@
       const geneticallyTabby = agoutiGenotype.includes("A");
       const visiblyTabby = geneticallyTabby || isFullOrange;
 
+      // DKK4 Ticked (Chr B1) is epistatic to Taqpep (Chr A1)
       let tabbyStyle = "Mackerel";
-      if (tabbyPattern === "mc/mc") tabbyStyle = "Classic";
-      else if (tabbyPattern.startsWith("Sp")) tabbyStyle = "Spotted";
-      else if (tabbyPattern.startsWith("Ta")) tabbyStyle = "Ticked";
+      if (tickedGenotype !== "Ti+/Ti+") {
+        tabbyStyle = "Ticked";
+      } else if (tabbyGenotype === "mc/mc") {
+        tabbyStyle = "Classic";
+      } else if (opts.applyModifiers && spottedModifier) {
+        tabbyStyle = "Spotted";
+      }
 
       let colorpointMode = "Full";
       if (colorpointGenotype === "cs/cs" || colorpointGenotype === "cs/c") colorpointMode = "Pointed";
@@ -1341,31 +1506,70 @@
 
       const isSilver = silverGenotype !== "i/i";
 
+      // Tri-allelic KIT locus (W > Ws > w+)
+      let domWhite = "w+";
       let whiteLevel = "None";
-      if (whiteGenotype === "Ws/Ws") whiteLevel = "High";
-      else if (whiteGenotype === "Ws/w") whiteLevel = "Low";
+      if (kitGenotype.startsWith("W/")) {
+        domWhite = "W";
+      } else if (kitGenotype === "Ws/Ws") {
+        whiteLevel = "High";
+      } else if (kitGenotype === "Ws/w+") {
+        whiteLevel = "Low";
+      }
 
-      const domWhite = domWhiteGenotype.includes("W") ? "W" : "w";
-
-      // Eye genetics (KIT Ws/Ws & W/w heterochromia vs W/W & cs/cs blue eyes)
-      let eyeDescription = "Emerald Green Eyes";
+      // Realistic Eye Color Genetics & KIT Incomplete Penetrance
+      let eyeDescription = "Gold / Green Eyes (Polygenic)";
+      let eyeMode = "green_gold";
       let isOddEyed = false;
-      if (domWhite === "W") {
-        if (domWhiteGenotype === "W/W" || whiteGenotype === "Ws/Ws" || colorpointMode === "Pointed") {
-          eyeDescription = "Two Sky-Blue Eyes (KIT W/W)";
+
+      if (colorpointMode === "Albino" && domWhite !== "W") {
+        eyeDescription = "Pink-Eyed Albino (TYR c/c)";
+        eyeMode = "albino";
+      } else if (domWhite === "W") {
+        if (kitGenotype === "W/W" || kitGenotype === "W/Ws") {
+          eyeDescription = `Sky-Blue Eyes (High Penetrance, KIT ${kitGenotype})`;
+          eyeMode = "blue";
+        } else if (colorpointMode === "Pointed") {
+          eyeDescription = `Sky-Blue Eyes (KIT W/w+ + TYR ${colorpointGenotype})`;
+          eyeMode = "blue";
         } else {
-          eyeDescription = "Odd-Eyed: 1 Blue, 1 Yellow (KIT W/w)";
+          eyeDescription = "Odd / Blue Penetrant Eyes (KIT W/w+)";
+          eyeMode = "odd";
           isOddEyed = true;
         }
-      } else if (colorpointMode === "Albino") {
-        eyeDescription = "Pink-Blue Albino Eyes (TYR c/c)";
       } else if (colorpointMode === "Pointed") {
-        eyeDescription = "Sapphire-Blue Eyes (Siamese cs)";
+        eyeDescription = `Sapphire-Blue Eyes (TYR ${colorpointGenotype})`;
+        eyeMode = "blue";
       } else if (colorpointMode === "Mink") {
         eyeDescription = "Aquamarine Eyes (Tonkinese cb/cs)";
+        eyeMode = "aqua";
+      } else if (colorpointMode === "Sepia") {
+        eyeDescription = "Golden-Yellow Eyes (Burmese cb/cb)";
+        eyeMode = "gold";
       } else if (whiteLevel === "High") {
-        eyeDescription = "Odd-Eyed: 1 Blue, 1 Yellow (KIT Ws/Ws)";
+        eyeDescription = "Odd-Eye Prone / Piebald (KIT Ws/Ws)";
+        eyeMode = "odd";
         isOddEyed = true;
+      }
+
+      // Apply interactive eye penetrance / polygenic iris override when rendering UI
+      if (opts.applyModifiers && eyeOverrideMode !== "auto" && eyeMode !== "albino") {
+        const chosen = eyeOverrideMode === "stochastic"
+          ? (stochasticEyeSample || rollStochasticEyeForState(state))
+          : eyeOverrideMode;
+        eyeMode = chosen;
+        isOddEyed = (chosen === "odd");
+        const modeLabels = {
+          blue: `Sky-Blue Eyes (${domWhite === "W" || whiteLevel === "High" ? `KIT ${kitGenotype}` : "Custom"})`,
+          odd: `Odd-Eyed: 1 Blue, 1 Gold (KIT ${kitGenotype})`,
+          gold: "Golden-Yellow Eyes",
+          green: "Emerald-Green Eyes",
+          copper: "Copper-Amber Eyes",
+          aqua: "Aquamarine Eyes"
+        };
+        if (modeLabels[chosen]) {
+          eyeDescription = modeLabels[chosen];
+        }
       }
 
       return {
@@ -1385,39 +1589,40 @@
         agoutiGenotype,
         geneticallyTabby,
         visiblyTabby,
-        tabbyPattern,
+        tabbyGenotype,
+        tickedGenotype,
         tabbyStyle,
         colorpointGenotype,
         colorpointMode,
         silverGenotype,
         isSilver,
-        whiteGenotype,
+        kitGenotype,
         whiteLevel,
         domWhite,
-        domWhiteGenotype,
         eyeDescription,
+        eyeMode,
         isOddEyed
       };
     }
 
     function describeCat(cat) {
       if (cat.domWhite === "W") {
-        if (cat.isOddEyed) {
+        if (cat.kitGenotype === "W/w+" && cat.colorpointMode !== "Pointed") {
           return {
-            title: "Odd-Eyed Dominant White",
-            summary: "Heterozygous Dominant White (KIT W/w) halts melanoblast migration across the entire coat and stochastically blocks pigment in one iris (leaving it blue via Tyndall scattering) while the other eye develops yellow/amber melanin."
+            title: "Dominant White (KIT W/w+)",
+            summary: "Heterozygous Dominant White (KIT W/w+, ~620 bp FERV1 LTR insertion in intron 1) is epistatic to all other coat loci, producing a pure white coat with incomplete penetrance for blue or odd-eyed heterochromia and sensorineural deafness."
           };
         }
         return {
           title: "Blue-Eyed Dominant White",
-          summary: `Dominant White (${cat.domWhiteGenotype === "W/W" ? "homozygous KIT W/W" : "KIT W with high-white/pointed modifiers"}) completely blocks melanoblast survival in both the skin and both irises, producing a pure snow-white coat with two vivid sky-blue eyes.`
+          summary: `Dominant White (${cat.kitGenotype === "W/W" ? "homozygous KIT W/W" : (cat.kitGenotype === "W/Ws" ? "compound heterozygous KIT W/Ws" : `KIT W/w+ with pointed TYR ${cat.colorpointGenotype}`)}) halts neural-crest melanoblast migration across the skin and confers the highest penetrance for bilateral sky-blue eyes.`
         };
       }
 
       if (cat.colorpointMode === "Albino") {
         return {
-          title: "True Albino (Recessive White)",
-          summary: "Homozygous recessive c/c at the Tyrosinase (TYR) locus completely prevents melanin synthesis, producing an unpigmented white coat and pale pink-blue eyes."
+          title: "Pink-Eyed Albino (TYR c/c)",
+          summary: "Homozygous recessive c/c at the Tyrosinase (TYR) locus abolishes melanin synthesis across the coat, skin, and retinal pigment epithelium, producing a pure white coat and pale pink-red eyes (distinct from the c^a blue-eyed albino allele)."
         };
       }
 
@@ -1425,6 +1630,12 @@
         Black: "Blue (Grey)",
         Chocolate: "Lilac",
         Cinnamon: "Fawn"
+      };
+
+      const diluteTortieMap = {
+        Black: "Blue-Cream",
+        Chocolate: "Lilac-Cream",
+        Cinnamon: "Fawn-Cream"
       };
 
       const pointEumelaninMap = {
@@ -1447,20 +1658,20 @@
 
         if (cat.isTortie) {
           ptParts.push(pointEumelaninMap[cat.baseColor]);
-          ptParts.push(cat.geneticallyTabby ? "Torbie" : "Tortie");
+          ptParts.push(cat.geneticallyTabby ? `Torbie (${cat.tabbyStyle})` : "Tortie");
           ptParts.push(modeLabel);
         } else if (cat.isFullOrange) {
           ptParts.push(pointPheoName);
-          if (cat.geneticallyTabby) ptParts.push("Lynx");
+          if (cat.geneticallyTabby) ptParts.push(`${cat.tabbyStyle} Lynx`);
           ptParts.push(modeLabel);
         } else {
           ptParts.push(pointEumelaninMap[cat.baseColor]);
-          if (cat.visiblyTabby) ptParts.push("Lynx");
+          if (cat.visiblyTabby) ptParts.push(`${cat.tabbyStyle} Lynx`);
           ptParts.push(modeLabel);
         }
 
         if (cat.whiteLevel === "High") ptParts.push("& High White (Van)");
-        else if (cat.whiteLevel === "Low") ptParts.push("& White (Snowshoe)");
+        else if (cat.whiteLevel === "Low") ptParts.push("& White (Mitted)");
 
         const title = ptParts.filter(Boolean).join(" ");
         const summary = `Temperature-sensitive tyrosinase (${cat.colorpointGenotype}) restricts pigment to the cooler extremities (face mask, ears, paws, and tail) while keeping the warmer torso pale.`;
@@ -1468,16 +1679,23 @@
       }
 
       let titleParts = [];
-      if (cat.isOddEyed) titleParts.push("Odd-Eyed");
 
       if (cat.isTortie) {
-        if (cat.isDilute) titleParts.push("Dilute");
-        if (cat.baseColor !== "Black") titleParts.push(eumelaninName);
-        if (cat.isSilver) titleParts.push(cat.visiblyTabby ? "Silver" : "Smoke");
-        if (cat.whiteLevel !== "None") {
-          titleParts.push(cat.visiblyTabby ? `Caliby (${cat.tabbyStyle} Calico Tabby)` : "Calico");
+        if (cat.isDilute && !cat.visiblyTabby && cat.whiteLevel === "None" && !cat.isSilver) {
+          titleParts.push(`${diluteTortieMap[cat.baseColor]} Tortoiseshell`);
         } else {
-          titleParts.push(cat.visiblyTabby ? `Torbie (${cat.tabbyStyle} Tortie Tabby)` : "Tortoiseshell");
+          if (cat.isDilute) titleParts.push(diluteTortieMap[cat.baseColor]);
+          else if (cat.baseColor !== "Black") titleParts.push(eumelaninName);
+
+          if (cat.isSilver) titleParts.push(cat.visiblyTabby ? "Silver" : "Smoke");
+
+          if (cat.whiteLevel === "High") {
+            titleParts.push(cat.visiblyTabby ? `Caliby (${cat.tabbyStyle} Calico Tabby)` : "Calico (High White)");
+          } else if (cat.whiteLevel === "Low") {
+            titleParts.push(cat.visiblyTabby ? `Torbie (${cat.tabbyStyle}) & White` : "Tortoiseshell & White");
+          } else {
+            titleParts.push(cat.visiblyTabby ? `Torbie (${cat.tabbyStyle} Tortie Tabby)` : "Tortoiseshell");
+          }
         }
       } else if (cat.isFullOrange) {
         if (cat.isSilver) {
@@ -1503,16 +1721,20 @@
       const title = titleParts.filter(Boolean).join(" ");
       let summary = "";
 
-      const oddEyeNote = cat.isOddEyed
-        ? " Homozygous high white spotting (KIT Ws/Ws) blocks melanoblast migration to one iris, producing one sky-blue eye and one golden-yellow eye!"
+      const kitNote = cat.whiteLevel === "High"
+        ? ` Homozygous high white spotting (KIT ${cat.kitGenotype}, 7,125 bp FERV1 insertion) restricts pigment to the head and tail and increases penetrance for odd or blue eyes.`
         : "";
 
+      const tabbyGeneNote = cat.tabbyStyle === "Ticked"
+        ? `epistatic DKK4 Ticked (${cat.tickedGenotype}) masking underlying Taqpep (${cat.tabbyGenotype})`
+        : `Taqpep (${cat.tabbyGenotype})`;
+
       if (cat.isTortie) {
-        summary = `Heterozygous X chromosomes (${cat.xDisplay}) undergo random X-inactivation (Lyonization), creating a mosaic of X-linked orange (${pheomelaninName.toLowerCase()}) and X-linked dark (${eumelaninName.toLowerCase()} from TYRP1 ${cat.baseGenotype}) fur.${oddEyeNote}`;
+        summary = `Heterozygous X chromosomes (${cat.xDisplay}) undergo random embryonic X-inactivation (Lyonization), creating a mosaic of X-linked orange (${pheomelaninName.toLowerCase()}) and wild-type non-orange (${eumelaninName.toLowerCase()} from TYRP1 ${cat.baseGenotype}) fur.${kitNote}`;
       } else if (cat.isFullOrange) {
-        summary = `With only the X-linked orange allele (${cat.xDisplay}), pheomelanin replaces dark eumelanin completely and displays ${cat.tabbyStyle.toLowerCase()} tabby markings${cat.isSilver ? " over a silver-white inhibited undercoat" : ""}.${oddEyeNote}`;
+        summary = `With only the X-linked orange deletion allele (${cat.xDisplay}, ARHGAP36), pheomelanin replaces dark eumelanin completely and expresses ${cat.tabbyStyle.toLowerCase()} tabby markings via ${tabbyGeneNote}${cat.isSilver ? " over a silver-white inhibited undercoat" : ""}.${kitNote}`;
       } else {
-        summary = `Carrying the X-linked non-orange/black allele (${cat.xDisplay}) allows the autosomal TYRP1 gene (${cat.baseGenotype}) to express ${eumelaninName.toLowerCase()} eumelanin${cat.visiblyTabby ? ` in a ${cat.tabbyStyle.toLowerCase()} tabby pattern` : (cat.isSilver ? " with a shimmering silver smoke undercoat" : " in a solid coat")}.${oddEyeNote}`;
+        summary = `Carrying the wild-type non-orange allele (${cat.xDisplay}) allows autosomal TYRP1 (${cat.baseGenotype}) to synthesize ${eumelaninName.toLowerCase()} eumelanin${cat.visiblyTabby ? ` in a ${cat.tabbyStyle.toLowerCase()} pattern (${tabbyGeneNote})` : (cat.isSilver ? " with a silver smoke undercoat" : " in a solid coat")}.${kitNote}`;
       }
 
       return { title, summary };
@@ -1529,15 +1751,15 @@
         LOCUS_PROBS.baseGenotype[state.baseGenotype] *
         LOCUS_PROBS.dilutionGenotype[state.dilutionGenotype] *
         LOCUS_PROBS.agoutiGenotype[state.agoutiGenotype] *
-        LOCUS_PROBS.tabbyPattern[state.tabbyPattern] *
+        LOCUS_PROBS.tabbyGenotype[state.tabbyGenotype] *
+        LOCUS_PROBS.tickedGenotype[state.tickedGenotype] *
         LOCUS_PROBS.colorpointGenotype[state.colorpointGenotype] *
         LOCUS_PROBS.silverGenotype[state.silverGenotype] *
-        LOCUS_PROBS.whiteGenotype[state.whiteGenotype] *
-        LOCUS_PROBS.domWhiteGenotype[state.domWhiteGenotype]
+        LOCUS_PROBS.kitGenotype[state.kitGenotype]
       );
     }
 
-    // Fast exact probability & genotype count precomputation across all 734,832 diploid genotypes
+    // Fast exact probability & genotype count precomputation across all 629,856 diploid genotypes
     const COAT_PROB_MAP = {};
     const COAT_COMBO_COUNT_MAP = {};
     const COAT_SEX_PROB_MAP = {};
@@ -1555,35 +1777,35 @@
         { g: "d/d", p: 1 / 9, n: 1 }    // d/d
       ];
       const agoutiGroups = [
-        { g: "A/A", p: 3 / 4, n: 2 },   // A/A, A/a
-        { g: "a/a", p: 1 / 4, n: 1 }    // a/a
+        { g: "A/A", p: 0.75, n: 2 },    // A/A, A/a
+        { g: "a/a", p: 0.25, n: 1 }     // a/a
       ];
       const tabbyGroups = [
-        { g: "Mc/Mc", p: 0.48, n: 2 },  // Mc/Mc, Mc/mc
-        { g: "mc/mc", p: 0.24, n: 1 },  // mc/mc
-        { g: "Sp/mc", p: 0.16, n: 2 },  // Sp/Sp, Sp/mc
-        { g: "Ta/mc", p: 0.12, n: 2 }   // Ta/Ta, Ta/mc
+        { g: "Mc/Mc", p: 0.84, n: 2 },  // Mc/Mc, Mc/mc
+        { g: "mc/mc", p: 0.16, n: 1 }   // mc/mc
+      ];
+      const tickedGroups = [
+        { g: "Ti+/Ti+", p: 0.81, n: 1 }, // Non-ticked
+        { g: "TiA/Ti+", p: 0.19, n: 2 }  // TiA/Ti+, TiA/TiA
       ];
       const cpGroups = [
-        { g: "C/C", p: 0.78, n: 4 },    // C/C, C/cb, C/cs, C/c
-        { g: "cs/cs", p: 0.11, n: 2 },  // cs/cs, cs/c
-        { g: "cb/cb", p: 0.05, n: 1 },  // cb/cb
-        { g: "cb/cs", p: 0.05, n: 1 },  // cb/cs
-        { g: "c/c", p: 0.01, n: 1 }     // c/c
+        { g: "C/C", p: 0.9100, n: 4 },   // C/C, C/cb, C/cs, C/c
+        { g: "cs/cs", p: 0.0384, n: 2 }, // cs/cs, cs/c
+        { g: "cb/cb", p: 0.0180, n: 1 }, // cb/cb
+        { g: "cb/cs", p: 0.0320, n: 1 }, // cb/cs
+        { g: "c/c", p: 0.0016, n: 1 }    // c/c
       ];
       const silverGroups = [
-        { g: "i/i", p: 0.86, n: 1 },    // i/i
-        { g: "I/i", p: 0.14, n: 2 }     // I/i, I/I
+        { g: "i/i", p: 0.81, n: 1 },     // i/i
+        { g: "I/i", p: 0.19, n: 2 }      // I/i, I/I
       ];
-      const whiteGroups = [
-        { g: "w/w", p: 4 / 9, n: 1 },
-        { g: "Ws/w", p: 4 / 9, n: 1 },
-        { g: "Ws/Ws", p: 1 / 9, n: 1 }
-      ];
-      const domWGroups = [
-        { g: "w/w", p: 0.94, n: 1 },
-        { g: "W/w", p: 0.05, n: 1 },
-        { g: "W/W", p: 0.01, n: 1 }
+      const kitGroups = [
+        { g: "w+/w+", p: 0.4225, n: 1 },
+        { g: "Ws/w+", p: 0.3900, n: 1 },
+        { g: "Ws/Ws", p: 0.0900, n: 1 },
+        { g: "W/w+", p: 0.0650, n: 1 },
+        { g: "W/Ws", p: 0.0300, n: 1 },
+        { g: "W/W", p: 0.0025, n: 1 }
       ];
 
       for (const so of SEX_ORANGE_STATES) {
@@ -1592,25 +1814,25 @@
           for (const dg of dilGroups) {
             for (const ag of agoutiGroups) {
               for (const tg of tabbyGroups) {
-                for (const cg of cpGroups) {
-                  for (const sg of silverGroups) {
-                    for (const wg of whiteGroups) {
-                      for (const dw of domWGroups) {
-                        const p = pSO * bg.p * dg.p * ag.p * tg.p * cg.p * sg.p * wg.p * dw.p;
-                        const numCombos = bg.n * dg.n * ag.n * tg.n * cg.n * sg.n * wg.n * dw.n;
+                for (const tk of tickedGroups) {
+                  for (const cg of cpGroups) {
+                    for (const sg of silverGroups) {
+                      for (const kg of kitGroups) {
+                        const p = pSO * bg.p * dg.p * ag.p * tg.p * tk.p * cg.p * sg.p * kg.p;
+                        const numCombos = bg.n * dg.n * ag.n * tg.n * tk.n * cg.n * sg.n * kg.n;
                         const st = {
                           chromosomes: so.chromosomes,
                           orangeGenotype: so.orangeGenotype,
                           baseGenotype: bg.g,
                           dilutionGenotype: dg.g,
                           agoutiGenotype: ag.g,
-                          tabbyPattern: tg.g,
+                          tabbyGenotype: tg.g,
+                          tickedGenotype: tk.g,
                           colorpointGenotype: cg.g,
                           silverGenotype: sg.g,
-                          whiteGenotype: wg.g,
-                          domWhiteGenotype: dw.g
+                          kitGenotype: kg.g
                         };
-                        const cat = buildCatFromState(st);
+                        const cat = buildCatFromState(st, { applyModifiers: false });
                         const title = describeCat(cat).title;
                         const sexKey = `${title}__${so.chromosomes}`;
 
@@ -1691,7 +1913,7 @@
 
     function renderTabbyOverlay(cat, strokeColor) {
       const style = cat.tabbyStyle;
-      const isHomoTicked = cat.tabbyPattern === "Ta/Ta";
+      const isHomoTicked = cat.tickedGenotype === "TiA/TiA";
 
       const headAndTail = `
         <path d="M 102 58 L 109 44 L 120 55 L 131 44 L 138 58" />
@@ -1782,26 +2004,30 @@
       const showWhiteHigh = !isWhiteAll && cat.whiteLevel === "High";
       const showSmokeGlow = !isWhiteAll && cat.isSilver && !cat.visiblyTabby;
 
-      // Realistic Eye Color Genetics:
-      // - KIT Ws/Ws (High White) or KIT W/w (Heterozygous Dominant White): Odd-Eyed (Left Sky-Blue #38bdf8, Right Golden-Yellow #f59e0b)
-      // - KIT W/W (Homozygous Dominant White) or TYR cs/cs, cs/c (Siamese): Two Vivid Sky-Blue Eyes (#38bdf8)
-      // - TYR cb/cs (Tonkinese Mink): Aquamarine Eyes (#06b6d4)
-      // - TYR c/c (True Albino): Pink-Blue Albino Eyes (#f472b6)
-      // - Standard Pigmented Coats: Emerald Green Eyes (#10b981)
+      // Eye Iris Color Mapping (including Burmese cb/cb Gold, Pink-Eyed Albino c/c, and KIT/TYR states)
       let leftEyeIris = "#10b981";
       let rightEyeIris = "#10b981";
-      if (isAlbino) {
-        leftEyeIris = "#f472b6";
-        rightEyeIris = "#f472b6";
-      } else if (cat.isOddEyed) {
+      if (cat.eyeMode === "albino") {
+        leftEyeIris = "#fb7185";
+        rightEyeIris = "#fb7185";
+      } else if (cat.eyeMode === "odd") {
         leftEyeIris = "#38bdf8";
-        rightEyeIris = "#f59e0b";
-      } else if (isDomW || cat.colorpointMode === "Pointed") {
+        rightEyeIris = "#eab308";
+      } else if (cat.eyeMode === "blue") {
         leftEyeIris = "#38bdf8";
         rightEyeIris = "#38bdf8";
-      } else if (cat.colorpointMode === "Mink") {
+      } else if (cat.eyeMode === "aqua") {
         leftEyeIris = "#06b6d4";
         rightEyeIris = "#06b6d4";
+      } else if (cat.eyeMode === "gold") {
+        leftEyeIris = "#eab308";
+        rightEyeIris = "#eab308";
+      } else if (cat.eyeMode === "copper") {
+        leftEyeIris = "#d97706";
+        rightEyeIris = "#d97706";
+      } else {
+        leftEyeIris = "#10b981";
+        rightEyeIris = "#10b981";
       }
 
       const earInnerColor = "#fda4af";
@@ -1913,13 +2139,13 @@
           <g>
             <ellipse cx="91" cy="90" rx="12.5" ry="13.5" fill="#0f172a" />
             <ellipse cx="91" cy="91" rx="10" ry="11" fill="${leftEyeIris}" />
-            <ellipse cx="91" cy="91" rx="6.2" ry="8.5" fill="${isAlbino ? "#be185d" : "#0f172a"}" />
+            <ellipse cx="91" cy="91" rx="6.2" ry="8.5" fill="${cat.eyeMode === "albino" ? "#be185d" : "#0f172a"}" />
             <circle cx="86.5" cy="85.5" r="3.8" fill="#ffffff" />
             <circle cx="95.5" cy="95" r="1.8" fill="#ffffff" />
 
             <ellipse cx="149" cy="90" rx="12.5" ry="13.5" fill="#0f172a" />
             <ellipse cx="149" cy="91" rx="10" ry="11" fill="${rightEyeIris}" />
-            <ellipse cx="149" cy="91" rx="6.2" ry="8.5" fill="${isAlbino ? "#be185d" : "#0f172a"}" />
+            <ellipse cx="149" cy="91" rx="6.2" ry="8.5" fill="${cat.eyeMode === "albino" ? "#be185d" : "#0f172a"}" />
             <circle cx="144.5" cy="85.5" r="3.8" fill="#ffffff" />
             <circle cx="153.5" cy="95" r="1.8" fill="#ffffff" />
           </g>
@@ -1946,120 +2172,119 @@
       const lociConfig = [
         {
           key: "chromosomes",
-          label: "1. Sex Chromosomes",
+          label: "1. Sex Chromosomes (Karyotype)",
           prob: LOCUS_PROBS.chromosomes[st.chromosomes],
           options: [
-            { val: "XX", disp: "XX", hint: "Female (49%)" },
-            { val: "XY", disp: "XY", hint: "Male (50.2%)" },
-            { val: "XXY", disp: "XXY", hint: "Klinefelter (0.8%)" }
+            { val: "XX", disp: "XX", hint: "Female (49.98%)" },
+            { val: "XY", disp: "XY", hint: "Male (49.98%)" },
+            { val: "XXY", disp: "XXY", hint: "Klinefelter (0.04%)" }
           ]
         },
         {
           key: "orangeGenotype",
-          label: "2. Sex-Linked Orange vs. Black (X Chr)",
+          label: "2. X-Linked Orange (ARHGAP36, Chr X)",
           prob: isXY ? LOCUS_PROBS.orange_XY[st.orangeGenotype] : LOCUS_PROBS.orange_XX[st.orangeGenotype],
           options: isXY
             ? [
-                { val: "o/Y", disp: "X^o/Y", hint: "Sex-Linked Black" },
-                { val: "O/Y", disp: "X^O/Y", hint: "Sex-Linked Orange" }
+                { val: "o/Y", disp: "X^o/Y", hint: "Non-Orange (Eumel.)" },
+                { val: "O/Y", disp: "X^O/Y", hint: "Orange (Pheomel.)" }
               ]
             : [
-                { val: "o/o", disp: "X^o/X^o", hint: "Sex-Linked Black" },
-                { val: "O/o", disp: "X^O/X^o", hint: "Tortie (O+Black)" },
-                { val: "O/O", disp: "X^O/X^O", hint: "Sex-Linked Orange" }
+                { val: "o/o", disp: st.chromosomes === "XXY" ? "X^o X^o Y" : "X^o/X^o", hint: "Non-Orange (Eumel.)" },
+                { val: "O/o", disp: st.chromosomes === "XXY" ? "X^O X^o Y" : "X^O/X^o", hint: "Tortie (Mosaic)" },
+                { val: "O/O", disp: st.chromosomes === "XXY" ? "X^O X^O Y" : "X^O/X^O", hint: "Orange (Pheomel.)" }
               ]
         },
         {
           key: "baseGenotype",
-          label: "3. Black / Chocolate / Cinnamon (TYRP1)",
+          label: "3. Eumelanin Series (TYRP1, Chr D4)",
           prob: LOCUS_PROBS.baseGenotype[st.baseGenotype],
           options: [
-            { val: "B/B", disp: "B/B", hint: "Black (homo)" },
-            { val: "B/b", disp: "B/b", hint: "Black (b)" },
-            { val: "B/bl", disp: "B/bl", hint: "Black (bl)" },
-            { val: "b/b", disp: "b/b", hint: "Chocolate" },
-            { val: "b/bl", disp: "b/bl", hint: "Choc (bl)" },
-            { val: "bl/bl", disp: "bl/bl", hint: "Cinnamon" }
+            { val: "B/B", disp: "B/B", hint: "Black (25%)" },
+            { val: "B/b", disp: "B/b", hint: "Black (b, 33.3%)" },
+            { val: "B/bl", disp: "B/bl", hint: "Black (bl, 16.7%)" },
+            { val: "b/b", disp: "b/b", hint: "Chocolate (11.1%)" },
+            { val: "b/bl", disp: "b/bl", hint: "Choc (bl, 11.1%)" },
+            { val: "bl/bl", disp: "bl/bl", hint: "Cinnamon (2.8%)" }
           ]
         },
         {
           key: "dilutionGenotype",
-          label: "4. Pigment Dilution (MLPH: D > d)",
+          label: "4. Melanosome Dilution (MLPH, Chr C1)",
           prob: LOCUS_PROBS.dilutionGenotype[st.dilutionGenotype],
           options: [
-            { val: "D/D", disp: "D/D", hint: "Dense (homo)" },
-            { val: "D/d", disp: "D/d", hint: "Dense (carrier)" },
-            { val: "d/d", disp: "d/d", hint: "Dilute (Blue/Cream)" }
+            { val: "D/D", disp: "D/D", hint: "Dense (44.4%)" },
+            { val: "D/d", disp: "D/d", hint: "Dense (d, 44.4%)" },
+            { val: "d/d", disp: "d/d", hint: "Dilute (11.1%)" }
           ]
         },
         {
           key: "agoutiGenotype",
-          label: "5. Agouti vs. Solid (ASIP: A > a)",
+          label: "5. Agouti Signaling (ASIP, Chr A3)",
           prob: LOCUS_PROBS.agoutiGenotype[st.agoutiGenotype],
           options: [
-            { val: "A/A", disp: "A/A", hint: "Agouti (homo)" },
-            { val: "A/a", disp: "A/a", hint: "Agouti (carrier)" },
-            { val: "a/a", disp: "a/a", hint: "Solid (Non-agouti)" }
+            { val: "A/A", disp: "A/A", hint: "Agouti (25%)" },
+            { val: "A/a", disp: "A/a", hint: "Agouti (a, 50%)" },
+            { val: "a/a", disp: "a/a", hint: "Non-Agouti (25%)" }
           ]
         },
         {
-          key: "tabbyPattern",
-          label: "6. Tabby Pattern (LVRN / DKK4)",
-          prob: LOCUS_PROBS.tabbyPattern[st.tabbyPattern],
+          key: "tabbyGenotype",
+          label: "6. Tabby Stripe Pattern (Taqpep, Chr A1)",
+          prob: LOCUS_PROBS.tabbyGenotype[st.tabbyGenotype],
           options: [
-            { val: "Mc/Mc", disp: "Mc/Mc", hint: "Mackerel" },
-            { val: "Mc/mc", disp: "Mc/mc", hint: "Mackerel (mc)" },
-            { val: "mc/mc", disp: "mc/mc", hint: "Classic Swirl" },
-            { val: "Sp/Sp", disp: "Sp/Sp", hint: "Spotted (homo)" },
-            { val: "Sp/mc", disp: "Sp/mc", hint: "Spotted (het)" },
-            { val: "Ta/Ta", disp: "Ta/Ta", hint: "Ticked (homo)" },
-            { val: "Ta/mc", disp: "Ta/mc", hint: "Ticked (het)" }
+            { val: "Mc/Mc", disp: "Mc/Mc", hint: "Mackerel (36%)" },
+            { val: "Mc/mc", disp: "Mc/mc", hint: "Mackerel (mc, 48%)" },
+            { val: "mc/mc", disp: "mc/mc", hint: "Classic Swirl (16%)" }
+          ]
+        },
+        {
+          key: "tickedGenotype",
+          label: "7. Ticked Agouti Epistasis (DKK4, Chr B1)",
+          prob: LOCUS_PROBS.tickedGenotype[st.tickedGenotype],
+          options: [
+            { val: "Ti+/Ti+", disp: "Ti+/Ti+", hint: "Non-Ticked (81%)" },
+            { val: "TiA/Ti+", disp: "TiA/Ti+", hint: "Ticked (Het, 18%)" },
+            { val: "TiA/TiA", disp: "TiA/TiA", hint: "Ticked (Homo, 1%)" }
           ]
         },
         {
           key: "colorpointGenotype",
-          label: "7. Colorpoint / Albino Series (TYR)",
+          label: "8. Colorpoint & Albino Series (TYR, Chr D1)",
           prob: LOCUS_PROBS.colorpointGenotype[st.colorpointGenotype],
           options: [
-            { val: "C/C", disp: "C/C", hint: "Full Color" },
-            { val: "C/cb", disp: "C/cb", hint: "Full (cb)" },
-            { val: "C/cs", disp: "C/cs", hint: "Full (cs)" },
-            { val: "C/c", disp: "C/c", hint: "Full (c)" },
+            { val: "C/C", disp: "C/C", hint: "Full Color (49%)" },
+            { val: "C/cb", disp: "C/cb", hint: "Full (cb, 14%)" },
+            { val: "C/cs", disp: "C/cs", hint: "Full (cs, 22.4%)" },
+            { val: "C/c", disp: "C/c", hint: "Full (c, 5.6%)" },
             { val: "cb/cb", disp: "cb/cb", hint: "Burmese Sepia" },
             { val: "cb/cs", disp: "cb/cs", hint: "Tonkinese Mink" },
             { val: "cs/cs", disp: "cs/cs", hint: "Siamese Point" },
             { val: "cs/c", disp: "cs/c", hint: "Siamese (c)" },
-            { val: "c/c", disp: "c/c", hint: "True Albino" }
+            { val: "c/c", disp: "c/c", hint: "Pink-Eyed Albino" }
           ]
         },
         {
           key: "silverGenotype",
-          label: "8. Melanin Inhibitor (I > i Silver/Smoke)",
+          label: "9. Melanin Inhibitor (I Locus, Unidentified)",
           prob: LOCUS_PROBS.silverGenotype[st.silverGenotype],
           options: [
-            { val: "i/i", disp: "i/i", hint: "Normal base" },
-            { val: "I/i", disp: "I/i", hint: "Silver / Smoke" },
-            { val: "I/I", disp: "I/I", hint: "Wide-Band Silver" }
+            { val: "i/i", disp: "i/i", hint: "Normal (81%)" },
+            { val: "I/i", disp: "I/i", hint: "Silver/Smoke (18%)" },
+            { val: "I/I", disp: "I/I", hint: "Homo Silver (1%)" }
           ]
         },
         {
-          key: "whiteGenotype",
-          label: "9. White Spotting (KIT: Ws > w)",
-          prob: LOCUS_PROBS.whiteGenotype[st.whiteGenotype],
+          key: "kitGenotype",
+          label: "10. White Spotting & Dom. White (KIT, Chr B1)",
+          prob: LOCUS_PROBS.kitGenotype[st.kitGenotype],
           options: [
-            { val: "w/w", disp: "w/w", hint: "No spots" },
-            { val: "Ws/w", disp: "Ws/w", hint: "Low white (Bib)" },
-            { val: "Ws/Ws", disp: "Ws/Ws", hint: "High white + Odd-Eye" }
-          ]
-        },
-        {
-          key: "domWhiteGenotype",
-          label: "10. Dominant White (KIT: W > w)",
-          prob: LOCUS_PROBS.domWhiteGenotype[st.domWhiteGenotype],
-          options: [
-            { val: "w/w", disp: "w/w", hint: "Normal (94%)" },
-            { val: "W/w", disp: "W/w", hint: "White (Odd-Eyed)" },
-            { val: "W/W", disp: "W/W", hint: "White (2 Blue Eyes)" }
+            { val: "w+/w+", disp: "w+/w+", hint: "No White (42.3%)" },
+            { val: "Ws/w+", disp: "Ws/w+", hint: "Low White (39%)" },
+            { val: "Ws/Ws", disp: "Ws/Ws", hint: "High White (9%)" },
+            { val: "W/w+", disp: "W/w+", hint: "Dom White (6.5%)" },
+            { val: "W/Ws", disp: "W/Ws", hint: "Dom White (3%)" },
+            { val: "W/W", disp: "W/W", hint: "Homo White (0.25%)" }
           ]
         }
       ];
@@ -2094,92 +2319,94 @@
 
       const cards = [
         {
-          title: "1. Sex Chromosomes",
+          title: "1. Sex Chromosomes (Karyotype)",
           code: cat.chromosomes,
           prob: formatPercent(LOCUS_PROBS.chromosomes[st.chromosomes]),
           desc: cat.chromosomes === "XX"
-            ? "Two X chromosomes (Female). Enables X-inactivation mosaicism (Tortoiseshell/Calico) if heterozygous X^O/X^o."
+            ? "Two X chromosomes (Female, 49.98%). Enables X-inactivation mosaicism (Tortoiseshell/Calico) when heterozygous X^O/X^o."
             : cat.chromosomes === "XY"
-            ? "One X and one Y chromosome (Male). With only one X chromosome, standard males can be either X^O (Orange) or X^o (Black/Dark), never Tortie."
-            : "Rare Klinefelter Male (XXY, 0.8%). Having two X chromosomes allows a male cat to be a Tortoiseshell or Calico!"
+            ? "One X and one Y chromosome (Male, 49.98%). Hemizygous males carry a single X chromosome (either X^O orange or X^o non-orange)."
+            : "Rare Klinefelter Male (XXY, 0.04% — ~1 in 2,500 births). Carrying two X chromosomes (or XX/XY chimerism) allows a male cat to be Tortoiseshell or Calico."
         },
         {
-          title: "2. X-Linked Orange vs. Black (ARHGAP36)",
+          title: "2. X-Linked Orange (ARHGAP36, Chr X)",
           code: cat.xDisplay,
           prob: formatPercent(pOrange),
           desc: cat.isTortie
-            ? "Heterozygous (X^O/X^o): one X carries Orange (X^O) and the other carries the Sex-Linked Black/Dark allele (X^o). Random X-inactivation creates an orange + dark mosaic."
+            ? "Heterozygous mosaic (X^O and X^o): random embryonic X-inactivation (Lyonization) creates patches of orange pheomelanin and dark eumelanin."
             : cat.isFullOrange
-            ? "Carries only the dominant Sex-Linked Orange allele (X^O), which blocks dark eumelanin synthesis and replaces it with orange/cream pheomelanin."
-            : "Carries the Sex-Linked Black/Dark allele (X^o) with no Orange allele, allowing dark eumelanin from the autosomal B gene to fill the coat."
+            ? "Carries the ~5 kb ARHGAP36 deletion (X^O, Kaelin et al. 2025; Sasaki et al. 2025), which ectopically expresses ARHGAP36 in melanocytes and switches synthesis to orange pheomelanin."
+            : "Carries only the wild-type non-orange allele (X^o), permitting autosomal TYRP1 eumelanin synthesis."
         },
         {
-          title: "3. Black / Chocolate / Cinnamon (TYRP1)",
+          title: "3. Eumelanin Series (TYRP1, Chr D4)",
           code: cat.baseGenotype,
           prob: formatPercent(LOCUS_PROBS.baseGenotype[st.baseGenotype]),
-          desc: `Autosomal eumelanin structure gene (B > b > bl). When the X chromosome carries X^o, this diploid genotype synthesizes ${cat.baseColor.toLowerCase()} eumelanin pigment.`
+          desc: `Autosomal Tyrosinase-Related Protein 1 (B > b > bl; HWE from f(B)=0.50, f(b)=0.33, f(bl)=0.17). Synthesizes ${cat.baseColor.toLowerCase()} eumelanin when X^o is active.`
         },
         {
-          title: "4. Pigment Dilution (MLPH)",
+          title: "4. Melanosome Dilution (MLPH, Chr C1)",
           code: cat.dilutionGenotype,
           prob: formatPercent(LOCUS_PROBS.dilutionGenotype[st.dilutionGenotype]),
           desc: cat.isDilute
-            ? "Homozygous recessive (d/d) clumps melanosomes unevenly, diluting Black to Blue-Grey, Chocolate to Lilac, Cinnamon to Fawn, and Orange to Cream."
-            : "Dominant D allele distributes pigment granules evenly along the hair shaft for dense, full-strength color."
+            ? "Homozygous recessive d/d (Ishida et al. 2006) clumps melanosomes unevenly, diluting Black → Blue-Grey, Chocolate → Lilac, Cinnamon → Fawn, and Orange → Cream."
+            : "Dominant D allele (f(D)=2/3, f(d)=1/3) distributes melanosomes evenly along the hair shaft for dense pigment."
         },
         {
-          title: "5. Agouti vs. Solid (ASIP)",
+          title: "5. Agouti Signaling (ASIP, Chr A3)",
           code: cat.agoutiGenotype,
           prob: formatPercent(LOCUS_PROBS.agoutiGenotype[st.agoutiGenotype]),
           desc: cat.visiblyTabby
             ? (cat.geneticallyTabby
-                ? "Dominant A allele pulses agouti signaling, banding individual hairs and revealing the underlying tabby pattern."
-                : "Genetically non-agouti solid (a/a), but X-linked orange (X^O) is epistatic to non-agouti and reveals tabby markings anyway.")
-            : "Homozygous recessive (a/a) keeps MC1R continuously active, flooding hairs with solid dark eumelanin and hiding tabby stripes."
+                ? "Dominant A allele pulses Agouti Signaling Protein (Eizirik et al. 2003), banding individual hairs and revealing the tabby pattern."
+                : "Genetically non-agouti (a/a, 2 bp deletion in ASIP), but X-linked orange (X^O) is epistatic to non-agouti and still shows tabby striping.")
+            : "Homozygous recessive a/a abolishes ASIP antagonism of MC1R, flooding eumelanin hairs with solid color."
         },
         {
-          title: "6. Tabby Pattern (LVRN / DKK4)",
-          code: cat.tabbyPattern,
-          prob: formatPercent(LOCUS_PROBS.tabbyPattern[st.tabbyPattern]),
-          desc: `Controls spatial hair-follicle pre-patterning (${cat.tabbyStyle}): Mackerel (Mc/Mc, Mc/mc), Classic swirl (mc/mc), Spotted (Sp/Sp, Sp/mc), or Abyssinian Ticked (Ta/Ta stripeless body vs. Ta/mc with residual leg bars).`
+          title: "6. Tabby Stripe Pattern (Taqpep / LVRN, Chr A1)",
+          code: cat.tabbyGenotype,
+          prob: formatPercent(LOCUS_PROBS.tabbyGenotype[st.tabbyGenotype]),
+          desc: cat.tickedGenotype !== "Ti+/Ti+"
+            ? `Carries Taqpep ${cat.tabbyGenotype} (${cat.tabbyGenotype === "mc/mc" ? "Classic swirl" : "Mackerel stripes"}), currently masked by epistatic DKK4 Ticked (${cat.tickedGenotype}).`
+            : `Transmembrane Aminopeptidase Q (Kaelin et al. 2012; f(Mc)=0.60, f(mc)=0.40) establishes ${cat.tabbyGenotype === "mc/mc" ? "Classic blotched whorls (mc/mc)" : "Mackerel vertical tiger stripes (Mc/–)"}${cat.tabbyStyle === "Spotted" ? ", broken into rosettes by polygenic Spotted modifiers" : ""}.`
         },
         {
-          title: "7. Colorpoint / Albinism Series (TYR)",
+          title: "7. Ticked Agouti Epistasis (DKK4, Chr B1)",
+          code: cat.tickedGenotype,
+          prob: formatPercent(LOCUS_PROBS.tickedGenotype[st.tickedGenotype]),
+          desc: cat.tickedGenotype === "Ti+/Ti+"
+            ? "Wild-type Ti+/Ti+ (f(Ti+)=0.90) allows the underlying Taqpep (Mc/mc) tabby pattern to express across the torso."
+            : `Dickkopf 4 mutation (${cat.tickedGenotype}, Kaelin et al. 2021) is epistatic to Taqpep, suppressing torso stripes into ${cat.tickedGenotype === "TiA/TiA" ? "a clean stripeless Abyssinian ticked coat" : "a ticked torso with residual leg and tail barring"}.`
+        },
+        {
+          title: "8. Colorpoint & Albino Series (TYR, Chr D1)",
           code: cat.colorpointGenotype,
           prob: formatPercent(LOCUS_PROBS.colorpointGenotype[st.colorpointGenotype]),
           desc: cat.colorpointMode === "Full"
-            ? "Dominant C allele (C/C, C/cb, C/cs, C/c) produces fully active tyrosinase across the entire body."
+            ? "Dominant C allele (C > cb = cs > c; Lyons et al. 2005) produces fully active tyrosinase across the body."
             : cat.colorpointMode === "Albino"
-            ? "Recessive c/c completely abolishes tyrosinase activity, resulting in a pigment-free albino coat."
-            : `Temperature-sensitive tyrosinase (${cat.colorpointMode}: ${cat.colorpointGenotype}) unfolds at core body warmth and only synthesizes pigment on the cooler face, ears, paws, and tail.`
+            ? "Homozygous recessive c/c (Imes et al. 2006) abolishes tyrosinase activity, producing a pink-eyed albino white coat (distinct from the c^a blue-eyed albino allele)."
+            : `Thermolabile tyrosinase (${cat.colorpointMode}: ${cat.colorpointGenotype}) unfolds at core body warmth and restricts pigment to cooler extremities (${cat.colorpointMode === "Sepia" ? "with golden-yellow eyes" : (cat.colorpointMode === "Mink" ? "with aquamarine eyes" : "with sapphire-blue eyes")}).`
         },
         {
-          title: "8. Silver / Smoke Inhibitor (I Locus)",
+          title: "9. Melanin Inhibitor (I Locus, Unidentified Gene)",
           code: cat.silverGenotype,
           prob: formatPercent(LOCUS_PROBS.silverGenotype[st.silverGenotype]),
           desc: cat.isSilver
-            ? `Dominant Melanin Inhibitor (${cat.silverGenotype === "I/I" ? "homozygous Wide-Band I/I" : "heterozygous I/i"}) suppresses pigment at the base of each hair shaft, creating a bright silver-white undercoat.`
-            : "Recessive i/i allows normal warm pigment production all the way down to the root of each hair."
+            ? `Dominant Melanin Inhibitor (${cat.silverGenotype === "I/I" ? "homozygous Silver/Smoke I/I" : "heterozygous I/i"}; f(I)=0.10) suppresses pigment at the hair base, creating a silver-white undercoat (distinct from CORIN wide-band/golden).`
+            : "Homozygous recessive i/i (81%) allows normal pigment synthesis all the way down to the hair root."
         },
         {
-          title: "9. White Spotting / Piebald (KIT Ws)",
-          code: cat.whiteGenotype,
-          prob: formatPercent(LOCUS_PROBS.whiteGenotype[st.whiteGenotype]),
-          desc: cat.whiteLevel === "None"
-            ? "Wild-type w/w (w+/w+). Melanoblasts migrate completely across the embryo for full coat & eye pigmentation."
-            : cat.whiteLevel === "Low"
-            ? "Heterozygous Ws/w slows melanoblast migration modestly, leaving a white tuxedo chest bib, chin, and mittens."
-            : "Homozygous Ws/Ws strongly restricts melanoblasts to the head/tail (Van/Piebald) and blocks pigment in one iris, causing Odd Eyes (1 Blue, 1 Yellow)!"
-        },
-        {
-          title: "10. Dominant White (KIT W Series)",
-          code: cat.domWhiteGenotype,
-          prob: formatPercent(LOCUS_PROBS.domWhiteGenotype[st.domWhiteGenotype]),
-          desc: cat.domWhiteGenotype === "w/w"
-            ? "Recessive w/w allows all other coat color and pattern genes to express normally."
-            : cat.domWhiteGenotype === "W/w"
-            ? "Heterozygous Dominant White (W/w) masks all coat pigment and frequently blocks melanoblasts in one iris, producing an Odd-Eyed White cat (1 Blue, 1 Yellow)."
-            : "Homozygous Dominant White (W/W) is viable in cats (unlike lethal white in horses) and has the highest penetrance for two vivid sky-blue eyes and inner-ear deafness."
+          title: "10. White Spotting & Dominant White (KIT, Chr B1)",
+          code: cat.kitGenotype,
+          prob: formatPercent(LOCUS_PROBS.kitGenotype[st.kitGenotype]),
+          desc: cat.kitGenotype === "w+/w+"
+            ? "Wild-type w+/w+ (f(w+)=0.65). Neural-crest melanoblasts migrate completely across the skin and irises."
+            : cat.kitGenotype === "Ws/w+"
+            ? "Heterozygous White Spotting (Ws/w+; 7,125 bp full-length FERV1 insertion in KIT intron 1, David et al. 2014, G3) yields low–medium white (bib, paws, muzzle)."
+            : cat.kitGenotype === "Ws/Ws"
+            ? "Homozygous White Spotting (Ws/Ws; 7,125 bp FERV1 insertion) produces a high-white piebald/Van coat with increased incomplete penetrance for odd or blue eyes."
+            : `Dominant White (${cat.kitGenotype}; ~620 bp FERV1 solo LTR in KIT intron 1, David et al. 2014, G3) masks all coat pigment. Viable in cats when homozygous (W/W), with incomplete penetrance for blue/odd eyes and cochlear deafness.`
         }
       ];
 
@@ -2198,32 +2425,35 @@
     }
 
     function renderCoatDirectory(currentCoatTitle, filterQuery = "") {
-      const q = filterQuery.trim().toLowerCase();
-      const allSorted = Object.entries(COAT_PROB_MAP).sort((a, b) => b[1] - a[1]);
-      const maxProb = allSorted[0][1];
+      const sorted = Object.entries(COAT_PROB_MAP).sort((a, b) => b[1] - a[1]);
+      document.getElementById("coatCountLabel").textContent = sorted.length;
+      document.getElementById("probSumCheck").textContent = `${TOTAL_GENOTYPE_COMBINATIONS.toLocaleString()} / ${TOTAL_GENOTYPE_COMBINATIONS.toLocaleString()} genotypes (${(TOTAL_PROB_SUM * 100).toFixed(2)}%)`;
 
-      document.getElementById("coatCountLabel").textContent = allSorted.length;
-      document.getElementById("probSumCheck").textContent = `${TOTAL_GENOTYPE_COMBINATIONS.toLocaleString()} diploid genotypes across ${allSorted.length} coats (${(TOTAL_PROB_SUM * 100).toFixed(2)}%)`;
+      const maxProb = sorted[0]?.[1] || 0.1;
+      const q = filterQuery.trim().toLowerCase();
 
       const filtered = q
-        ? allSorted.filter(([title]) => title.toLowerCase().includes(q))
-        : allSorted;
+        ? sorted.filter(([title]) => title.toLowerCase().includes(q))
+        : sorted;
 
-      return filtered.map(([title, prob], idx) => {
+      return filtered.map(([title, prob]) => {
         const isCurrent = title === currentCoatTitle;
-        const barWidth = Math.max(3, Math.round((prob / maxProb) * 100));
-        const comboCount = COAT_COMBO_COUNT_MAP[title] || 0;
-        const sampleState = COAT_SAMPLE_STATE[title];
-        const sampleNum = sampleState ? encodeGenotypeNumber(sampleState) : 1;
-
+        const barWidth = Math.max(2, Math.min(100, (prob / maxProb) * 100));
+        const tier = getRarityTier(prob);
+        const combos = COAT_COMBO_COUNT_MAP[title] || 1;
+        const rank = sorted.findIndex(e => e[0] === title) + 1;
         return `
-          <button type="button" class="prob-item ${isCurrent ? "current" : ""}" data-coat-title="${title}">
+          <button
+            type="button"
+            class="prob-item ${isCurrent ? "current" : ""}"
+            data-coat-title="${title.replace(/"/g, "&quot;")}"
+          >
             <div class="prob-item-top">
-              <span>#${idx + 1}. ${title}</span>
+              <span>#${rank} · ${title}</span>
               <span class="prob-item-pct">${formatPercent(prob)}</span>
             </div>
             <div class="prob-item-sub">
-              <span>${comboCount.toLocaleString()} genotypes (e.g. #${sampleNum.toLocaleString()})</span>
+              <span>${tier.label} · ${combos.toLocaleString()} genotype${combos > 1 ? "s" : ""}</span>
               <span>${formatOdds(prob)}</span>
             </div>
             <div class="prob-bar-track">
@@ -2235,13 +2465,15 @@
     }
 
     function updateUI(animatePop = true) {
-      const cat = buildCatFromState(currentState);
+      const cat = buildCatFromState(currentState, { applyModifiers: true });
+      const canonicalCat = buildCatFromState(currentState, { applyModifiers: false });
       const info = describeCat(cat);
+      const canonicalInfo = describeCat(canonicalCat);
       const comboNum = encodeGenotypeNumber(currentState);
 
-      const coatProb = COAT_PROB_MAP[info.title] || 0;
-      const coatCombos = COAT_COMBO_COUNT_MAP[info.title] || 1;
-      const coatSexProb = COAT_SEX_PROB_MAP[`${info.title}__${cat.chromosomes}`] || 0;
+      const coatProb = COAT_PROB_MAP[canonicalInfo.title] || 0;
+      const coatCombos = COAT_COMBO_COUNT_MAP[canonicalInfo.title] || 1;
+      const coatSexProb = COAT_SEX_PROB_MAP[`${canonicalInfo.title}__${cat.chromosomes}`] || 0;
       const genotypeProb = getStateProbability(currentState);
       const rarity = getRarityTier(coatProb);
 
@@ -2250,6 +2482,10 @@
       document.getElementById("sexLabel").textContent = `${cat.sex} (${cat.chromosomes})`;
       document.getElementById("eyeBadge").textContent = cat.eyeDescription;
       document.getElementById("eyeHintText").textContent = `👁️ ${cat.eyeDescription}`;
+
+      const spottedBtn = document.getElementById("spottedModBtn");
+      spottedBtn.classList.toggle("active", spottedModifier);
+      spottedBtn.textContent = spottedModifier ? "On (Spotted Rosettes)" : "Off (Mendelian)";
 
       const rarityEl = document.getElementById("rarityBadge");
       rarityEl.textContent = rarity.label;
@@ -2280,18 +2516,18 @@
         cat.baseGenotype,
         cat.dilutionGenotype,
         cat.agoutiGenotype,
-        cat.tabbyPattern,
+        cat.tabbyGenotype,
+        cat.tickedGenotype,
         cat.colorpointGenotype,
         cat.silverGenotype,
-        cat.whiteGenotype,
-        cat.domWhiteGenotype
+        cat.kitGenotype
       ].join(" · ");
 
       document.getElementById("geneSwitcherGrid").innerHTML = renderGeneSwitcher(cat);
       document.getElementById("genesGrid").innerHTML = renderGeneCards(cat);
 
       const filterText = document.getElementById("coatSearchInput").value || "";
-      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(info.title, filterText);
+      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(canonicalInfo.title, filterText);
 
       if (animatePop) {
         const box = document.getElementById("catPreviewBox");
@@ -2339,6 +2575,9 @@
         currentState[locus] = val;
       }
 
+      if (eyeOverrideMode === "stochastic") {
+        stochasticEyeSample = rollStochasticEyeForState(currentState);
+      }
       updateUI(true);
     });
 
@@ -2351,15 +2590,35 @@
       if (sample) {
         const { _prob, ...cleanState } = sample;
         currentState = { ...cleanState };
+        if (eyeOverrideMode === "stochastic") {
+          stochasticEyeSample = rollStochasticEyeForState(currentState);
+        }
         updateUI(true);
       }
     });
 
-    // Jump to any Genotype Combination Number (#1 .. #734,832)
+    // Polygenic Spotted Modifier & Eye Penetrance Controls
+    document.getElementById("spottedModBtn").addEventListener("click", () => {
+      spottedModifier = !spottedModifier;
+      updateUI(true);
+    });
+
+    document.getElementById("eyeOverrideSelect").addEventListener("change", (e) => {
+      eyeOverrideMode = e.target.value;
+      if (eyeOverrideMode === "stochastic") {
+        stochasticEyeSample = rollStochasticEyeForState(currentState);
+      }
+      updateUI(true);
+    });
+
+    // Jump to any Genotype Combination Number (#1 .. #629,856)
     function handleComboJump() {
       const val = parseInt(document.getElementById("comboJumpInput").value, 10);
       if (!isNaN(val)) {
         currentState = decodeGenotypeNumber(val);
+        if (eyeOverrideMode === "stochastic") {
+          stochasticEyeSample = rollStochasticEyeForState(currentState);
+        }
         updateUI(true);
       }
     }
@@ -2370,13 +2629,16 @@
     });
 
     document.getElementById("coatSearchInput").addEventListener("input", (e) => {
-      const cat = buildCatFromState(currentState);
-      const info = describeCat(cat);
-      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(info.title, e.target.value);
+      const canonicalCat = buildCatFromState(currentState, { applyModifiers: false });
+      const canonicalInfo = describeCat(canonicalCat);
+      document.getElementById("coatProbDirectory").innerHTML = renderCoatDirectory(canonicalInfo.title, e.target.value);
     });
 
     function triggerRoll() {
       currentState = rollCatState();
+      if (eyeOverrideMode === "stochastic") {
+        stochasticEyeSample = rollStochasticEyeForState(currentState);
+      }
       updateUI(true);
     }
 

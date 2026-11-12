@@ -1,23 +1,23 @@
 # 🎲 Cat Coat Dice — Realistic Feline Coat Genetics Simulator
 
-🏷️ **Version:** 1.0  
+🏷️ **Version:** 1.1  
 🌐 **Live Web App:** https://marktjs.github.io/cat-coat-dice/  
 📦 **GitHub Repository:** https://github.com/marktjs/cat-coat-dice  
 📄 **Source File:** `cat-coat-dice.html`
 
-**Cat Coat Dice** is a self-contained, interactive feline coat genetics simulator and exact analytical probability calculator. Players can roll the genetic dice to generate random domestic cats (*Felis catus*), jump directly to any of the **734,832 numbered diploid genotype combinations (`#1` – `#734,832`)**, or manually toggle realistic diploid alleles across **10 canonical coat color and pattern loci** directly beneath the cat illustration.
+**Cat Coat Dice** is a self-contained, interactive feline coat genetics simulator and exact analytical probability calculator. Players can roll the genetic dice to generate random domestic cats (*Felis catus*), jump directly to any of the **629,856 numbered diploid genotype combinations (`#1` – `#629,856`)**, or manually toggle molecularly validated diploid alleles across **10 canonical coat color and pattern loci** directly beneath the cat illustration.
 
 ---
 
 ## 1. Webpage Design & Architecture
 
-The simulator is built as a **zero-dependency, single-file web application** (`cat-coat-dice.html`) combining semantic HTML5, responsive CSS Grid/Flexbox, procedural SVG illustration, and an exact analytical probability engine.
+The simulator is built as a **zero-dependency, single-file web application** (`cat-coat-dice.html`) combining semantic HTML5, responsive CSS Grid/Flexbox, procedural SVG illustration, and an exact analytical Hardy–Weinberg probability engine.
 
-### A. Bijective Genotype Combination Numbering (`#1` to `#734,832`)
-Every possible diploid state across all 10 feline loci is assigned a unique, deterministic **Genotype Combination Number** via `encodeGenotypeNumber(state)` and `decodeGenotypeNumber(num)`:
-$$\text{Total Diploid Combinations} = 8_{\text{Sex + X}^{O/o}} \times 6_{B} \times 3_{D} \times 3_{A} \times 7_{\text{Tabby}} \times 9_{C} \times 3_{I} \times 3_{Ws} \times 3_{W} = 734,832$$
-- **Interactive Genotype `#` Jump Box (`#comboJumpInput`):** Users can type any number from `1` to `734832` in the summary header to decode and inspect that exact 10-locus genotype.
-- **Per-Phenotype Genotype Counts (`COAT_COMBO_COUNT_MAP`):** Each of the **915 distinct visual coat phenotypes** displays both its exact roll probability and how many of the 734,832 diploid genotypes produce that phenotype (summing to all `734,832 / 734,832` genotypes and `100.00%` total probability).
+### A. Bijective Genotype Combination Numbering (`#1` to `#629,856`)
+Every possible diploid state across all 10 confirmed feline loci is assigned a unique, deterministic **Genotype Combination Number** via `encodeGenotypeNumber(state)` and `decodeGenotypeNumber(num)`:
+$$\text{Total Diploid Combinations} = 8_{\text{Sex + X}^{O/o}} \times 6_{\text{TYRP1}} \times 3_{\text{MLPH}} \times 3_{\text{ASIP}} \times 3_{\text{Taqpep}} \times 3_{\text{DKK4}} \times 9_{\text{TYR}} \times 3_{\text{Inhibitor}} \times 6_{\text{KIT}} = 629,856$$
+- **Interactive Genotype `#` Jump Box (`#comboJumpInput`):** Type any number from `1` to `629856` in the summary header to decode and inspect that exact 10-locus genotype.
+- **Per-Phenotype Genotype Counts (`COAT_COMBO_COUNT_MAP`):** Each of the **1,335 distinct visual coat phenotypes** displays both its exact roll probability and how many of the 629,856 diploid genotypes produce that phenotype (summing to all `629,856 / 629,856` genotypes and `100.00%` total probability).
 
 ### B. Layered Procedural SVG Cat Renderer (`renderCatSVG`)
 Instead of static image sprites, the cat is drawn dynamically using a multi-layered vector graphics pipeline inside a `240×240` SVG canvas:
@@ -29,19 +29,16 @@ Instead of static image sprites, the cat is drawn dynamically using a multi-laye
    - **Layer 2 — Smoke Undercoat Radial Gradient (`#smokeUndercoat`):** Renders a silvery-white root glow on non-agouti smoke cats (`a/a` with `I/i` or `I/I`).
    - **Layer 3 — Colorpoint Extremities:** Applies dark pigment to cooler body regions (ears, central face mask, front paws, and tail) when temperature-sensitive *TYR* alleles (`cs`, `cb`) are active.
    - **Layer 4 — Tortoiseshell / Calico Mosaic Patches:** Overlays asymmetric orange/cream X-inactivation patches (`X^O / X^o`) across the head, back, and tail.
-   - **Layer 5 — Tabby Pattern Geometry (`renderTabbyOverlay`):** Draws the classic forehead `"M"` mark, cheek swirls, tail rings, and one of four distinct torso patterns (**Mackerel** vertical stripes, **Classic** blotched bullseye whorls, **Spotted** oval rosettes, or **Ticked** Abyssinian agouti flecking—distinguishing clean homozygous `Ta/Ta` from residual leg-bar heterozygous `Ta/mc`).
-   - **Layer 6 — White Spotting (`Ws`):** Adds either a tuxedo chest bib, white muzzle, and white mittens (`Ws/w`, low white) or a high-white piebald/Van coat with a facial blaze (`Ws/Ws`, high white).
-   - **Layer 7 — Kawaii Facial Features & Realistic Eye Genetics:** Crisp dark outlines, pink inner ears, rosy blush cheeks, whiskers, a pink triangle nose with a `:3` smile, and dual-highlight eyes whose left and right iris colors respond directly to *KIT* and *TYR* alleles:
-     - **Odd-Eyed Heterochromia (1 Sky-Blue `#38bdf8`, 1 Golden-Yellow `#f59e0b`):** Expressed in high-white piebald (`Ws/Ws`) and heterozygous Dominant White (`W/w`) cats.
-     - **Two Vivid Sky-Blue Eyes (`#38bdf8`):** Expressed in homozygous Dominant White (`W/W`) and Siamese pointed (`cs/cs`, `cs/c`) cats.
+   - **Layer 5 — Tabby Pattern Geometry (`renderTabbyOverlay`):** Draws the classic forehead `"M"` mark, cheek swirls, tail rings, and torso patterns governed by ***Taqpep* (`LVRN`, Chr A1)** (**Mackerel** vertical stripes vs. **Classic** blotched whorls), **epistatic *DKK4* (Chr B1)** (**Ticked** Abyssinian agouti flecking—distinguishing clean homozygous `TiA/TiA` from residual leg-bar heterozygous `TiA/Ti+`), or the interactive **Polygenic Spotted Modifier** (**Spotted** oval rosettes).
+   - **Layer 6 — White Spotting (`Ws` at *KIT*):** Adds either a low-white tuxedo chest bib, white muzzle, and white mittens (`Ws/w+`) or a high-white piebald/Van coat with a facial blaze (`Ws/Ws`).
+   - **Layer 7 — Kawaii Facial Features & Realistic Eye Genetics:** Crisp dark outlines, pink inner ears, rosy blush cheeks, whiskers, a pink triangle nose with a `:3` smile, and dual-highlight eyes whose left and right iris colors reflect *KIT*, *TYR*, and polygenic eye pigmentation:
+     - **Sky-Blue Eyes (`#38bdf8`) & Odd-Eyed Heterochromia (`#38bdf8` + `#eab308`):** Expressed with incomplete penetrance in Dominant White (`W/w+`, `W/Ws`, `W/W`) and high-white piebald (`Ws/Ws`) cats, and consistently in Siamese pointed (`cs/cs`, `cs/c`) cats.
      - **Aquamarine Eyes (`#06b6d4`):** Expressed in Tonkinese Mink (`cb/cs`) cats.
-     - **Pink-Blue Albino Eyes (`#f472b6`):** Expressed in recessive Tyrosinase-negative Albino (`c/c`) cats.
-     - **Emerald-Green Eyes (`#10b981`):** Expressed in standard pigmented coats.
+     - **Golden-Yellow Eyes (`#eab308`):** Expressed in Burmese Sepia (`cb/cb`) cats.
+     - **Pink-Red Albino Eyes (`#fb7185`):** Expressed in recessive Tyrosinase-negative Pink-Eyed Albino (`c/c`) cats.
+     - **Gold / Green / Copper Eyes (Polygenic):** Expressed in standard pigmented coats, with an interactive modifier bar to preview stochastic *KIT* penetrance or custom iris colors.
 
-### C. Real-Time 10-Locus Interactive Switcher (`renderGeneSwitcher`)
-Directly beneath the cat preview card, an interactive control grid displays all 10 loci with realistic diploid genotypes (`B/bl`, `Sp/Sp`, `Ta/Ta`, `C/cb`, `C/c`, `cs/c`, `I/I`, `W/W`, etc.), exact per-locus probabilities, and automatic sex-chromosome synchronization between `XY` (`X^o/Y`, `X^O/Y`) and `XX` / `XXY` (`X^o/X^o`, `X^O/X^o`, `X^O/X^O`).
-
-### D. Cellphone & Mobile Browser Optimizations
+### C. Cellphone & Mobile Browser Optimizations
 - **Sticky Live Mini-Cat Header (`#stickyCatBar`):** Uses an `IntersectionObserver` on the primary cat preview card so that when a mobile user scrolls down into the 10-locus gene switcher or the probability directory, a blurred glassmorphic top bar pins to the screen with a live `44×44` mini SVG cat, the coat name, `Genotype #`, sex, probability badge, and a quick `🎲 Roll` button.
 - **Zero Horizontal Overflow (`390×844` Audited):** All CSS Grid containers use `minmax(0, 1fr)` with wrapping genotype pills, ensuring `scrollWidth === innerWidth` across small phone viewports.
 
@@ -49,66 +46,101 @@ Directly beneath the cat preview card, an interactive control grid displays all 
 
 ## 2. The Feline Coat Genetics Behind the Simulator
 
-### A. Why Dominant White (*KIT*) Has a Viable `W/W` Genotype & What Causes Odd Eyes
-1. **Why `W/W` Exists in Cats (Unlike Horses or Mice):**
-   - In horses (Frame Overo / Dominant White) and mice, many dominant *KIT* loss-of-function mutations are embryonic lethal when homozygous (`W/W`).
-   - In domestic cats (*Felis catus*), however, **both Dominant White (`W`) and White Spotting (`Ws`) are insertions of a feline endogenous retrovirus (FERV1) in intron 1 of the *KIT* proto-oncogene on chromosome B1** (David et al., *PLoS Genetics* 2014).
-   - A **full-length (~7.1 kb) FERV1 insertion** produces the **Dominant White (`W`)** allele, whereas a **truncated (~662 bp LTR) insertion** at the exact same site produces the **White Spotting (`Ws`)** allele. Because this regulatory insertion affects neural-crest melanoblast migration without knocking out hematopoiesis or gametogenesis, **homozygous `W/W` cats are completely viable**.
-2. **Why `Ws/Ws` and `W/w` Cause Odd Eyes (1 Blue, 1 Yellow) While `W/W` Gives Two Blue Eyes:**
-   - A cat's iris turns **yellow, amber, or green** when neural-crest melanoblasts migrate into the iris stroma and deposit melanin. If melanoblasts fail to reach an iris, the unpigmented stroma scatters short-wavelength light via **Tyndall scattering**, producing a **vivid sky-blue eye** (even though the pigmented retinal epithelium at the back of the eye remains intact, unlike `c/c` albinos).
-   - In **high-white piebald (`Ws/Ws`)** and **heterozygous Dominant White (`W/w`)** cats, melanoblast survival is only partially reduced; stochastic developmental noise often blocks melanoblasts from reaching **one eye** while enough reach the **other eye**, causing **complete heterochromia (one blue eye, one yellow/amber eye)**.
-   - In **homozygous Dominant White (`W/W`)** cats, the double dose of the `W` allele causes a much more severe depletion of neural-crest melanoblasts—resulting in the highest penetrance of **bilateral sky-blue eyes** (and higher risk of unilateral or bilateral sensorineural deafness due to absent melanocytes in the cochlear *stria vascularis*).
+### A. Merged Tri-Allelic *KIT* Locus (`W > Ws > w+`), FERV1 Insertions & Incomplete Penetrance
+1. **Why `W` and `Ws` Are Alleles of One *KIT* Locus (David et al., *G3* 2014):**
+   - Both **Dominant White (`W`)** and **White Spotting (`Ws`)** map to the exact same region in **intron 1 of the *KIT* proto-oncogene on feline chromosome B1** (David et al. 2014, *G3: Genes|Genomes|Genetics* 4:1881–1891).
+   - **`Ws` (White Spotting):** Caused by the insertion of a **full-length (7,125 bp) feline endogenous retrovirus (FERV1)** element into *KIT* intron 1.
+   - **`W` (Dominant White):** Caused by a **~620 bp solo long terminal repeat (LTR)** of the same FERV1 element (generated by homologous recombination between the two LTRs of the full-length insertion).
+   - Together with wild-type **`w+`**, they form a single **tri-allelic locus** (`W > Ws > w+`) with **6 possible diploid genotypes**: `w+/w+`, `Ws/w+`, `Ws/Ws`, `W/w+`, `W/Ws`, and `W/W`.
+2. **Why `W/W` Is Viable in Cats (Unlike Many Mouse *Kit* and Horse *KIT* Alleles):**
+   - Unlike many murine *Kit* (`W`) loss-of-function mutations and several equine *KIT* dominant-white alleles (which are embryonic lethal, sterile, or anemic when homozygous—note that equine Frame Overo Lethal White Foal Syndrome is caused by a different gene, *EDNRB*), the feline FERV1 insertion disrupts a tissue-specific DNase I hypersensitive regulatory site in *KIT* intron 1 without knocking out the *KIT* coding sequence needed for hematopoiesis and gametogenesis. Consequently, **homozygous `W/W` cats are viable**.
+3. **Incomplete Penetrance for Blue / Odd Eyes & Sensorineural Deafness:**
+   - All `W` genotypes (`W/w+`, `W/Ws`, `W/W`) have complete penetrance for a pure white coat, but **incomplete penetrance** for iris hypopigmentation (two sky-blue eyes, one blue and one yellow/amber/green eye, or two pigmented eyes) and congenital sensorineural deafness (due to missing melanocytes in the cochlear *stria vascularis*), with penetrance highest in `W/W` homozygotes. High-white spotting (`Ws/Ws`) similarly increases the probability of odd or blue eyes.
 
-### B. Why "Black" Is Split Across Two Genes (X-Linked vs. Autosomal)
-Making black fur requires two sequential genetic steps:
-1. **The X-Chromosome Switch (`O` Locus, *ARHGAP36*):** Determines *whether* a melanocyte produces dark **eumelanin** (`X^o`, the sex-linked black/dark allele) or switches to red/yellow **pheomelanin** (`X^O`, the sex-linked orange allele).
-2. **The Autosomal Eumelanin Gene (`B` Locus, *TYRP1*):** Whenever a melanocyte has an active `X^o` allele, the autosomal *TYRP1* enzyme determines the chemical structure and shape of those dark eumelanin granules: **Black (`B`)**, **Chocolate (`b`)**, or **Cinnamon (`bl`)**.
+### B. Split Tabby Loci: *Taqpep* (Chr A1) vs. Epistatic *DKK4* Ticked (Chr B1)
+- **Primary Tabby Pattern (*Taqpep* / *LVRN*, Chr A1):** Determines whether non-ticked agouti cats display **Mackerel** vertical tiger stripes (`Mc/Mc`, `Mc/mc`, often written `Ta^M`) or **Classic/Blotched** bullseye whorls (`mc/mc`, `Ta^b`) (Kaelin et al. 2012, *Science*).
+- **Ticked Agouti Epistasis (*DKK4*, Chr B1):** Encodes Dickkopf 4, a Wnt signaling antagonist in a reaction–diffusion pre-patterning system (Kaelin et al. 2021, *Nature Communications*). Dominant **`Ti^A`** (`TiA/Ti+` or `TiA/TiA`) is **epistatic to *Taqpep***, suppressing torso stripes while the cat still carries and transmits its underlying `Mc`/`mc` genotype (`TiA/Ti+` retains residual leg/tail bars; `TiA/TiA` is nearly stripeless).
+- **Spotted Tabby (Polygenic Modifier):** No single Mendelian `Sp` gene has been identified; spotted tabbies arise from modifier loci that break *Taqpep* mackerel bars into oval rosettes. The simulator provides an interactive **Spotted Modifier** toggle above the gene switcher.
+
+### C. X-Linked Non-Orange (`X^o`) vs. Autosomal Black (*TYRP1* `B`)
+- **The X-Chromosome Switch (*ARHGAP36*, Chr X):** A ~5 kb deletion on the X chromosome (`X^O`) causes ectopic expression of *ARHGAP36* in melanocytes, switching pigment synthesis to red/yellow **pheomelanin** (Kaelin et al. 2025; Sasaki et al. 2025). The wild-type **non-orange allele (`X^o`)** permits dark **eumelanin** synthesis.
+- **The Autosomal Eumelanin Gene (*TYRP1*, Chr D4):** Whenever a melanocyte has an active `X^o` allele, *TYRP1* sets the eumelanin granule structure: **Black (`B`) > Chocolate (`b`) > Cinnamon (`bl`)**.
 
 ---
 
-### Complete 10-Locus Realistic Diploid Reference Table
+### Complete 10-Locus Reference Table (Hardy–Weinberg Teaching Pool)
 
-| # | Locus & Symbol | Molecular Gene | Realistic Diploid Alleles & Dominance | Biological Mechanism & Phenotypic Effect | Dice Pool Probability |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | **Sex Chromosomes** | Karyotype (`X`, `Y`) | `XX`, `XY`, `XXY` | Standard females (`XX`) have two X chromosomes; males (`XY`) have one. Rare `XXY` (Klinefelter) males have two X chromosomes and can be tortoiseshell/calico. | `XX`: 49.0%<br>`XY`: 50.2%<br>`XXY`: 0.8% |
-| **2** | **Sex-Linked Orange vs. Black** (`O` Locus) | *ARHGAP36* (X Chr) | `X^O` (Orange) co-dominant with `X^o` (Black/Dark) via X-inactivation | `X^o/X^o` or `X^o/Y` expresses dark eumelanin. `X^O/X^O` or `X^O/Y` converts pigment to orange pheomelanin. In `X^O/X^o`, random embryonic X-inactivation (**Lyonization**) creates a mosaic of orange and dark patches (**Tortoiseshell / Calico**). | **XX / XXY:**<br>`X^o/X^o`: 25%<br>`X^O/X^o`: 50%<br>`X^O/X^O`: 25%<br>**XY:**<br>`X^o/Y`: 50%<br>`X^O/Y`: 50% |
-| **3** | **Black / Chocolate / Cinnamon** (`B` Locus) | *TYRP1* (Chr D4) | `B` > `b` > `bl` (`B/B`, `B/b`, `B/bl`, `b/b`, `b/bl`, `bl/bl`) | Encodes Tyrosinase-Related Protein 1. `B/B`, `B/b`, `B/bl` produce spherical **Black** granules; `b/b`, `b/bl` produce ovoid **Chocolate** granules; `bl/bl` produces elongated **Cinnamon** granules. | `B/B`: 25.00%<br>`B/b`: 33.33%<br>`B/bl`: 16.67%<br>`b/b`: 11.11%<br>`b/bl`: 11.11%<br>`bl/bl`: 2.78% |
-| **4** | **Pigment Dilution** (`D` Locus) | *MLPH* (Melanophilin, Chr C1) | `D` (Dense) > `d` (Dilute) (`D/D`, `D/d`, `d/d`) | Recessive `d/d` causes uneven clumping of melanosomes in the hair shaft, scattering light so **Black → Blue (Grey)**, **Chocolate → Lilac**, **Cinnamon → Fawn**, and **Orange → Cream**. | `D/D`: 44.44%<br>`D/d`: 44.44%<br>`d/d`: 11.11% |
-| **5** | **Agouti vs. Solid** (`A` Locus) | *ASIP* (Agouti Signaling Protein, Chr A3) | `A` (Agouti) > `a` (Solid) (`A/A`, `A/a`, `a/a`) | Dominant `A/A` or `A/a` pulses agouti protein during hair growth, creating banded hairs that reveal tabby patterns. Recessive `a/a` yields solid eumelanin coats (`X^O` orange overrides `a/a`). | `A/A`: 25.00%<br>`A/a`: 50.00%<br>`a/a`: 25.00% |
-| **6** | **Tabby Pattern** (`Mc`, `Sp`, `Ta` Loci) | *LVRN* (*Taqpep*) & *DKK4* | `Ta` > `Sp` > `Mc` > `mc` (`Mc/Mc`, `Mc/mc`, `mc/mc`, `Sp/Sp`, `Sp/mc`, `Ta/Ta`, `Ta/mc`) | Establishes follicle pre-patterning: **Mackerel** (`Mc/Mc`, `Mc/mc`), **Classic/Blotched** (`mc/mc`), **Spotted** (`Sp/Sp`, `Sp/mc`), **Homozygous Ticked** (`Ta/Ta`, clean Abyssinian flecking), or **Heterozygous Ticked** (`Ta/mc`, ticked torso with residual leg bars). | `Mc/Mc`: 20%<br>`Mc/mc`: 28%<br>`mc/mc`: 24%<br>`Sp/Sp`: 5%<br>`Sp/mc`: 11%<br>`Ta/Ta`: 4%<br>`Ta/mc`: 8% |
-| **7** | **Colorpoint & Albinism Series** (`C` Locus) | *TYR* (Tyrosinase, Chr D1) | `C` > `cb` $\ge$ `cs` > `c` (`C/C`, `C/cb`, `C/cs`, `C/c`, `cb/cb`, `cb/cs`, `cs/cs`, `cs/c`, `c/c`) | Controls tyrosinase. `C/C`, `C/cb`, `C/cs`, `C/c` give full color. `cs/cs` and compound `cs/c` (**Siamese Pointed**) and `cb/cb` (**Burmese Sepia**) encode thermolabile tyrosinase active only on cool extremities; `cb/cs` gives intermediate **Tonkinese Mink**; `c/c` is **True Albino**. | `C/C`: 49%<br>`C/cb`: 10%<br>`C/cs`: 16%<br>`C/c`: 3%<br>`cb/cb`: 5%<br>`cb/cs`: 5%<br>`cs/cs`: 9%<br>`cs/c`: 2%<br>`c/c`: 1% |
-| **8** | **Silver / Smoke Inhibitor** (`I` Locus) | Melanin Inhibitor (`I`) | `I` (Silver/Smoke) > `i` (Normal) (`i/i`, `I/i`, `I/I`) | Dominant `I/i` or `I/I` suppresses pigment at the hair base, creating a silvery-white undercoat (**Silver Tabby**, **Cameo Tabby**, or non-agouti **Smoke**). | `i/i`: 86%<br>`I/i`: 11%<br>`I/I`: 3% |
-| **9** | **White Spotting / Piebald** (`Ws` Locus) | *KIT* Intron 1 Truncated FERV1 (Chr B1) | `Ws` incomplete dominant over `w` (`w/w`, `Ws/w`, `Ws/Ws`) | Slows embryonic migration of melanoblasts from the neural crest. `Ws/w` yields **Low White** (tuxedo bib, paws, muzzle); `Ws/Ws` yields **High White / Piebald / Van** coats and **Odd-Eyed heterochromia (1 blue, 1 yellow eye)**. | `w/w`: 44.44%<br>`Ws/w`: 44.44%<br>`Ws/Ws`: 11.11% |
-| **10** | **Dominant White** (`W` Locus) | *KIT* Intron 1 Full-Length FERV1 (Chr B1) | `W` epistatic dominant over `w` (`w/w`, `W/w`, `W/W`) | Completely blocks melanoblast migration to the skin, producing a snow-white coat that masks all other coat genes. Heterozygous `W/w` produces **Odd-Eyed White** (1 blue, 1 yellow eye), whereas viable homozygous `W/W` produces **Double Sky-Blue-Eyed White**. | `w/w`: 94%<br>`W/w`: 5%<br>`W/W`: 1% |
+All autosomal diploid genotype probabilities are derived analytically ($p_i^2$ and $2p_i p_j$) from explicit teaching-pool allele frequencies:
+
+| # | Locus & Symbol | Molecular Gene & Chr | Diploid Genotypes & Dominance | Teaching-Pool Allele Frequencies & HWE Genotype Probabilities |
+| :--- | :--- | :--- | :--- | :--- |
+| **1** | **Sex Chromosomes** | Karyotype (`X`, `Y`) | `XX` (Female), `XY` (Male), `XXY` (Klinefelter Male; note `XX/XY` chimerism also causes male torties) | `XX`: 49.98%<br>`XY`: 49.98%<br>`XXY`: 0.04% (~1 in 2,500) |
+| **2** | **X-Linked Orange vs. Non-Orange** (`O` Locus) | *ARHGAP36* (Chr X) | `X^O` (~5 kb deletion, Orange) co-dominant with wild-type `X^o` (Non-Orange) via X-inactivation | $f(X^o)=0.50,\; f(X^O)=0.50$<br>**XX / XXY:** `o/o` 25%, `O/o` 50%, `O/O` 25%<br>**XY:** `o/Y` 50%, `O/Y` 50% |
+| **3** | **Eumelanin Series** (`B` Locus) | *TYRP1* (Chr D4) | `B` (Black) > `b` (Chocolate) > `bl` (Cinnamon) (`B/B`, `B/b`, `B/bl`, `b/b`, `b/bl`, `bl/bl`) | $f(B)=\tfrac{3}{6},\; f(b)=\tfrac{2}{6},\; f(bl)=\tfrac{1}{6}$<br>`B/B`: 25.00%, `B/b`: 33.33%, `B/bl`: 16.67%<br>`b/b`: 11.11%, `b/bl`: 11.11%, `bl/bl`: 2.78% |
+| **4** | **Melanosome Dilution** (`D` Locus) | *MLPH* (Chr C1) | `D` (Dense) > `d` (Dilute: Blue, Lilac, Fawn, Cream) (`D/D`, `D/d`, `d/d`) | $f(D)=\tfrac{2}{3},\; f(d)=\tfrac{1}{3}$<br>`D/D`: 44.44%, `D/d`: 44.44%, `d/d`: 11.11% |
+| **5** | **Agouti Signaling** (`A` Locus) | *ASIP* (Chr A3) | `A` (Agouti banded) > `a` (Non-agouti solid; `X^O` is epistatic to `a/a`) (`A/A`, `A/a`, `a/a`) | $f(A)=0.50,\; f(a)=0.50$<br>`A/A`: 25.00%, `A/a`: 50.00%, `a/a`: 25.00% |
+| **6** | **Tabby Stripe Pattern** (`Mc` Locus) | *Taqpep* / *LVRN* (Chr A1) | `Mc` (`Ta^M`, Mackerel stripes) > `mc` (`Ta^b`, Classic whorls) (`Mc/Mc`, `Mc/mc`, `mc/mc`) | $f(Mc)=0.60,\; f(mc)=0.40$<br>`Mc/Mc`: 36.00%, `Mc/mc`: 48.00%, `mc/mc`: 16.00% |
+| **7** | **Ticked Agouti Epistasis** (`Ti` Locus) | *DKK4* (Chr B1) | `Ti^A` (Ticked, epistatic to *Taqpep*) > `Ti^+` (Non-ticked) (`Ti+/Ti+`, `TiA/Ti+`, `TiA/TiA`) | $f(Ti^+)=0.90,\; f(Ti^A)=0.10$<br>`Ti+/Ti+`: 81.00%, `TiA/Ti+`: 18.00%, `TiA/TiA`: 1.00% |
+| **8** | **Colorpoint & Albinism Series** (`C` Locus) | *TYR* (Chr D1) | `C` > `cb` $\ge$ `cs` > `c` (`C/C`, `C/cb`, `C/cs`, `C/c`, `cb/cb`, `cb/cs`, `cs/cs`, `cs/c`, `c/c` Pink-Eyed Albino; note `c^a` Blue-Eyed Albino) | $f(C)=0.70,\; f(cs)=0.16,\; f(cb)=0.10,\; f(c)=0.04$<br>`C/C`: 49.00%, `C/cb`: 14.00%, `C/cs`: 22.40%, `C/c`: 5.60%<br>`cb/cb`: 1.80%, `cb/cs`: 3.20%, `cs/cs`: 2.56%, `cs/c`: 1.28%, `c/c`: 0.16% |
+| **9** | **Melanin Inhibitor** (`I` Locus) | Unidentified Gene | `I` (Silver / Smoke / Cameo undercoat) > `i` (Normal) (`i/i`, `I/i`, `I/I` Homozygous Silver/Smoke) | $f(i)=0.90,\; f(I)=0.10$<br>`i/i`: 81.00%, `I/i`: 18.00%, `I/I`: 1.00% |
+| **10** | **White Spotting & Dominant White** (`W` Locus) | *KIT* Intron 1 FERV1 (Chr B1) | Tri-allelic: `W` (~620 bp FERV1 LTR, Dom. White) > `Ws` (7,125 bp FERV1, White Spotting) > `w+` (Wild-type) (`w+/w+`, `Ws/w+`, `Ws/Ws`, `W/w+`, `W/Ws`, `W/W`) | $f(w^+)=0.65,\; f(W^s)=0.30,\; f(W)=0.05$<br>`w+/w+`: 42.25%, `Ws/w+`: 39.00%, `Ws/Ws`: 9.00%<br>`W/w+`: 6.50%, `W/Ws`: 3.00%, `W/W`: 0.25% |
 
 ---
 
 ## 3. Epistasis & Masking Hierarchy
 
-Because multiple genes act along the same developmental pathway (from neural crest cell migration to pigment synthesis and hair banding), upstream genes can mask (**be epistatic to**) downstream genes:
-
 ```
-1. Dominant White (W/W or W/w)
-   ├── W/W → Masks ALL other coat loci → Pure White coat with Two Vivid Sky-Blue Eyes
-   └── W/w → Masks ALL other coat loci → Pure White coat with Odd Eyes (1 Blue, 1 Yellow)
+1. Dominant White (KIT W/w+, W/Ws, W/W)
+   └── Masks ALL other coat loci → Pure White coat (incomplete penetrance for blue or odd eyes & deafness; highest in W/W)
        │
-2. Recessive Tyrosinase Albino (c/c)
-   └── Halts all melanin synthesis → True Albino White coat (pink-blue eyes)
+2. Recessive Tyrosinase Pink-Eyed Albino (TYR c/c)
+   └── Halts all melanin synthesis → Pink-Eyed Albino White coat (distinct from TYR c^a/c^a blue-eyed albino)
        │
-3. White Spotting (Ws/w, Ws/Ws)
-   ├── Ws/Ws → High-White Piebald / Van coat + Odd Eyes (1 Blue, 1 Yellow, unless pointed cs)
-   └── Ws/w  → Low-White Tuxedo bib, mittens & muzzle
+3. White Spotting (KIT Ws/w+, Ws/Ws)
+   ├── Ws/Ws → High-White Piebald / Van coat + increased penetrance for Odd or Blue Eyes
+   └── Ws/w+ → Low-White Tuxedo bib, mittens & muzzle
        │
-4. X-Linked Orange Switch (X^O vs. X^o)
+4. X-Linked Orange Switch (ARHGAP36 X^O vs. X^o)
    ├── X^O active: Masks autosomal B locus (Black/Choc/Cinnamon) AND masks solid (a/a)
    │               → Always expresses Orange/Cream with visible Tabby striping
    └── X^o active: Permits autosomal B locus (Black/Choc/Cinnamon) + Agouti/Solid (A vs. a)
-                   → Solid dark coat (if a/a) OR Tabby-patterned dark coat (if A/A or A/a)
+                   │
+5. Ticked Agouti Epistasis (DKK4 Ti^A vs. Ti^+)
+   ├── TiA/TiA or TiA/Ti+ → Epistatic to Taqpep: suppresses torso stripes into Abyssinian Ticked coat
+   └── Ti+/Ti+            → Reveals underlying Taqpep (Mc/– Mackerel or mc/mc Classic) pattern
 ```
 
 ---
 
-## 4. Running Locally
+## 4. Version Log (Changelog)
+
+### Version 1.1 (Current)
+- **Merged Tri-Allelic *KIT* Locus (`W > Ws > w+` on Chr B1):** Combined `Ws` and `W` into a single 6-genotype *KIT* locus (`w+/w+`, `Ws/w+`, `Ws/Ws`, `W/w+`, `W/Ws`, `W/W`), eliminating biologically impossible 4-allele combinations.
+- **Corrected FERV1 Insertion Sizes & Citation:** Documented that `Ws` (White Spotting) is the **full-length 7,125 bp FERV1** insertion in *KIT* intron 1 and `W` (Dominant White) is the **~620 bp solo LTR** insertion, citing **David et al. (2014), *G3: Genes|Genomes|Genetics* 4(10):1881–1891**.
+- **Corrected Mouse/Horse *KIT* Comparison:** Removed equine Frame Overo (*EDNRB*) from the *KIT* comparison and contrasted feline `W/W` viability with homozygous-lethal/sterile mouse *Kit* (`W`) and equine *KIT* alleles.
+- **Split Tabby into *Taqpep* (Chr A1) and Epistatic *DKK4* Ticked (Chr B1):** Separated Mackerel/Classic (`Mc/Mc`, `Mc/mc`, `mc/mc`) from Ticked (`Ti+/Ti+`, `TiA/Ti+`, `TiA/TiA`), and moved Spotted tabby to an interactive **Polygenic Spotted Modifier** toggle.
+- **Exact Hardy–Weinberg Equilibrium (HWE) Teaching-Pool Probabilities:** Derived all autosomal genotype probabilities analytically ($p_i^2, 2p_ip_j$) from explicit allele frequencies and adjusted `XXY` Klinefelter frequency to a realistic `0.04%` (~1 in 2,500 births), resulting in **629,856** numbered diploid combinations across **1,335** coat phenotypes.
+- **Eye Genetics & Nomenclature Refinements:** Fixed the `W/w+` + `cs/cs` eye badge label, added **Golden-Yellow Eyes** for Burmese Sepia (`cb/cb`), labeled `c/c` as **Pink-Eyed Albino** (noting `c^a` blue-eyed albino), added interactive **Incomplete Penetrance / Polygenic Eye Controls**, corrected `I/I` from "Wide-Band" to **Homozygous Silver/Smoke (`I/I`)**, formatted `XXY` as `X^O X^o Y`, and adopted standard dilute tortie names (**Blue-Cream**, **Lilac-Cream**, **Fawn-Cream**).
+
+### Version 1.0
+- Initial stable release with bijective genotype combination numbering, layered procedural SVG cat illustration, sticky mobile mini-cat bar, and interactive 10-locus switcher.
+
+---
+
+## 5. Key Scientific References
+
+- David VA *et al.* (2014). Endogenous retrovirus insertion in the *KIT* oncogene determines White and White spotting in domestic cats. ***G3: Genes|Genomes|Genetics*** 4(10):1881–1891.
+- Kaelin CB *et al.* (2012). Specifying and sustaining pigmentation patterns in domestic and wild cats (*Taqpep* / *LVRN*). ***Science*** 337:1536–1541.
+- Kaelin CB, McGowan KA, Barsh GS (2021). Developmental genetics of color pattern establishment in cats (*DKK4*, Ticked). ***Nature Communications*** 12:5127.
+- Kaelin CB *et al.* (2025) & Sasaki H *et al.* (2025). *ARHGAP36* deletion underlies X-linked Orange in domestic cats. ***Current Biology***.
+- Lyons LA *et al.* (2005). *Tyrosinase* mutations associated with Siamese and Burmese patterns in the domestic cat. ***Animal Genetics*** 36:119–126.
+- Imes DL *et al.* (2006). Albinism in the domestic cat is associated with a *tyrosinase* (*TYR*) mutation. ***Animal Genetics*** 37:175–178.
+- Ishida Y *et al.* (2006). A homozygous single-base deletion in *MLPH* causes the dilute coat color phenotype in the domestic cat. ***Genomics*** 88:698–705.
+- Eizirik E *et al.* (2003). Molecular genetics and evolution of melanism in the cat family (*ASIP*). ***Current Biology*** 13:448–453.
+
+---
+
+## 6. Running Locally
 
 No build tools or servers are required. Open `cat-coat-dice.html` directly in any modern browser:
 
