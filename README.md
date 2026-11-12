@@ -1,5 +1,6 @@
 # 🎲 Cat Coat Dice — Realistic Feline Coat Genetics Simulator
 
+🏷️ **Version:** 1.0  
 🌐 **Live Web App:** https://marktjs.github.io/cat-coat-dice/  
 📦 **GitHub Repository:** https://github.com/marktjs/cat-coat-dice  
 📄 **Source File:** `cat-coat-dice.html`
